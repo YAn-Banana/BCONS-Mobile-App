@@ -1,5 +1,4 @@
 import 'package:bcons_app/model/user_model.dart';
-import 'package:bcons_app/screens/Sign_up_screen/sign_up_two.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -176,8 +175,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(
-                    vertical: 30.0, horizontal: 30.0),
+                padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -191,7 +189,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                             fontFamily: 'PoppinsBold',
                             letterSpacing: 2.0),
                       ),
-                      const SizedBox(height: 10.0),
+                      const SizedBox(height: 5.0),
                       Form(
                         key: _formkey,
                         child: Container(
@@ -201,258 +199,255 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                               color: Colors.white,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          child: SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                children: [
-                                  Row(
-                                    children: [
-                                      textForm(
-                                          'Last Name',
-                                          Icon(Icons.person,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _lastNameEditingController,
-                                          'lastNameValidator',
-                                          175.0,
-                                          45.0),
-                                      const SizedBox(
-                                        width: 10.0,
-                                      ),
-                                      textForm(
-                                          'First Name',
-                                          Icon(Icons.person,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _firstNameEditingController,
-                                          'firstNameValidator',
-                                          175.0,
-                                          45.0),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 13.0),
-                                  Row(
-                                    children: [
-                                      textForm(
-                                          'M.I',
-                                          Icon(Icons.person,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _midNameEditingController,
-                                          'null',
-                                          100.0,
-                                          45.0),
-                                      const SizedBox(width: 10.0),
-                                      textForm(
-                                          'Contact no.',
-                                          Icon(Icons.phone,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _contactNumberEditingController,
-                                          'contactNumberValidator',
-                                          250.0,
-                                          45.0),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 13.0),
-                                  textFormBirthday(
-                                      getDate(),
-                                      Icon(Icons.calendar_today,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      MediaQuery.of(context).size.width,
-                                      45.0),
-                                  /*ElevatedButton(
-                                    onPressed: () {
-                                      setState(() {
-                                        selectDate(context);
-                                      });
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(15.0),
-                                        side: const BorderSide(
-                                            width: 1.0, color: Colors.grey),
-                                      ),
-                                      fixedSize: Size(
-                                          MediaQuery.of(context).size.width,
-                                          45.0),
-                                      primary: Colors.grey[200],
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(
+                                20.0, 12.0, 20.0, 8.0),
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    textForm(
+                                        'Last Name',
+                                        Icon(Icons.person,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _lastNameEditingController,
+                                        'lastNameValidator',
+                                        150.0,
+                                        45.0),
+                                    const SizedBox(
+                                      width: 10.0,
                                     ),
-                                    child: Text(
-                                      getDate(),
+                                    textForm(
+                                        'First Name',
+                                        Icon(Icons.person,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _firstNameEditingController,
+                                        'firstNameValidator',
+                                        150.0,
+                                        45.0),
+                                  ],
+                                ),
+                                const SizedBox(height: 13.0),
+                                Row(
+                                  children: [
+                                    textForm(
+                                        'M.I',
+                                        Icon(Icons.person,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _midNameEditingController,
+                                        'null',
+                                        90.0,
+                                        45.0),
+                                    const SizedBox(width: 10.0),
+                                    textForm(
+                                        'Contact no.',
+                                        Icon(Icons.phone,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _contactNumberEditingController,
+                                        'contactNumberValidator',
+                                        210.0,
+                                        45.0),
+                                  ],
+                                ),
+                                const SizedBox(height: 13.0),
+                                textFormBirthday(
+                                    getDate(),
+                                    Icon(Icons.calendar_today,
+                                        size: 20.0, color: Colors.grey[600]),
+                                    MediaQuery.of(context).size.width,
+                                    45.0),
+                                /*ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      selectDate(context);
+                                    });
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.circular(15.0),
+                                      side: const BorderSide(
+                                          width: 1.0, color: Colors.grey),
+                                    ),
+                                    fixedSize: Size(
+                                        MediaQuery.of(context).size.width,
+                                        45.0),
+                                    primary: Colors.grey[200],
+                                  ),
+                                  child: Text(
+                                    getDate(),
+                                    style: TextStyle(
+                                      fontSize: 17.0,
+                                      color: Colors.grey[600],
+                                    ),
+                                  ),
+                                ),*/
+                                const SizedBox(height: 13.0),
+                                textForm(
+                                    'Street & Brgy',
+                                    Icon(Icons.location_on_rounded,
+                                        size: 20.0, color: Colors.grey[600]),
+                                    _streetAndBrgyEditingController,
+                                    'streetAndBrgyValidator',
+                                    MediaQuery.of(context).size.width,
+                                    45.0),
+                                const SizedBox(height: 13.0),
+                                Row(
+                                  children: [
+                                    textForm(
+                                        'Municipality',
+                                        Icon(Icons.location_on_rounded,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _municipalityEditingController,
+                                        'municipalityValidator',
+                                        150.0,
+                                        45.0),
+                                    const SizedBox(width: 10.0),
+                                    textForm(
+                                        'Province',
+                                        Icon(Icons.location_on_rounded,
+                                            size: 20.0,
+                                            color: Colors.grey[600]),
+                                        _provinceEditingController,
+                                        'provinceValidator',
+                                        150.0,
+                                        45.0),
+                                  ],
+                                ),
+                                const SizedBox(height: 13.0),
+                                textForm(
+                                    'Email',
+                                    Icon(Icons.email,
+                                        size: 20.0, color: Colors.grey[600]),
+                                    _emailEditingController,
+                                    'emailValidator',
+                                    MediaQuery.of(context).size.width,
+                                    45.0),
+                                const SizedBox(height: 13.0),
+                                textFormPassword(
+                                    'Password',
+                                    Icon(Icons.visibility,
+                                        size: 20.0, color: Colors.grey[600]),
+                                    _passwordEditingController,
+                                    'passwordValidator',
+                                    MediaQuery.of(context).size.width,
+                                    45.0),
+                                const SizedBox(height: 13.0),
+                                textFormConfirmPassword(
+                                    'Confirm Password',
+                                    Icon(Icons.visibility,
+                                        size: 20.0, color: Colors.grey[600]),
+                                    _confirmPasswordEditingController,
+                                    'confirmPasswordValidator',
+                                    MediaQuery.of(context).size.width,
+                                    45.0),
+                                const SizedBox(height: 1.0),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Checkbox(
+                                      splashRadius: 10.0,
+                                      value: isChecked,
+                                      onChanged: (b) {
+                                        setState(() {
+                                          isChecked = b!;
+                                          isChecked ? displayMessage() : null;
+                                        });
+                                      },
+                                    ),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      'Agree with the',
                                       style: TextStyle(
-                                        fontSize: 17.0,
-                                        color: Colors.grey[600],
-                                      ),
+                                          color: Colors.grey[600],
+                                          fontSize: 10.0,
+                                          fontFamily: 'PoppinsRegular'),
                                     ),
-                                  ),*/
-                                  const SizedBox(height: 13.0),
-                                  textForm(
-                                      'Street & Brgy',
-                                      Icon(Icons.location_on_rounded,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      _streetAndBrgyEditingController,
-                                      'streetAndBrgyValidator',
-                                      MediaQuery.of(context).size.width,
-                                      45.0),
-                                  const SizedBox(height: 13.0),
-                                  Row(
-                                    children: [
-                                      textForm(
-                                          'Municipality',
-                                          Icon(Icons.location_on_rounded,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _municipalityEditingController,
-                                          'municipalityValidator',
-                                          175.0,
-                                          45.0),
-                                      const SizedBox(width: 10.0),
-                                      textForm(
-                                          'Province',
-                                          Icon(Icons.location_on_rounded,
-                                              size: 20.0,
-                                              color: Colors.grey[600]),
-                                          _provinceEditingController,
-                                          'provinceValidator',
-                                          175.0,
-                                          45.0),
-                                    ],
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    Text(
+                                      'Terms and Conditions',
+                                      style: TextStyle(
+                                          color: Colors.red[600],
+                                          fontSize: 10.0,
+                                          fontFamily: 'PoppinsRegular'),
+                                    ),
+                                  ],
+                                ),
+                                const SizedBox(height: 1.0),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    signUp(_emailEditingController.text,
+                                        _passwordEditingController.text);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    fixedSize: Size(
+                                        MediaQuery.of(context).size.width,
+                                        45.0),
+                                    primary: Colors.red[600],
                                   ),
-                                  const SizedBox(height: 13.0),
-                                  textForm(
-                                      'Email',
-                                      Icon(Icons.email,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      _emailEditingController,
-                                      'emailValidator',
-                                      MediaQuery.of(context).size.width,
-                                      45.0),
-                                  const SizedBox(height: 13.0),
-                                  textFormPassword(
-                                      'Password',
-                                      Icon(Icons.visibility,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      _passwordEditingController,
-                                      'passwordValidator',
-                                      MediaQuery.of(context).size.width,
-                                      45.0),
-                                  const SizedBox(height: 13.0),
-                                  textFormConfirmPassword(
-                                      'Confirm Password',
-                                      Icon(Icons.visibility,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      _confirmPasswordEditingController,
-                                      'confirmPasswordValidator',
-                                      MediaQuery.of(context).size.width,
-                                      45.0),
-                                  const SizedBox(height: 1.0),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Checkbox(
-                                        splashRadius: 10.0,
-                                        value: isChecked,
-                                        onChanged: (b) {
-                                          setState(() {
-                                            isChecked = b!;
-                                            isChecked ? displayMessage() : null;
-                                          });
-                                        },
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        'Agree with the',
-                                        style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 10.0,
-                                            fontFamily: 'PoppinsRegular'),
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      Text(
-                                        'Terms and Conditions',
+                                  child: circular
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white)
+                                      : const Text(
+                                          'Sign Up',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontFamily: 'PoppinsBold',
+                                            fontSize: 20.0,
+                                          ),
+                                        ),
+                                ),
+                                const SizedBox(height: 8.0),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      'Already have an account?',
+                                      style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 10.0,
+                                          fontFamily: 'PoppinsRegular'),
+                                    ),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginScreen()));
+                                        });
+                                      },
+                                      child: Text(
+                                        'Sign In',
                                         style: TextStyle(
                                             color: Colors.red[600],
                                             fontSize: 10.0,
+                                            fontWeight: FontWeight.bold,
                                             fontFamily: 'PoppinsRegular'),
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 1.0),
-                                  ElevatedButton(
-                                    onPressed: () {
-                                      signUp(_emailEditingController.text,
-                                          _passwordEditingController.text);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                      fixedSize: Size(
-                                          MediaQuery.of(context).size.width,
-                                          45.0),
-                                      primary: Colors.red[600],
                                     ),
-                                    child: circular
-                                        ? const CircularProgressIndicator(
-                                            color: Colors.white)
-                                        : const Text(
-                                            'Sign Up',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'PoppinsBold',
-                                              fontSize: 20.0,
-                                            ),
-                                          ),
-                                  ),
-                                  const SizedBox(height: 8.0),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        'Already have an account?',
-                                        style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 10.0,
-                                            fontFamily: 'PoppinsRegular'),
-                                      ),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const LoginScreen()));
-                                          });
-                                        },
-                                        child: Text(
-                                          'Sign In',
-                                          style: TextStyle(
-                                              color: Colors.red[600],
-                                              fontSize: 10.0,
-                                              fontWeight: FontWeight.bold,
-                                              fontFamily: 'PoppinsRegular'),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -556,7 +551,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
           fillColor: Colors.grey[200],
           filled: true,
           labelStyle: TextStyle(
-            fontSize: 15.0,
+            fontSize: 10.0,
             color: Colors.grey[600],
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
@@ -613,7 +608,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
           fillColor: Colors.grey[200],
           filled: true,
           labelStyle: TextStyle(
-            fontSize: 15.0,
+            fontSize: 10.0,
             color: Colors.grey[600],
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
@@ -667,7 +662,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
           fillColor: Colors.grey[200],
           filled: true,
           labelStyle: TextStyle(
-            fontSize: 15.0,
+            fontSize: 10.0,
             color: Colors.grey[600],
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
@@ -704,7 +699,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
           fillColor: Colors.grey[200],
           filled: true,
           labelStyle: TextStyle(
-            fontSize: 13.0,
+            fontSize: 10.0,
             color: Colors.grey[600],
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,

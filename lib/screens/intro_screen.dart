@@ -1,4 +1,3 @@
-import 'package:bcons_app/screens/Sign_up_screen/sign_up_one.dart';
 import 'package:bcons_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:introduction_screen/introduction_screen.dart';

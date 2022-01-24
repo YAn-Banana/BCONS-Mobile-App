@@ -45,7 +45,7 @@ class _UserProfileState extends State<UserProfile> {
         ),
         centerTitle: true,
         elevation: 0.0,
-        backgroundColor: Colors.redAccent[700],
+        backgroundColor: const Color(0xffcc021d),
       ),
       drawer: const DrawerLayout(),
       body: Container(
@@ -67,7 +67,7 @@ class _UserProfileState extends State<UserProfile> {
                 child: Column(
                   children: [
                     Container(
-                      height: 180.0,
+                      height: 150.0,
                       width: 180.0,
                       decoration: const BoxDecoration(
                           shape: BoxShape.circle,
@@ -89,7 +89,7 @@ class _UserProfileState extends State<UserProfile> {
                                   width: 1.0, color: Colors.redAccent),
                             ),
                             fixedSize: const Size(100.0, 30.0),
-                            primary: Colors.redAccent[700],
+                            primary: const Color(0xffd90824),
                           ),
                           child: const Text(
                             'Upload',
@@ -117,10 +117,10 @@ class _UserProfileState extends State<UserProfile> {
                 ),
               ),
               const SizedBox(
-                height: 10.0,
+                height: 5.0,
               ),
               const Divider(
-                height: 10.0,
+                height: 5.0,
                 color: Colors.black,
                 thickness: 2.0,
               ),

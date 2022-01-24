@@ -1,8 +1,6 @@
 import 'package:bcons_app/screens/HomeScreen/manual_report.dart';
 import 'package:flutter/material.dart';
 
-import 'DrawerNavigator/drawer_layout.dart';
-
 class ChooseReport extends StatefulWidget {
   const ChooseReport({Key? key}) : super(key: key);
 
@@ -30,7 +28,7 @@ class _ChooseReportState extends State<ChooseReport> {
           ),
           elevation: 0.0,
           centerTitle: true,
-          backgroundColor: Colors.redAccent[700],
+          backgroundColor: const Color(0xffcc021d),
           leading: InkWell(
             child: const Icon(
               Icons.arrow_back,
@@ -44,7 +42,7 @@ class _ChooseReportState extends State<ChooseReport> {
               Container(
                 height: MediaQuery.of(context).size.height / 2,
                 width: double.infinity,
-                color: Colors.redAccent[700],
+                color: const Color(0xffd90824),
                 padding: const EdgeInsets.fromLTRB(40, 0.0, 40.0, 25.0),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -79,12 +77,12 @@ class _ChooseReportState extends State<ChooseReport> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(
+                            const Text(
                               'MANUAL REPORT',
                               style: TextStyle(
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.redAccent[700],
+                                color: Color(0xffd90824),
                                 letterSpacing: 2.0,
                                 fontFamily: 'PoppinsBold',
                               ),
@@ -124,7 +122,7 @@ class _ChooseReportState extends State<ChooseReport> {
                         height: 150.0,
                         padding: const EdgeInsets.all(20.0),
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -132,17 +130,24 @@ class _ChooseReportState extends State<ChooseReport> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: const [
                             Text(
-                              'AUTOMATED REPORT',
+                              'AUTOMATED',
                               style: TextStyle(
-                                fontSize: 30.0,
+                                fontSize: 25.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
                                 fontFamily: 'PoppinsBold',
                               ),
                             ),
-                            SizedBox(
-                              height: 10.0,
+                            Text(
+                              'REPORT',
+                              style: TextStyle(
+                                fontSize: 25.0,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white,
+                                letterSpacing: 2.0,
+                                fontFamily: 'PoppinsBold',
+                              ),
                             ),
                             Text(
                               'Lorem Ipsum',

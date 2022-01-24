@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/intro_screen.dart';
-import 'package:bcons_app/screens/Sign_up_screen/sign_up_one.dart';
-import 'package:bcons_app/screens/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -24,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // After Validation, if there is an existing account or an instance that comes from the shared preferences, user will navigate immediately to the Home Screen
     // otherwise, user will navigate to the Log In Screen
     getValidation().whenComplete(() async => Timer(
-        const Duration(seconds: 10),
+        const Duration(seconds: 2),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(

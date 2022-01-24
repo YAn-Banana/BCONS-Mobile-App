@@ -1,4 +1,3 @@
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/drawer_layout.dart';
 import 'package:flutter/material.dart';
 
 class ManualReportScreen extends StatefulWidget {
@@ -23,7 +22,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
         ),
         elevation: 0.0,
         centerTitle: true,
-        backgroundColor: Colors.redAccent[700],
+        backgroundColor: const Color(0xffcc021d),
         leading: InkWell(
           child: const Icon(
             Icons.arrow_back,
@@ -34,18 +33,18 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
       body: Center(
         child: SingleChildScrollView(
           child: Container(
-            padding: const EdgeInsets.all(30.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 90.0, 30.0, 30.0),
             height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
             color: Colors.grey[200],
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
+                const Text(
                   'CHOOSE MANUAL REPORT',
                   style: TextStyle(
-                      color: Colors.redAccent[700],
+                      color: Color(0xffd90824),
                       letterSpacing: 2.0,
                       fontFamily: 'PoppinsRegular',
                       fontSize: 25.0,
@@ -57,10 +56,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -70,7 +69,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'EARTHQUAKE',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -87,10 +86,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -100,7 +99,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'ACCIDENT',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -119,10 +118,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -132,7 +131,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'FIRE',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -149,10 +148,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -162,7 +161,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'HEALTH',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -175,7 +174,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'EMERGENCY',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -194,10 +193,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -207,7 +206,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'FLOOD',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,
@@ -224,10 +223,10 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                     InkWell(
                       onTap: () {},
                       child: Container(
-                        width: 210,
-                        height: 120.0,
+                        width: 165,
+                        height: 100.0,
                         decoration: BoxDecoration(
-                            color: Colors.redAccent[700],
+                            color: const Color(0xffd90824),
                             shape: BoxShape.rectangle,
                             borderRadius: BorderRadius.circular(20.0)),
                         child: Column(
@@ -237,7 +236,7 @@ class _ManualReportScreenState extends State<ManualReportScreen> {
                             Text(
                               'CRIME',
                               style: TextStyle(
-                                fontSize: 25.0,
+                                fontSize: 15.0,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
                                 letterSpacing: 2.0,

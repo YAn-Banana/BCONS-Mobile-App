@@ -1,9 +1,5 @@
-import 'dart:html';
-
 import 'package:bcons_app/screens/Sign_up_screen/sign_up_one.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:fluttertoast/fluttertoast.dart';
@@ -72,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    vertical: 30.0, horizontal: 30.0),
+                    vertical: 25.0, horizontal: 30.0),
                 child: Center(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
