@@ -227,6 +227,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                       fontSize: 17.0,
                       letterSpacing: 2.0,
                       fontFamily: 'PoppinsBold'),
+                  //this is a comment
                 ),
               ),
             ],
