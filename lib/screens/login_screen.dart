@@ -291,10 +291,10 @@ class _LoginScreenState extends State<LoginScreen> {
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          labelText: labelText,
           suffixIcon: InkWell(child: icon, onTap: togglePasswordView),
           fillColor: Colors.grey[200],
           filled: true,
+          labelText: labelText,
           labelStyle: TextStyle(
               fontSize: 17.0,
               color: Colors.grey[600],

@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
@@ -40,6 +41,12 @@ class _DrawerLayoutState extends State<DrawerLayout> {
     Navigator.pop(context);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const NewUserProfile()));
+  }
+
+  void contactUs(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const ContactUs()));
   }
 
   //Navigate to Contacts List Screen
@@ -263,7 +270,9 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                           fontSize: 14.0,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        contactUs(context);
+                      },
                     ),
                     ListTile(
                       leading: const Icon(
