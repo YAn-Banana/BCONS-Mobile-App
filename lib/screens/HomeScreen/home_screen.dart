@@ -73,35 +73,27 @@ class _HomeScreenState extends State<HomeScreen> {
                           autoPlayInterval: const Duration(seconds: 10),
                           viewportFraction: 1.2),
                       items: [
-                        Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              image: const DecorationImage(
-                                  image: AssetImage('assets/images/theft.png'),
-                                  fit: BoxFit.contain)),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              image: const DecorationImage(
-                                  image:
-                                      AssetImage('assets/images/robbery.png'),
-                                  fit: BoxFit.contain)),
-                        ),
-                        Container(
-                          height: MediaQuery.of(context).size.height,
-                          width: MediaQuery.of(context).size.width,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              image: const DecorationImage(
-                                  image: AssetImage(
-                                      'assets/images/earthquake.png'),
-                                  fit: BoxFit.contain)),
-                        ),
+                        ContainerList("Covid(1).png"),
+                        ContainerList("Covid(2).png"),
+                        ContainerList("Covid(3).png"),
+                        ContainerList("Covid(4).png"),
+                        ContainerList("Covid(5).png"),
+                        ContainerList("Covid(6).png"),
+                        ContainerList("CrimeRobbery(1).png"),
+                        ContainerList("CrimeRobbery(2).png"),
+                        ContainerList("CrimeTheft(1).png"),
+                        ContainerList("CrimeTheft(2).png"),
+                        ContainerList("EarthquakeTips.png"),
+                        ContainerList("FirePreparedness.png"),
+                        ContainerList("HeadinjuryTips.png"),
+                        ContainerList("MentalHealth.png"),
+                        ContainerList("PhysicalInjuries.png"),
+                        ContainerList("ChestPain.png"),
+                        ContainerList("AnimalBite(1).png"),
+                        ContainerList("AnimalBite(1).png"),
+                        ContainerList("ShortnessofBreath(1).png"),
+                        ContainerList("ShortnessofBreath(2).png"),
+                        ContainerList("ShortnessofBreath(3).png"),
                       ],
                     ),
                   )
@@ -150,5 +142,17 @@ class _HomeScreenState extends State<HomeScreen> {
                 )),
           ],
         ));
+  }
+
+  Widget ContainerList(String imageName) {
+    return Container(
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(15.0),
+          image: DecorationImage(
+              image: AssetImage('assets/images/$imageName'),
+              fit: BoxFit.contain)),
+    );
   }
 }

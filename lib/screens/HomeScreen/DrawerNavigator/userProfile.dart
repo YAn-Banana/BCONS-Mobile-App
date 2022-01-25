@@ -105,6 +105,9 @@ class _NewUserProfileState extends State<NewUserProfile> {
                       fontFamily: 'PoppinsBold'),
                 ),
               ),
+              const SizedBox(
+                height: 50.0,
+              ),
               const Positioned(
                 left: 30.0,
                 bottom: -110.0,
@@ -120,7 +123,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
               Positioned(
                 left: 30.0,
-                bottom: -140.0,
+                bottom: -135.0,
                 child: Text(
                   '${loggedInUser.contactNumber}',
                   style: const TextStyle(
@@ -145,16 +148,10 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
               Positioned(
                 left: 30.0,
-                bottom: -200.0,
+                bottom: -205.0,
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    const Icon(
-                      Icons.email,
-                      color: Color(0xffd90824),
-                      size: 20.0,
-                    ),
-                    const SizedBox(width: 5.0),
                     Text(
                       '${loggedInUser.email}',
                       style: const TextStyle(
@@ -180,7 +177,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
               Positioned(
                 left: 30.0,
-                bottom: -270.0,
+                bottom: -265.0,
                 child: Text(
                   '${loggedInUser.birthday}',
                   style: const TextStyle(
@@ -205,7 +202,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
               Positioned(
                 left: 30.0,
-                bottom: -340.0,
+                bottom: -335.0,
                 child: Text(
                   '${loggedInUser.brgy}',
                   style: const TextStyle(
@@ -218,7 +215,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
               Positioned(
                 left: 30.0,
-                bottom: -370.0,
+                bottom: -355.0,
                 child: Text(
                   '${loggedInUser.municipality}, ${loggedInUser.province}',
                   style: const TextStyle(
