@@ -234,6 +234,22 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                     ),
                     ListTile(
                       leading: const Icon(
+                        Icons.report,
+                        color: Colors.grey,
+                      ),
+                      title: const Text(
+                        'Report to ERT',
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          fontSize: 14.0,
+                        ),
+                      ),
+                      onTap: () {},
+                    ),
+                    ListTile(
+                      leading: const Icon(
                         Icons.logout,
                         color: Colors.grey,
                       ),
@@ -290,7 +306,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                       ),
                       onTap: () {
                         BCONSScreen(context);
-                      }, 
+                      },
                       //this is sample comment
                     ),
                   ],
