@@ -1,5 +1,7 @@
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
+import 'package:bcons_app/screens/Sign_up_screen/privacyPolicy.dart';
+import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
 import 'package:bcons_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -346,13 +348,12 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                                     'confirmPasswordValidator',
                                     MediaQuery.of(context).size.width,
                                     45.0),
-                                const SizedBox(height: 1.0),
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   crossAxisAlignment: CrossAxisAlignment.center,
-                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     Checkbox(
-                                      splashRadius: 10.0,
+                                      splashRadius: 5.0,
                                       value: isChecked,
                                       onChanged: (b) {
                                         setState(() {
@@ -361,29 +362,54 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                                         });
                                       },
                                     ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const TermsAndConditions()));
+                                        });
+                                      },
+                                      child: Text(
+                                        'Terms and Conditions',
+                                        style: TextStyle(
+                                            color: Colors.red[600],
+                                            fontSize: 10.0,
+                                            fontFamily: 'PoppinsRegular'),
+                                      ),
+                                    ),
                                     const SizedBox(
                                       width: 5.0,
                                     ),
                                     Text(
-                                      'Agree with the',
-                                      style: TextStyle(
-                                          color: Colors.grey[600],
-                                          fontSize: 10.0,
-                                          fontFamily: 'PoppinsRegular'),
+                                      '|',
+                                      style: TextStyle(color: Colors.grey[600]),
                                     ),
                                     const SizedBox(
                                       width: 5.0,
                                     ),
-                                    Text(
-                                      'Terms and Conditions',
-                                      style: TextStyle(
-                                          color: Colors.red[600],
-                                          fontSize: 10.0,
-                                          fontFamily: 'PoppinsRegular'),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const PrivacyPolicy()));
+                                        });
+                                      },
+                                      child: Text(
+                                        'Privacy Policy',
+                                        style: TextStyle(
+                                            color: Colors.red[600],
+                                            fontSize: 10.0,
+                                            fontFamily: 'PoppinsRegular'),
+                                      ),
                                     ),
                                   ],
                                 ),
-                                const SizedBox(height: 1.0),
                                 ElevatedButton(
                                   onPressed: () {
                                     signUp(_emailEditingController.text,
@@ -478,7 +504,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
       width: width,
       height: height,
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         controller: controller,
         onSaved: (value) {
           controller.text = value!;
@@ -582,7 +608,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
       width: width,
       height: height,
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         controller: controller,
         onSaved: (value) {
           controller.text = value!;
@@ -639,7 +665,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
       width: width,
       height: height,
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         controller: controller,
         onSaved: (value) {
           controller.text = value!;
@@ -686,7 +712,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
       width: width,
       height: height,
       child: TextFormField(
-        autofocus: true,
+        autofocus: false,
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),

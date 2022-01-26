@@ -235,7 +235,7 @@ class _LoginScreenState extends State<LoginScreen> {
             return null;
           }
         },
-        autofocus: true,
+        autofocus: false,
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
@@ -287,7 +287,7 @@ class _LoginScreenState extends State<LoginScreen> {
           }
         },
         obscureText: isHiddenPassword,
-        autofocus: true,
+        autofocus: false,
         decoration: InputDecoration(
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
