@@ -1,6 +1,8 @@
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
+import 'package:bcons_app/screens/Sign_up_screen/privacyPolicy.dart';
 import 'package:bcons_app/screens/Sign_up_screen/sign_up_two.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
+import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
 import 'package:bcons_app/screens/intro_screen.dart';
 import 'package:bcons_app/screens/login_screen.dart';
 import 'package:bcons_app/screens/Sign_up_screen/sign_up_one.dart';
