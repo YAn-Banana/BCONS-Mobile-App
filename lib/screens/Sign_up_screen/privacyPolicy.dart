@@ -30,6 +30,11 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
           onTap: () => Navigator.of(context).pop(),
         ),
       ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [],
+        ),
+      ),
     );
   }
 }
