@@ -94,7 +94,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 200.0,
-                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -124,25 +124,25 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                             '${loggedInUser.firstName} ${loggedInUser.middleInitial}.',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 15.0,
+                                fontSize: 16.0,
                                 letterSpacing: 1.5,
                                 fontFamily: 'PoppinsRegular')),
                         const SizedBox(
-                          height: 5.0,
+                          height: 1.5,
                         ),
                         Text('${loggedInUser.lastName}',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 15.0,
+                                fontSize: 16.0,
                                 letterSpacing: 1.5,
                                 fontFamily: 'PoppinsRegular')),
                         const SizedBox(
-                          height: 5.0,
+                          height: 1.5,
                         ),
                         Text('${loggedInUser.contactNumber}',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 10.0,
+                                fontSize: 12.0,
                                 letterSpacing: 1.5,
                                 fontFamily: 'PoppinsRegular')),
                       ],
@@ -153,7 +153,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - 200,
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 0.0),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -270,7 +270,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                       },
                     ),
                     const SizedBox(
-                      height: 70.0,
+                      height: 15.0,
                     ),
                     ListTile(
                       leading: const Icon(
@@ -307,7 +307,6 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                       onTap: () {
                         BCONSScreen(context);
                       },
-                      //this is sample comment
                     ),
                   ],
                 ),
