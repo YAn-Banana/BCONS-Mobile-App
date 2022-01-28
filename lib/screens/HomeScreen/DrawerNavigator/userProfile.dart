@@ -50,15 +50,15 @@ class _NewUserProfileState extends State<NewUserProfile> {
         children: [
           Stack(
             clipBehavior: Clip.none,
-            alignment: Alignment.center,
+            alignment: Alignment.topCenter,
             children: [
               Container(
                 color: const Color(0xffd90824),
-                height: 180.0,
+                height: 210.0,
                 width: double.infinity,
               ),
               const Positioned(
-                top: 90.0,
+                top: 100.0,
                 child: CircleAvatar(
                   radius: 87.0,
                   backgroundColor: Color(0xffcc021d),
@@ -106,7 +106,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                 ),
               ),
               const SizedBox(
-                height: 50.0,
+                height: 220.0,
               ),
               const Positioned(
                 left: 30.0,
@@ -224,7 +224,6 @@ class _NewUserProfileState extends State<NewUserProfile> {
                       fontSize: 17.0,
                       letterSpacing: 2.0,
                       fontFamily: 'PoppinsBold'),
-                  //this is a comment
                 ),
               ),
             ],

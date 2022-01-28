@@ -94,7 +94,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 200.0,
-                padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 10.0, 0.0),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
