@@ -104,7 +104,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    loggedInUser.image!.isEmpty
+                    loggedInUser.image == null
                         ? Container(
                             height: 120.0,
                             width: 120.0,

@@ -266,7 +266,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   height: 210.0,
                   width: double.infinity,
                 ),
-                (loggedInUser.image!.isEmpty)
+                (loggedInUser.image == null)
                     ? const Positioned(
                         top: 100.0,
                         child: CircleAvatar(

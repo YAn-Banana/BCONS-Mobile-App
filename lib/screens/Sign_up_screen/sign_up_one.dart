@@ -128,11 +128,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
               gradient: LinearGradient(
                   begin: Alignment.topRight,
                   end: Alignment.bottomRight,
-                  colors: [
-                Colors.black,
-                Color.fromARGB(255, 211, 204, 204),
-                Colors.black
-              ])),
+                  colors: [Colors.black, Colors.red, Colors.black])),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
