@@ -4,7 +4,6 @@ import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +55,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
         MaterialPageRoute(builder: (context) => const ContactScreen()));
   }
 
-  void BCONSScreen(BuildContext context) {
+  void bconsScreen(BuildContext context) {
     Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const AboutBcons()));
@@ -105,16 +104,27 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      height: 120.0,
-                      width: 120.0,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/BCONS_screen_.icon.png'),
-                              fit: BoxFit.cover)),
-                    ),
+                    loggedInUser.image!.isEmpty
+                        ? Container(
+                            height: 120.0,
+                            width: 120.0,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/BCONS_screen_.icon.png'),
+                                    fit: BoxFit.cover)),
+                          )
+                        : Container(
+                            height: 120.0,
+                            width: 120.0,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage('${loggedInUser.image}'),
+                                    fit: BoxFit.cover)),
+                          ),
                     const SizedBox(width: 5.0),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
@@ -139,7 +149,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                         const SizedBox(
                           height: 1.5,
                         ),
-                        Text('${loggedInUser.contactNumber}',
+                        Text('+63${loggedInUser.contactNumber}',
                             style: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 12.0,
@@ -267,6 +277,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                         final SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();
                         sharedPreferences.remove('email');
+                        sharedPreferences.remove('contacNumber');
                       },
                     ),
                     const SizedBox(
@@ -305,7 +316,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                         ),
                       ),
                       onTap: () {
-                        BCONSScreen(context);
+                        bconsScreen(context);
                       },
                     ),
                   ],

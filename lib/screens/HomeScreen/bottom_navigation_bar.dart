@@ -1,4 +1,4 @@
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -14,7 +14,7 @@ class _BottomNavigationBarLayoutState extends State<BottomNavigationBarLayout> {
   int currentIndex = 0;
   final tabs = [
     const HomeScreen(),
-    const UserProfile(),
+    const NewUserProfile(),
   ];
 
   @override

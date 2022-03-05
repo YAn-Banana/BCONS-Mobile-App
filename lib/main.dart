@@ -1,6 +1,10 @@
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
+import 'package:bcons_app/getAge.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
+import 'package:bcons_app/screens/Sign_up_screen/multi_stepper.dart';
+import 'package:bcons_app/screens/Sign_up_screen/phone_auth_log_in.dart';
+import 'package:bcons_app/screens/Sign_up_screen/phone_auth_sign_up.dart';
 import 'package:bcons_app/screens/Sign_up_screen/privacyPolicy.dart';
-import 'package:bcons_app/screens/Sign_up_screen/sign_up_two.dart';
+
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
 import 'package:bcons_app/screens/intro_screen.dart';
@@ -27,9 +31,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      theme: ThemeData(
+        primaryColor: const Color(0xffd90824),
+      ),
+      home: const SplashScreen(),
     );
   }
 }
