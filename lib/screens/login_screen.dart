@@ -5,6 +5,8 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'Sign_up_screen/phone_auth_log_in.dart';
+
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
 
@@ -18,6 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final pwdEditingController = TextEditingController();
   bool isChecked = false;
   bool isHiddenPassword = true;
+  bool viewPassword = false;
   bool circular = false;
   final firebase_auth.FirebaseAuth firebaseAuth =
       firebase_auth.FirebaseAuth.instance;
@@ -48,7 +51,9 @@ class _LoginScreenState extends State<LoginScreen> {
   //logic for password visibility
   void togglePasswordView() {
     isHiddenPassword = !isHiddenPassword;
-    setState(() {});
+    setState(() {
+      viewPassword = !viewPassword;
+    });
   }
 
   @override
@@ -82,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             fontFamily: 'PoppinsBold',
                             letterSpacing: 2.0),
                       ),
-                      const SizedBox(height: 30.0),
+                      const SizedBox(height: 20.0),
                       Form(
                         key: _formkey,
                         child: Container(
@@ -92,108 +97,134 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                               borderRadius:
                                   BorderRadius.all(Radius.circular(20))),
-                          child: SafeArea(
-                            child: Padding(
-                              padding: const EdgeInsets.all(20.0),
-                              child: Column(
-                                children: [
-                                  Container(
-                                      height: 200.0,
-                                      width: 200.0,
-                                      decoration: const BoxDecoration(
-                                          image: DecorationImage(
-                                              image: AssetImage(
-                                                  'assets/images/access_account.png'),
-                                              fit: BoxFit.contain))),
-                                  const SizedBox(height: 5.0),
-                                  textForm(
-                                      'Email',
-                                      Icon(
-                                        Icons.email,
+                          child: Padding(
+                            padding: const EdgeInsets.fromLTRB(20, 20, 20, 20),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                const SizedBox(height: 20),
+                                buttonItems('assets/images/google.png',
+                                    'Sign in with Google', () {}),
+                                const SizedBox(height: 10),
+                                buttonItems('assets/images/phone.png',
+                                    'Sign in with Mobile', () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              const PhoneAuthLoginScreen()));
+                                }),
+                                const SizedBox(height: 15),
+                                const Text('or',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontFamily: 'PoppinsRegular',
+                                      letterSpacing: 2,
+                                      fontSize: 17.0,
+                                    )),
+                                const SizedBox(height: 15.0),
+                                textForm(
+                                    'Email',
+                                    Icon(
+                                      Icons.email,
+                                      size: 20.0,
+                                      color: Colors.grey[600],
+                                    ),
+                                    emlEditingController,
+                                    'emailValidator'),
+                                const SizedBox(height: 5.0),
+                                textFormPassword(
+                                    'Password',
+                                    Icon(
+                                        viewPassword
+                                            ? Icons.visibility_off
+                                            : Icons.visibility,
                                         size: 20.0,
-                                        color: Colors.grey[600],
-                                      ),
-                                      emlEditingController,
-                                      'emailValidator'),
-                                  const SizedBox(height: 15.0),
-                                  textFormPassword(
-                                      'Password',
-                                      Icon(Icons.visibility,
-                                          size: 20.0, color: Colors.grey[600]),
-                                      pwdEditingController,
-                                      'passwordValidator'),
-                                  const SizedBox(height: 15.0),
-                                  Row(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.center,
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text('Don\'t have an account? ',
+                                        color: Colors.grey[600]),
+                                    pwdEditingController,
+                                    'passwordValidator'),
+                                const SizedBox(height: 5.0),
+                                GestureDetector(
+                                  onTap: () {},
+                                  child: Text(
+                                    'Forgot Password??',
+                                    style: TextStyle(
+                                      color: Colors.red[600],
+                                      fontSize: 10.0,
+                                      fontFamily: 'PoppinsRegular',
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(height: 7.0),
+                                ElevatedButton(
+                                  onPressed: () async {
+                                    final SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
+                                    sharedPreferences.setString(
+                                        'email', emlEditingController.text);
+                                    signIn(emlEditingController.text,
+                                        pwdEditingController.text);
+                                  },
+                                  style: ElevatedButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius:
+                                            BorderRadius.circular(15.0)),
+                                    fixedSize: Size(
+                                        MediaQuery.of(context).size.width,
+                                        50.0),
+                                    primary: Colors.red[600],
+                                  ),
+                                  child: circular
+                                      ? const CircularProgressIndicator(
+                                          color: Colors.white)
+                                      : const Text(
+                                          'Sign in',
                                           style: TextStyle(
-                                            color: Colors.grey[600],
-                                            fontSize: 10.0,
-                                            fontFamily: 'PoppinsRegular',
-                                          )),
-                                      const SizedBox(
-                                        width: 5.0,
-                                      ),
-                                      GestureDetector(
-                                        onTap: () {
-                                          setState(() {
-                                            Navigator.pushReplacement(
-                                                context,
-                                                MaterialPageRoute(
-                                                    builder: (context) =>
-                                                        const SignUpOneScreen()));
-                                          });
-                                        },
-                                        child: Text(
-                                          'Sign Up',
-                                          style: TextStyle(
-                                            color: Colors.red[600],
-                                            fontSize: 10.0,
-                                            fontWeight: FontWeight.bold,
-                                            fontFamily: 'PoppinsRegular',
-                                          ),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 2.0,
+                                              fontSize: 20.0,
+                                              fontFamily: 'PoppinsBold'),
+                                        ),
+                                ),
+                                const SizedBox(height: 5.0),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text('Don\'t have an account? ',
+                                        style: TextStyle(
+                                          color: Colors.grey[600],
+                                          fontSize: 10.0,
+                                          fontFamily: 'PoppinsRegular',
+                                        )),
+                                    const SizedBox(
+                                      width: 5.0,
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        setState(() {
+                                          Navigator.pushReplacement(
+                                              context,
+                                              MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const SignUpOneScreen()));
+                                        });
+                                      },
+                                      child: Text(
+                                        'Sign Up',
+                                        style: TextStyle(
+                                          color: Colors.red[600],
+                                          fontSize: 10.0,
+                                          fontWeight: FontWeight.bold,
+                                          fontFamily: 'PoppinsRegular',
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                  const SizedBox(height: 15.0),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      final SharedPreferences
-                                          sharedPreferences =
-                                          await SharedPreferences.getInstance();
-                                      sharedPreferences.setString(
-                                          'email', emlEditingController.text);
-                                      signIn(emlEditingController.text,
-                                          pwdEditingController.text);
-                                    },
-                                    style: ElevatedButton.styleFrom(
-                                      shape: RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(15.0)),
-                                      fixedSize: Size(
-                                          MediaQuery.of(context).size.width,
-                                          50.0),
-                                      primary: Colors.red[600],
                                     ),
-                                    child: circular
-                                        ? const CircularProgressIndicator(
-                                            color: Colors.white)
-                                        : const Text(
-                                            'Sign in',
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 2.0,
-                                                fontSize: 20.0,
-                                                fontFamily: 'PoppinsBold'),
-                                          ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -206,6 +237,37 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget buttonItems(String imagePath, String buttonName, Function onTap) {
+    return InkWell(
+      onTap: () => onTap(),
+      child: SizedBox(
+          width: MediaQuery.of(context).size.width,
+          height: 55,
+          child: Card(
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                  side: const BorderSide(width: 1, color: Colors.grey)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  CircleAvatar(
+                    radius: 15.0,
+                    backgroundColor: Colors.white,
+                    backgroundImage: AssetImage(imagePath),
+                  ),
+                  const SizedBox(width: 10),
+                  Text(buttonName,
+                      style: const TextStyle(
+                        color: Colors.black,
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 2,
+                        fontSize: 15.0,
+                      ))
+                ],
+              ))),
     );
   }
 
@@ -234,6 +296,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
             return null;
           }
+          return null;
         },
         autofocus: false,
         decoration: InputDecoration(
@@ -241,17 +304,17 @@ class _LoginScreenState extends State<LoginScreen> {
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           labelText: labelText,
           suffixIcon: icon,
-          fillColor: Colors.grey[200],
+          fillColor: Colors.white,
           filled: true,
           labelStyle: TextStyle(
-            fontSize: 17.0,
+            fontSize: 15.0,
             color: Colors.grey[600],
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
@@ -292,17 +355,17 @@ class _LoginScreenState extends State<LoginScreen> {
           contentPadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
           suffixIcon: InkWell(child: icon, onTap: togglePasswordView),
-          fillColor: Colors.grey[200],
+          fillColor: Colors.white,
           filled: true,
           labelText: labelText,
           labelStyle: TextStyle(
-              fontSize: 17.0,
+              fontSize: 15.0,
               color: Colors.grey[600],
               fontFamily: 'PoppinsRegular',
               letterSpacing: 1.5),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),

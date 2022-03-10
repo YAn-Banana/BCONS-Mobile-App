@@ -1,4 +1,5 @@
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -12,27 +13,33 @@ class BottomNavigationBarLayout extends StatefulWidget {
 
 class _BottomNavigationBarLayoutState extends State<BottomNavigationBarLayout> {
   int currentIndex = 0;
-  final tabs = [
+  List<Widget> widgetSelections = <Widget>[
     const HomeScreen(),
-    const UserProfile(),
+    const NewUserProfile(),
+    const ContactScreen()
   ];
+  void onItemTap(int index) {
+    setState(() {
+      currentIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: tabs[currentIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: currentIndex,
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        onTap: (index) {
-          setState(() {
-            currentIndex = index;
-          });
-        },
+      body: IndexedStack(
+        index: currentIndex,
+        children: widgetSelections,
       ),
+      bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          currentIndex: currentIndex,
+          items: const <BottomNavigationBarItem>[
+            BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
+            BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
+            BottomNavigationBarItem(icon: Icon(Icons.call), label: 'Contacts')
+          ],
+          onTap: onItemTap),
     );
   }
 }

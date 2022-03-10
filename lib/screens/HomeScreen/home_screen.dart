@@ -7,6 +7,8 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'bottom_navigation_bar.dart';
+
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -49,6 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ],
         ),
         drawer: const DrawerLayout(),
+        //bottomNavigationBar: BottomNavigationBarLayout(),
         body: Column(
           children: [
             Container(

@@ -4,7 +4,6 @@ import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -56,7 +55,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
         MaterialPageRoute(builder: (context) => const ContactScreen()));
   }
 
-  void BCONSScreen(BuildContext context) {
+  void bconsScreen(BuildContext context) {
     Navigator.pop(context);
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const AboutBcons()));
@@ -94,7 +93,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: 200.0,
-                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 0.0, 10.0),
+                padding: const EdgeInsets.fromLTRB(0.0, 40.0, 10.0, 0.0),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -105,44 +104,62 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    Container(
-                      height: 120.0,
-                      width: 120.0,
-                      decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                              image: AssetImage(
-                                  'assets/images/BCONS_screen_.icon.png'),
-                              fit: BoxFit.cover)),
-                    ),
+                    loggedInUser.image == null
+                        ? Container(
+                            height: 120.0,
+                            width: 120.0,
+                            decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image: AssetImage(
+                                        'assets/images/BCONS_screen_.icon.png'),
+                                    fit: BoxFit.cover)),
+                          )
+                        : Container(
+                            height: 120.0,
+                            width: 120.0,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                image: DecorationImage(
+                                    image:
+                                        NetworkImage('${loggedInUser.image}'),
+                                    fit: BoxFit.cover)),
+                          ),
                     const SizedBox(width: 5.0),
                     Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                            '${loggedInUser.firstName} ${loggedInUser.middleInitial}.',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15.0,
-                                letterSpacing: 1.5,
-                                fontFamily: 'PoppinsRegular')),
+                        loggedInUser.middleInitial!.isEmpty
+                            ? Text('${loggedInUser.firstName}',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    letterSpacing: 1.5,
+                                    fontFamily: 'PoppinsRegular'))
+                            : Text(
+                                '${loggedInUser.firstName} ${loggedInUser.middleInitial}.',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    letterSpacing: 1.5,
+                                    fontFamily: 'PoppinsRegular')),
                         const SizedBox(
-                          height: 5.0,
+                          height: 1.5,
                         ),
                         Text('${loggedInUser.lastName}',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 15.0,
+                                fontSize: 16.0,
                                 letterSpacing: 1.5,
                                 fontFamily: 'PoppinsRegular')),
                         const SizedBox(
-                          height: 5.0,
+                          height: 1.5,
                         ),
-                        Text('${loggedInUser.contactNumber}',
+                        Text('+63${loggedInUser.contactNumber}',
                             style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 10.0,
+                                fontSize: 12.0,
                                 letterSpacing: 1.5,
                                 fontFamily: 'PoppinsRegular')),
                       ],
@@ -153,7 +170,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
               Container(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height - 200,
-                padding: const EdgeInsets.all(10.0),
+                padding: const EdgeInsets.fromLTRB(12.0, 5.0, 0.0, 0.0),
                 decoration: const BoxDecoration(
                   gradient: LinearGradient(
                       begin: Alignment.topRight,
@@ -267,10 +284,11 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                         final SharedPreferences sharedPreferences =
                             await SharedPreferences.getInstance();
                         sharedPreferences.remove('email');
+                        sharedPreferences.remove('contacNumber');
                       },
                     ),
                     const SizedBox(
-                      height: 70.0,
+                      height: 15.0,
                     ),
                     ListTile(
                       leading: const Icon(
@@ -305,9 +323,8 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                         ),
                       ),
                       onTap: () {
-                        BCONSScreen(context);
+                        bconsScreen(context);
                       },
-                      //this is sample comment
                     ),
                   ],
                 ),
