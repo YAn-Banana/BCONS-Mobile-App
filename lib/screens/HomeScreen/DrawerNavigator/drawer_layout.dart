@@ -130,13 +130,20 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                            '${loggedInUser.firstName} ${loggedInUser.middleInitial}.',
-                            style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                letterSpacing: 1.5,
-                                fontFamily: 'PoppinsRegular')),
+                        loggedInUser.middleInitial!.isEmpty
+                            ? Text('${loggedInUser.firstName}',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    letterSpacing: 1.5,
+                                    fontFamily: 'PoppinsRegular'))
+                            : Text(
+                                '${loggedInUser.firstName} ${loggedInUser.middleInitial}.',
+                                style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16.0,
+                                    letterSpacing: 1.5,
+                                    fontFamily: 'PoppinsRegular')),
                         const SizedBox(
                           height: 1.5,
                         ),

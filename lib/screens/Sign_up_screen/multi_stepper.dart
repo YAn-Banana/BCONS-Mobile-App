@@ -27,6 +27,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
   final _lastNameEditingController = TextEditingController();
   final _midNameEditingController = TextEditingController();
   final _genderEditingController = TextEditingController();
+  final _bloodTypeEditingController = TextEditingController();
   final _contactNumberEditingController = TextEditingController();
   final _streetEditingController = TextEditingController();
   final _brgyEditingController = TextEditingController();
@@ -40,6 +41,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
   DateTime initialDate = DateTime.now();
   DateTime? date;
   String textSelect = 'Press to Select your Birthday';
+  int? days;
 
   //Show Date Picker
   Future<void> selectDate(BuildContext context) async {
@@ -53,6 +55,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     if (newDate != null && newDate != initialDate) {
       setState(() {
         date = newDate;
+        days = findDays(date!.month, date!.year);
       });
     }
   }
@@ -63,6 +66,60 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
       return textSelect;
     } else {
       return DateFormat('MM/dd/yyyy').format(date!);
+    }
+  }
+
+  int? findDays(int month, int year) {
+    int day2 = 0;
+    if (month == 1 ||
+        month == 3 ||
+        month == 5 ||
+        month == 7 ||
+        month == 8 ||
+        month == 10 ||
+        month == 12) {
+      return day2 = 31;
+    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+      return day2 = 30;
+    } else {
+      if (year % 4 == 0) {
+        return day2 = 29;
+      } else {
+        return day2 = 28;
+      }
+    }
+  }
+
+  String? getAge() {
+    DateFormat dateFormat = DateFormat('MM/dd/yyyy');
+    if (date == null) {
+      return null;
+    } else {
+      int ageYear;
+      int ageMonth;
+      int ageDays;
+      int yearNow = initialDate.year;
+      int monthNow = initialDate.month;
+      int dayNow = initialDate.day;
+      int birthYear = date!.year;
+      int birthMonth = date!.month;
+      int birthDay = date!.day;
+
+      if (dayNow - birthDay >= 0) {
+        ageDays = (dayNow - birthDay);
+      } else {
+        ageDays = ((dayNow + days!) - birthDay);
+        monthNow = monthNow - 1;
+      }
+      if (monthNow - birthMonth >= 0) {
+        ageMonth = (monthNow - birthMonth);
+      } else {
+        ageMonth = ((monthNow + 12) - birthMonth);
+        yearNow = yearNow - 1;
+      }
+      yearNow = (yearNow - birthYear);
+      ageYear = yearNow;
+      return '$ageYear';
     }
   }
 
@@ -111,6 +168,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     userModel.gender = _genderEditingController.text;
     userModel.contactNumber = _contactNumberEditingController.text;
     userModel.birthday = getDate();
+    userModel.age = getAge();
+    userModel.bloodType = _bloodTypeEditingController.text;
     userModel.street = _streetEditingController.text;
     userModel.brgy = _brgyEditingController.text;
     userModel.municipality = _municipalityEditingController.text;
@@ -258,7 +317,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                   MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  50.0),
+                                                  45.0),
                                               const SizedBox(height: 10.0),
                                               textFormPassword(
                                                   'Password',
@@ -273,7 +332,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                   MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  50.0),
+                                                  45.0),
                                               const SizedBox(height: 10.0),
                                               textForm(
                                                   'Last Name',
@@ -282,7 +341,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                   MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  50),
+                                                  45),
                                               const SizedBox(
                                                 height: 10.0,
                                               ),
@@ -293,7 +352,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                   MediaQuery.of(context)
                                                       .size
                                                       .width,
-                                                  50.0),
+                                                  45.0),
                                               const SizedBox(
                                                 height: 10.0,
                                               ),
@@ -304,17 +363,25 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                       _midNameEditingController,
                                                       'null',
                                                       136.0,
-                                                      50.0),
+                                                      45.0),
                                                   const SizedBox(width: 10.0),
                                                   textForm(
-                                                      'Gender',
+                                                      'Sex',
                                                       _genderEditingController,
                                                       'null',
                                                       136.0,
-                                                      50.0),
+                                                      45.0),
                                                 ],
                                               ),
-                                              const SizedBox(height: 30)
+                                              const SizedBox(height: 10),
+                                              textForm(
+                                                  'Blood Type',
+                                                  _bloodTypeEditingController,
+                                                  'null',
+                                                  MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  45.0),
                                             ]),
                                       ),
                                       Step(
@@ -474,7 +541,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                  'Gender: ${_genderEditingController.text}',
+                                                  'Sex: ${_genderEditingController.text}',
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     fontFamily:
@@ -486,7 +553,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                  'Contact No: ${_contactNumberEditingController.text}',
+                                                  'Contact No: +63${_contactNumberEditingController.text}',
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     fontFamily:
@@ -498,6 +565,17 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                 height: 15.0,
                                               ),
                                               Text('Birthday: ${getDate()}',
+                                                  style: const TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontFamily:
+                                                        'PoppinsRegular',
+                                                    letterSpacing: 1.5,
+                                                    color: Colors.black,
+                                                  )),
+                                              const SizedBox(
+                                                height: 10.0,
+                                              ),
+                                              Text('Age: ${getAge()}',
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     fontFamily:

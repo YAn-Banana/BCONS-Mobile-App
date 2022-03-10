@@ -61,11 +61,11 @@ class _GetAgeState extends State<GetAge> {
     }
   }
 
-  int? getAge() {
+  String? getAge() {
     if (date == null) {
       return null;
     } else {
-      int ageYear = 0;
+      int ageYear;
       int ageMonth;
       int ageDays;
       int yearNow = initialDate.year;
@@ -88,8 +88,9 @@ class _GetAgeState extends State<GetAge> {
         yearNow = yearNow - 1;
       }
       yearNow = (yearNow - birthYear);
+      ageYear = yearNow;
 
-      return ageYear = yearNow;
+      return '$ageYear, $ageMonth, $ageDays';
     }
   }
 

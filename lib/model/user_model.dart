@@ -8,6 +8,8 @@ class UserModel {
   String? image;
   String? contactNumber;
   String? birthday;
+  String? age;
+  String? bloodType;
   String? street;
   String? brgy;
   String? municipality;
@@ -23,6 +25,8 @@ class UserModel {
       this.image,
       this.contactNumber,
       this.birthday,
+      this.age,
+      this.bloodType,
       this.street,
       this.brgy,
       this.municipality,
@@ -40,6 +44,8 @@ class UserModel {
       image: map['image'],
       contactNumber: map['contactNumber'],
       birthday: map['birthday'],
+      age: map['age'],
+      bloodType: map['bloodType'],
       street: map['street'],
       brgy: map['brgy'],
       municipality: map['municipality'],
@@ -59,6 +65,8 @@ class UserModel {
       'image': image,
       'contactNumber': contactNumber,
       'birthday': birthday,
+      'age': age,
+      'bloodType': bloodType,
       'street': street,
       'brgy': brgy,
       'municipality': municipality,

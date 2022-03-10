@@ -52,11 +52,6 @@ class _NewUserProfileState extends State<NewUserProfile> {
   final _municipalityEditingController = TextEditingController();
   final _provinceEditingController = TextEditingController();
 
-  DateTime initialDate = DateTime.now();
-  DateTime? date;
-  String textSelect = 'Press to Select your Birthday';
-  int day = 0;
-
   bool isPhotoAlbumClick = false;
   String imageUrl = '';
   String collectionName = 'Users';
@@ -99,6 +94,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
           'gender': loggedInUser.gender,
           'contactNumber': loggedInUser.contactNumber,
           'birthday': loggedInUser.birthday,
+          'age': loggedInUser.age,
           'street': loggedInUser.street,
           'brgy': loggedInUser.brgy,
           'municipality': loggedInUser.municipality,
@@ -121,84 +117,6 @@ class _NewUserProfileState extends State<NewUserProfile> {
     ));
   }
 
-  Future<void> selectDate(BuildContext context) async {
-    final newDate = await showDatePicker(
-      context: context,
-      initialDate: date ?? initialDate,
-      firstDate: DateTime(1950),
-      lastDate: DateTime(2025),
-    );
-    if (newDate == null) return;
-    if (newDate != null && newDate != initialDate) {
-      setState(() {
-        date = newDate;
-        day = findDays(date!.month, date!.year)!;
-      });
-    }
-  }
-
-  // logic to get date, instance from the date picker
-  String? getDate() {
-    if (date == null) {
-      return textSelect;
-    } else {
-      return DateFormat('MM/dd/yyyy').format(date!);
-    }
-  }
-
-  int? findDays(int month, int year) {
-    int day2;
-    if (month == 1 ||
-        month == 3 ||
-        month == 5 ||
-        month == 7 ||
-        month == 8 ||
-        month == 10 ||
-        month == 12) {
-      return day2 = 31;
-    } else if (month == 4 || month == 6 || month == 9 || month == 11) {
-      return day2 = 30;
-    } else {
-      if (year % 4 == 0) {
-        return day2 = 29;
-      } else {
-        return day2 = 28;
-      }
-    }
-  }
-
-  int? getAge() {
-    if (date == null) {
-      return null;
-    } else {
-      int ageYear = 0;
-      int ageMonth;
-      int ageDays;
-      int yearNow = initialDate.year;
-      int monthNow = initialDate.month;
-      int dayNow = initialDate.day;
-      int birthYear = date!.year;
-      int birthMonth = date!.month;
-      int birthDay = date!.day;
-
-      if (dayNow - birthDay >= 0) {
-        ageDays = (dayNow - birthDay);
-      } else {
-        ageDays = ((dayNow + day) - birthDay);
-        monthNow = monthNow - 1;
-      }
-      if (monthNow - birthMonth >= 0) {
-        ageMonth = (monthNow - birthMonth);
-      } else {
-        ageMonth = ((monthNow + 12) - birthMonth);
-        yearNow = yearNow - 1;
-      }
-      yearNow = (yearNow - birthYear);
-
-      return ageYear = yearNow;
-    }
-  }
-
   void updateUserInstance() {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     firebase_auth.User? user = firebaseAuth.currentUser;
@@ -213,7 +131,8 @@ class _NewUserProfileState extends State<NewUserProfile> {
     userModel.middleInitial = _midNameEditingController.text;
     userModel.gender = _genderEditingController.text;
     userModel.contactNumber = _contactNumberEditingController.text;
-    userModel.birthday = getDate().toString();
+    userModel.birthday = loggedInUser.birthday;
+    userModel.age = loggedInUser.age;
     userModel.street = _streetEditingController.text;
     userModel.brgy = _brgyEditingController.text;
     userModel.municipality = _municipalityEditingController.text;
@@ -275,8 +194,8 @@ class _NewUserProfileState extends State<NewUserProfile> {
                           child: CircleAvatar(
                             radius: 80.0,
                             backgroundColor: Color(0xffd90824),
-                            backgroundImage:
-                                AssetImage('assets/images/browsing_online.png'),
+                            backgroundImage: AssetImage(
+                                'assets/images/BCONS_screen_.icon.png'),
                           ),
                         ),
                       )
@@ -312,7 +231,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   child: Text(
                     'Name',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2.0,
@@ -322,15 +241,25 @@ class _NewUserProfileState extends State<NewUserProfile> {
                 Positioned(
                   left: 30.0,
                   top: 50.0,
-                  child: Text(
-                    '${loggedInUser.firstName} ${loggedInUser.middleInitial}. ${loggedInUser.lastName}',
-                    style: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        fontSize: 20.0,
-                        letterSpacing: 2.0,
-                        fontFamily: 'PoppinsBold'),
-                  ),
+                  child: loggedInUser.middleInitial!.isNotEmpty
+                      ? Text(
+                          '${loggedInUser.firstName} ${loggedInUser.middleInitial}. ${loggedInUser.lastName}',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              letterSpacing: 2.0,
+                              fontFamily: 'PoppinsBold'),
+                        )
+                      : Text(
+                          '${loggedInUser.firstName} ${loggedInUser.lastName}',
+                          style: const TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20.0,
+                              letterSpacing: 2.0,
+                              fontFamily: 'PoppinsBold'),
+                        ),
                 ),
                 const SizedBox(
                   height: 220.0,
@@ -395,7 +324,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   child: Text(
                     'Mobile Number',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2.0,
@@ -416,12 +345,12 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   ),
                 ),
                 const Positioned(
-                  right: 40.0,
+                  right: 80.0,
                   bottom: -110.0,
                   child: Text(
-                    'Gender',
+                    'Sex',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         fontWeight: FontWeight.bold,
                         letterSpacing: 2.0,
@@ -429,7 +358,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   ),
                 ),
                 Positioned(
-                  right: 58.0,
+                  right: 65.0,
                   bottom: -135.0,
                   child: Text(
                     '${loggedInUser.gender}',
@@ -447,7 +376,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   child: Text(
                     'Email',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         letterSpacing: 2.0,
                         fontFamily: 'PoppinsBold'),
@@ -476,7 +405,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   child: Text(
                     'Birthday',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         letterSpacing: 2.0,
                         fontFamily: 'PoppinsBold'),
@@ -496,22 +425,22 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   ),
                 ),
                 const Positioned(
-                  right: 58.0,
+                  right: 80.0,
                   bottom: -240.0,
                   child: Text(
                     'Age',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         letterSpacing: 2.0,
                         fontFamily: 'PoppinsBold'),
                   ),
                 ),
                 Positioned(
-                  right: 58.0,
+                  right: 93.0,
                   bottom: -265.0,
                   child: Text(
-                    '${getAge()}',
+                    '${loggedInUser.age}',
                     style: const TextStyle(
                         color: Color(0xffd90824),
                         fontWeight: FontWeight.bold,
@@ -526,7 +455,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   child: Text(
                     'Address',
                     style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.black,
                         fontSize: 15.0,
                         letterSpacing: 2.0,
                         fontFamily: 'PoppinsBold'),
@@ -550,6 +479,31 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   bottom: -355.0,
                   child: Text(
                     '${loggedInUser.municipality}, ${loggedInUser.province}',
+                    style: const TextStyle(
+                        color: Color(0xffd90824),
+                        fontWeight: FontWeight.bold,
+                        fontSize: 17.0,
+                        letterSpacing: 2.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+                const Positioned(
+                  right: 13.0,
+                  bottom: -310.0,
+                  child: Text(
+                    'Blood Type',
+                    style: TextStyle(
+                        color: Colors.black,
+                        fontSize: 15.0,
+                        letterSpacing: 2.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+                Positioned(
+                  right: 95.0,
+                  bottom: -335.0,
+                  child: Text(
+                    '${loggedInUser.bloodType}',
                     style: const TextStyle(
                         color: Color(0xffd90824),
                         fontWeight: FontWeight.bold,
@@ -659,40 +613,6 @@ class _NewUserProfileState extends State<NewUserProfile> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              selectDate(context);
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0),
-                              side: const BorderSide(
-                                  width: 1.0, color: Colors.grey),
-                            ),
-                            fixedSize:
-                                Size(MediaQuery.of(context).size.width, 45.0),
-                            primary: Colors.white,
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                getDate()!,
-                                style: const TextStyle(
-                                  fontSize: 14.0,
-                                  fontFamily: 'PoppinsRegular',
-                                  letterSpacing: 1.5,
-                                  color: Colors.black,
-                                ),
-                              ),
-                            ],
-                          )),
                       const SizedBox(
                         height: 10,
                       ),
