@@ -30,6 +30,15 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             onTap: () => Navigator.of(context).pop(),
           ),
         ),
+<<<<<<< HEAD
+      ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [],
+        ),
+      ),
+    );
+=======
         body: SafeArea(
           child: SingleChildScrollView(
             child: Container(
@@ -518,5 +527,6 @@ class _PrivacyPolicyState extends State<PrivacyPolicy> {
             ),
           ),
         ));
+>>>>>>> 8929527e4272b8d83c1cd1e73e7f8e75af3c11c4
   }
 }
