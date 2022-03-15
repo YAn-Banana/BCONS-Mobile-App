@@ -1,4 +1,3 @@
-import 'dart:ffi';
 import 'package:bcons_app/screens/Sign_up_screen/phone_auth_log_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';

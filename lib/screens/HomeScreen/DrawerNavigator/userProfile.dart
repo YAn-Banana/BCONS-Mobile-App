@@ -10,6 +10,7 @@ import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class NewUserProfile extends StatefulWidget {
   const NewUserProfile({Key? key}) : super(key: key);
@@ -216,7 +217,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
                   top: 20.0,
                   child: InkWell(
                     onTap: () {
-                      bottomModalSheet(context);
+                      showSheet();
                       setState(() {
                         edit = true;
                       });
@@ -520,161 +521,178 @@ class _NewUserProfileState extends State<NewUserProfile> {
     );
   }
 
-  Future bottomModalSheet(BuildContext context) {
-    return showModalBottomSheet(
-        context: context,
-        builder: (BuildContext context) {
-          return SingleChildScrollView(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 20, horizontal: 20.0),
-                child: Form(
-                  key: _formkey,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      const Text(
-                        'Edit Profile',
-                        style: TextStyle(
-                            fontFamily: 'PoppinsBold',
-                            letterSpacing: 2.0,
-                            color: Colors.black,
-                            fontSize: 20.0),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      textForm('${loggedInUser.email}', _emailEditingController,
-                          MediaQuery.of(context).size.width, 45),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 2,
-                            child: textForm(
-                                '${loggedInUser.lastName}',
-                                _lastNameEditingController,
-                                MediaQuery.of(context).size.width,
-                                45),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: textForm(
-                                '${loggedInUser.firstName}',
-                                _firstNameEditingController,
-                                MediaQuery.of(context).size.width,
-                                45),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            flex: 1,
-                            child: textForm(
-                                '${loggedInUser.middleInitial}',
-                                _midNameEditingController,
-                                MediaQuery.of(context).size.width,
-                                45),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Expanded(
-                            flex: 1,
-                            child: textForm(
-                                '${loggedInUser.gender}',
-                                _genderEditingController,
-                                MediaQuery.of(context).size.width,
-                                45),
-                          ),
-                          const SizedBox(
-                            width: 5,
-                          ),
-                          Expanded(
-                            flex: 2,
-                            child: contactNumberForm(
-                                '+63${loggedInUser.contactNumber}',
-                                _contactNumberEditingController,
-                                MediaQuery.of(context).size.width,
-                                45),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      textForm(
-                          '${loggedInUser.street}',
-                          _streetEditingController,
+  Future showSheet() => showSlidingBottomSheet(context,
+      builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: const SnapSpec(
+            snap: true,
+            initialSnap: 0.95,
+            snappings: [0.4, 0.7, 0.95],
+          ),
+          builder: buildSheet,
+          headerBuilder: headerBuilder));
+
+  Widget headerBuilder(BuildContext context, SheetState state) {
+    return Container(
+      color: const Color(0xffcc021d),
+      height: 30,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Container(
+              width: 32,
+              height: 8,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildSheet(context, state) {
+    return SingleChildScrollView(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Form(
+          key: _formkey,
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const Text(
+                  'Edit Profile',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 2.0,
+                      color: Colors.black,
+                      fontSize: 20.0),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: textForm(
+                          '${loggedInUser.lastName}',
+                          _lastNameEditingController,
                           MediaQuery.of(context).size.width,
                           45),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      textForm('${loggedInUser.brgy}', _brgyEditingController,
-                          MediaQuery.of(context).size.width, 45),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      textForm(
-                          '${loggedInUser.municipality}',
-                          _municipalityEditingController,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      flex: 2,
+                      child: textForm(
+                          '${loggedInUser.firstName}',
+                          _firstNameEditingController,
                           MediaQuery.of(context).size.width,
                           45),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      textForm(
-                          '${loggedInUser.province}',
-                          _provinceEditingController,
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      flex: 1,
+                      child: textForm(
+                          '${loggedInUser.middleInitial}',
+                          _midNameEditingController,
                           MediaQuery.of(context).size.width,
                           45),
-                      const SizedBox(
-                        height: 30,
-                      ),
-                      ElevatedButton(
-                        onPressed: () {
-                          updateUserInstance();
-                          setState(() {
-                            edit = false;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15.0)),
-                          fixedSize: const Size(100, 50.0),
-                          primary: const Color(0xffcc021d),
-                        ),
-                        child: const Text(
-                          'Save',
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 2.0,
-                              fontSize: 20.0,
-                              fontFamily: 'PoppinsBold'),
-                        ),
-                      ),
-                    ],
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      flex: 2,
+                      child: textForm(
+                          '${loggedInUser.bloodType}',
+                          _firstNameEditingController,
+                          MediaQuery.of(context).size.width,
+                          45),
+                    ),
+                    const SizedBox(
+                      width: 5,
+                    ),
+                    Expanded(
+                      flex: 3,
+                      child: contactNumberForm(
+                          '+63${loggedInUser.contactNumber}',
+                          _contactNumberEditingController,
+                          MediaQuery.of(context).size.width,
+                          45),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                textForm('${loggedInUser.street}', _streetEditingController,
+                    MediaQuery.of(context).size.width, 45),
+                const SizedBox(
+                  height: 10,
+                ),
+                textForm('${loggedInUser.brgy}', _brgyEditingController,
+                    MediaQuery.of(context).size.width, 45),
+                const SizedBox(
+                  height: 10,
+                ),
+                textForm(
+                    '${loggedInUser.municipality}',
+                    _municipalityEditingController,
+                    MediaQuery.of(context).size.width,
+                    45),
+                const SizedBox(
+                  height: 10,
+                ),
+                textForm('${loggedInUser.province}', _provinceEditingController,
+                    MediaQuery.of(context).size.width, 45),
+                const SizedBox(
+                  height: 30,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    updateUserInstance();
+                    setState(() {
+                      edit = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    fixedSize: const Size(100, 50.0),
+                    primary: const Color(0xffcc021d),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontSize: 20.0,
+                        fontFamily: 'PoppinsBold'),
                   ),
                 ),
-              ),
+              ],
             ),
-          );
-        });
+          ),
+        ),
+      ),
+    );
   }
 
   Widget textForm(String hintText, TextEditingController controller,
@@ -682,31 +700,33 @@ class _NewUserProfileState extends State<NewUserProfile> {
     return SizedBox(
       width: width,
       height: height,
-      child: TextFormField(
-        autofocus: false,
-        controller: controller,
-        onSaved: (value) {
-          controller.text = value!;
-        },
-        decoration: InputDecoration(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-          hintText: hintText,
-          fillColor: Colors.white,
-          filled: true,
-          hintStyle: TextStyle(
-            fontSize: 12.0,
-            color: Colors.grey[600],
-            fontFamily: 'PoppinsRegular',
-            letterSpacing: 1.5,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.5, color: Colors.black),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+      child: Material(
+        child: TextFormField(
+          autofocus: false,
+          controller: controller,
+          onSaved: (value) {
+            controller.text = value!;
+          },
+          decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            hintText: hintText,
+            fillColor: Colors.white,
+            filled: true,
+            hintStyle: TextStyle(
+              fontSize: 12.0,
+              color: Colors.grey[600],
+              fontFamily: 'PoppinsRegular',
+              letterSpacing: 1.5,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(width: 1.5, color: Colors.black),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            ),
           ),
         ),
       ),
@@ -718,43 +738,45 @@ class _NewUserProfileState extends State<NewUserProfile> {
     return SizedBox(
       width: width,
       height: height,
-      child: TextFormField(
-        autofocus: false,
-        controller: controller,
-        onSaved: (value) {
-          controller.text = value!;
-        },
-        decoration: InputDecoration(
-          prefixIcon: const Padding(
-            padding: EdgeInsets.symmetric(vertical: 12, horizontal: 3),
-            child: Text(
-              ' (+63) ',
-              style: TextStyle(
-                fontSize: 12.0,
-                color: Colors.black,
-                fontFamily: 'PoppinsRegular',
-                letterSpacing: 1.5,
+      child: Material(
+        child: TextFormField(
+          autofocus: false,
+          controller: controller,
+          onSaved: (value) {
+            controller.text = value!;
+          },
+          decoration: InputDecoration(
+            prefixIcon: const Padding(
+              padding: EdgeInsets.symmetric(vertical: 12, horizontal: 3),
+              child: Text(
+                ' (+63) ',
+                style: TextStyle(
+                  fontSize: 12.0,
+                  color: Colors.black,
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                ),
               ),
             ),
-          ),
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-          hintText: hintText,
-          fillColor: Colors.white,
-          filled: true,
-          hintStyle: TextStyle(
-            fontSize: 12.0,
-            color: Colors.grey[600],
-            fontFamily: 'PoppinsRegular',
-            letterSpacing: 1.5,
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.5, color: Colors.black),
-          ),
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+            hintText: hintText,
+            fillColor: Colors.white,
+            filled: true,
+            hintStyle: TextStyle(
+              fontSize: 12.0,
+              color: Colors.grey[600],
+              fontFamily: 'PoppinsRegular',
+              letterSpacing: 1.5,
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(width: 1.5, color: Colors.black),
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            ),
           ),
         ),
       ),

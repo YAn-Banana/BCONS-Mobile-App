@@ -1,5 +1,7 @@
+import 'package:bcons_app/PracticeFunctions/Create%20PDF/createPDFFile.dart';
 import 'package:bcons_app/PracticeFunctions/getAge.dart';
 import 'package:bcons_app/PracticeFunctions/getUserCurrentLocation.dart';
+import 'package:bcons_app/PracticeFunctions/machineLearning.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
 import 'package:bcons_app/screens/Sign_up_screen/multi_stepper.dart';
@@ -37,6 +39,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primaryColor: const Color(0xffd90824),
         ),
-        home: const UsersCurrentLocation());
+        home: const SplashScreen());
   }
 }

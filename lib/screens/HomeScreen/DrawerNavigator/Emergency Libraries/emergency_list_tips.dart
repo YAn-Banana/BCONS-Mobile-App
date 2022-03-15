@@ -57,7 +57,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/earthquake_logo.png'),
+                    image: AssetImage('assets/images/EarthquakeLogo.png'),
                   )),
                 ),
                 title: const Text(
@@ -86,7 +86,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/fire_logo.png'),
+                    image: AssetImage('assets/images/FireLogo.png'),
                   )),
                 ),
                 title: const Text(
@@ -115,7 +115,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/crime_logo.png'),
+                    image: AssetImage('assets/images/CrimeLogo.png'),
                   )),
                 ),
                 title: const Text(
@@ -144,7 +144,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/health_logo.png'),
+                    image: AssetImage('assets/images/Health Logo.png'),
                   )),
                 ),
                 title: const Text(
@@ -173,7 +173,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/covid_logo.png'),
+                    image: AssetImage('assets/images/cOVIDLOGO.png'),
                   )),
                 ),
                 title: const Text(
@@ -202,7 +202,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                   decoration: const BoxDecoration(
                       image: DecorationImage(
                     scale: 1.0,
-                    image: AssetImage('assets/images/accident_logo.png'),
+                    image: AssetImage('assets/images/accidentLogo.png'),
                   )),
                 ),
                 title: const Text(
