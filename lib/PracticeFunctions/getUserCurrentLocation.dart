@@ -1,6 +1,13 @@
+import 'package:bcons_app/PracticeFunctions/Create%20PDF/createPDFFile.dart';
+import 'package:bcons_app/model/user_model.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+
+import '../screens/HomeScreen/home_screen.dart';
 
 class UsersCurrentLocation extends StatefulWidget {
   const UsersCurrentLocation({Key? key}) : super(key: key);
@@ -11,7 +18,24 @@ class UsersCurrentLocation extends StatefulWidget {
 
 class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
   String location = '';
-  String address = '';
+  String locality = '';
+  String municipality = '';
+  bool isLoading = false;
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   Future<Position> _determinePosition() async {
     bool serviceEnabled;
@@ -48,12 +72,19 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
 
     // When we reach here, permissions are granted and we can
     // continue accessing the position of the device.
-    return await Geolocator.getCurrentPosition();
+    return await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
   }
 
   Future<void> getAddressFromUserLongAndLat(Position position) async {
-    List<Placemark> placemark =
-        await placemarkFromCoordinates(position.latitude, position.longitude);
+    List<Placemark> placemark = await GeocodingPlatform.instance
+        .placemarkFromCoordinates(position.latitude, position.longitude);
+    Placemark place = placemark[0];
+
+    setState(() {
+      locality = '${place.street} ${place.locality}';
+      municipality = '${place.subAdministrativeArea},${place.country}';
+    });
     print(placemark);
   }
 
@@ -84,39 +115,101 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Text(
-            'Coordinate Points',
-            style: TextStyle(
-                fontFamily: 'PoppinsBold',
-                letterSpacing: 1.5,
-                color: Colors.black,
-                fontSize: 15.0),
-          ),
-          const SizedBox(
-            height: 10,
-          ),
           ElevatedButton(
               onPressed: () async {
                 Position position = await _determinePosition();
                 print(position);
-
                 location =
                     'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
                 getAddressFromUserLongAndLat(position);
-                setState(() {});
+                setState(() {
+                  isLoading = true;
+                });
               },
               child: const Text('Get Location')),
           const SizedBox(
             height: 10,
           ),
-          Text(
-            location,
-            style: const TextStyle(
-                fontFamily: 'PoppinsRegular',
-                letterSpacing: 1.5,
-                color: Colors.black,
-                fontSize: 15.0),
-          )
+          isLoading
+              ? Column(
+                  children: [
+                    const Text(
+                      'Coordinate Points',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsBold',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                          fontSize: 15.0),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      location,
+                      style: const TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                          fontSize: 15.0),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    const Text(
+                      'Address',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsBold',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                          fontSize: 15.0),
+                    ),
+                    Text(
+                      locality,
+                      style: const TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                          fontSize: 15.0),
+                    ),
+                    Text(
+                      municipality,
+                      style: const TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                          fontSize: 15.0),
+                    ),
+                  ],
+                )
+              : Container(),
+          const SizedBox(
+            height: 70,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                FirebaseFirestore firebaseFirestore =
+                    FirebaseFirestore.instance;
+                firebase_auth.User? user = firebaseAuth.currentUser;
+                try {
+                  firebaseFirestore.collection('Users').doc(user!.uid).update({
+                    'location': location,
+                    'address': '$locality, $municipality'
+                  });
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const CreatePDF()));
+                } catch (e) {
+                  final snackBar = SnackBar(content: Text(e.toString()));
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+              },
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0)),
+                primary: const Color(0xffcc021d),
+              ),
+              child: const Text('Continue')),
         ],
       )),
     );

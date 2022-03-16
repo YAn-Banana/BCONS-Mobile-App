@@ -1,4 +1,5 @@
 import 'package:bcons_app/PracticeFunctions/Create%20PDF/createPDFFile.dart';
+import 'package:bcons_app/PracticeFunctions/getUserCurrentLocation.dart';
 import 'package:bcons_app/screens/HomeScreen/manual_report.dart';
 import 'package:flutter/material.dart';
 
@@ -10,8 +11,8 @@ class ChooseReport extends StatefulWidget {
 }
 
 void chooseManualReport(BuildContext context) {
-  Navigator.push(
-      context, MaterialPageRoute(builder: (context) => const CreatePDF()));
+  Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const UsersCurrentLocation()));
 }
 
 class _ChooseReportState extends State<ChooseReport> {

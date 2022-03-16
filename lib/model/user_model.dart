@@ -1,3 +1,5 @@
+import 'package:geocoding/geocoding.dart';
+
 class UserModel {
   String? uid;
   String? email;
@@ -14,6 +16,8 @@ class UserModel {
   String? brgy;
   String? municipality;
   String? province;
+  String? location;
+  String? address;
 
   UserModel(
       {this.uid,
@@ -30,7 +34,9 @@ class UserModel {
       this.street,
       this.brgy,
       this.municipality,
-      this.province});
+      this.province,
+      this.location,
+      this.address});
 
   // get the data from the server
   factory UserModel.fromMap(map) {
@@ -50,6 +56,8 @@ class UserModel {
       brgy: map['brgy'],
       municipality: map['municipality'],
       province: map['province'],
+      location: map['location'],
+      address: map['address'],
     );
   }
 
@@ -70,7 +78,9 @@ class UserModel {
       'street': street,
       'brgy': brgy,
       'municipality': municipality,
-      'province': province
+      'province': province,
+      'location': location,
+      'address': address,
     };
   }
 }

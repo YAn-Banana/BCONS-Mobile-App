@@ -8,6 +8,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
@@ -26,6 +27,7 @@ class _CreatePDFState extends State<CreatePDF> {
   XFile? pickedImage;
   bool isImageLoading = false;
   final ImagePicker picker = ImagePicker();
+  String imageUrl = '';
 
   final pdf = pw.Document();
   DateTime initialDate = DateTime.now();
@@ -102,8 +104,7 @@ class _CreatePDFState extends State<CreatePDF> {
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () {
-                  createPdf();
-                  savePdf();
+                  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
                 },
                 child: const Icon(
                   Icons.done,
@@ -201,6 +202,56 @@ class _CreatePDFState extends State<CreatePDF> {
             onPressed: imagePicker));
   }
 
+  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
+    FirebaseStorage storageRef = FirebaseStorage.instance;
+    String uploadFileName =
+        '${loggedInUser.uid},${DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate)}.jpg';
+    Reference reference =
+        storageRef.ref().child('User\'s Report Images').child(uploadFileName);
+    UploadTask uploadTask = reference.putFile(File(pickedImage!.path));
+    uploadTask.snapshotEvents.listen((event) {
+      print(event.bytesTransferred.toString() +
+          '\t' +
+          event.totalBytes.toString());
+    });
+    await uploadTask.whenComplete(() async {
+      String uploadPath = await uploadTask.snapshot.ref.getDownloadURL();
+      print(uploadPath);
+      if (uploadPath.isNotEmpty) {
+        try {
+          DatabaseReference database = FirebaseDatabase.instance
+              .ref()
+              .child('User\'s Report')
+              .child('${loggedInUser.uid}');
+          String? uploadId = database.push().key;
+
+          HashMap map = HashMap();
+          map['email'] = '${loggedInUser.email}';
+          map['name'] =
+              '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+          map['date and time'] =
+              DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+          map['emergency type of report'] = emergencyValue;
+          map['description'] = _additionalInfoEditingController.text;
+          map['image'] = uploadPath;
+          map['address'] = loggedInUser.address;
+          map['location'] = loggedInUser.location;
+          map['solved or unsolved'] = 'unsolved';
+          database.child(uploadId!).set(map).whenComplete(
+                () => Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(builder: (builder) => const HomeScreen()),
+                    (route) => false),
+              );
+          showSnackBar(context, 'Completely Reported');
+        } catch (e) {
+          showSnackBar(context, e.toString());
+        }
+      }
+    });
+  }
+
+/*
   Future<void> createPdf() async {
     final image = pw.MemoryImage(File(pickedImage!.path).readAsBytesSync());
     pdf.addPage(
@@ -291,8 +342,8 @@ class _CreatePDFState extends State<CreatePDF> {
           }),
     );
   }
-
-  Future<void> savePdf() async {
+  */
+  /* Future<void> savePdf() async {
     String time = DateFormat("hh:mm:ss").format(initialDate);
     try {
       final dir = await getExternalStorageDirectory();
@@ -312,8 +363,33 @@ class _CreatePDFState extends State<CreatePDF> {
       showSnackBar(context, e.toString());
     }
   }
+*/
+  Future<void> storeToRealTimeDatabase() async {
+    DatabaseReference database = FirebaseDatabase.instance
+        .ref()
+        .child('User\'s Report')
+        .child('${loggedInUser.uid}');
+    String? uploadId = database.push().key;
 
-  Future<firebase_storage.UploadTask> uploadFile(File file) async {
+    HashMap map = HashMap();
+    map['email'] = '${loggedInUser.email}';
+    map['name'] =
+        '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+    map['date and time'] =
+        DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+    map['emergency type of report'] = emergencyValue;
+    map['description'] = _additionalInfoEditingController.text;
+    map['image'] = imageUrl;
+    map['address'] = loggedInUser.address;
+    map['location'] = loggedInUser.location;
+    database.child(uploadId!).set(map).whenComplete(() =>
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (builder) => const HomeScreen()),
+            (route) => false));
+  }
+
+  /*Future<firebase_storage.UploadTask> uploadFile(File file) async {
     firebase_storage.UploadTask uploadTask;
     String time = DateFormat("hh:mm:ss").format(initialDate);
 
@@ -336,25 +412,11 @@ class _CreatePDFState extends State<CreatePDF> {
     });
     print("done..!");
 
-    DatabaseReference database = FirebaseDatabase.instance
-        .ref()
-        .child('User\'s Report')
-        .child('${loggedInUser.uid}');
-    String? uploadId = database.push().key;
+    
 
-    HashMap map = HashMap();
-    map['date and time'] =
-        DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate);
-    map['name'] =
-        '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
-    map['email'] = '${loggedInUser.email}';
-    map['report file'] = uploadPath;
-    database.child(uploadId!).set(map);
-
-    print(uploadPath);
     return Future.value(uploadTask);
   }
-
+  */
   void showSnackBar(BuildContext context, String text) {
     final snackBar = SnackBar(
       content: Text(text),
