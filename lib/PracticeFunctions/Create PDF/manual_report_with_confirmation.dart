@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:io';
-import 'dart:typed_data';
 
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
@@ -15,6 +14,7 @@ import 'package:intl/intl.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:sliding_sheet/sliding_sheet.dart';
 
 class CreatePDF extends StatefulWidget {
   const CreatePDF({Key? key}) : super(key: key);
@@ -104,7 +104,7 @@ class _CreatePDFState extends State<CreatePDF> {
               padding: const EdgeInsets.only(right: 10),
               child: InkWell(
                 onTap: () {
-                  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
+                  showSheet();
                 },
                 child: const Icon(
                   Icons.done,
@@ -229,14 +229,16 @@ class _CreatePDFState extends State<CreatePDF> {
           map['email'] = '${loggedInUser.email}';
           map['name'] =
               '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
-          map['date and time'] =
+          map['age'] = '${loggedInUser.age}';
+          map['sex'] = '${loggedInUser.gender}';
+          map['dateAndTime'] =
               DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
-          map['emergency type of report'] = emergencyValue;
+          map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
           map['address'] = loggedInUser.address;
           map['location'] = loggedInUser.location;
-          map['solved or unsolved'] = 'unsolved';
+          map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(
                 () => Navigator.pushAndRemoveUntil(
                     context,
@@ -461,6 +463,186 @@ class _CreatePDFState extends State<CreatePDF> {
           ),
         ),
       ),
+    );
+  }
+
+  Future showSheet() => showSlidingBottomSheet(context,
+      builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          avoidStatusBar: true,
+          snapSpec: const SnapSpec(
+            snap: true,
+            initialSnap: 0.95,
+            snappings: [0.4, 0.7, 0.95],
+          ),
+          builder: buildSheet,
+          headerBuilder: headerBuilder));
+
+  Widget headerBuilder(BuildContext context, SheetState state) {
+    return Container(
+      color: const Color(0xffcc021d),
+      height: 30,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Center(
+            child: Container(
+              width: 32,
+              height: 8,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20), color: Colors.white),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildSheet(context, state) {
+    return Material(
+      child: SingleChildScrollView(
+          child: Container(
+        padding: const EdgeInsets.all(20),
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height + 400,
+        decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomRight,
+                colors: [Colors.black, Colors.red, Colors.black])),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          const Center(
+            child: Text(
+              'REPORT DETAILS',
+              style: TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 20.0),
+            ),
+          ),
+          const SizedBox(
+            height: 30,
+          ),
+          Text(
+            'Time: ${DateFormat("yyyy-MM-dd, hh:mm:ss").format(initialDate)}',
+            style: const TextStyle(
+                fontFamily: 'PoppinsRegular',
+                letterSpacing: 1.5,
+                color: Colors.white,
+                fontSize: 15.0),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Location in Maps: ${loggedInUser.location}',
+            style: const TextStyle(
+                fontFamily: 'PoppinsRegular',
+                letterSpacing: 1.5,
+                color: Colors.white,
+                fontSize: 15.0),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Adress: ${loggedInUser.address}',
+            style: const TextStyle(
+                fontFamily: 'PoppinsRegular',
+                letterSpacing: 1.5,
+                color: Colors.white,
+                fontSize: 15.0),
+          ),
+          const SizedBox(height: 20),
+          isImageLoading
+              ? Center(
+                  child: Container(
+                      height: 400,
+                      width: 400,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(15.0),
+                          image: DecorationImage(
+                              image: FileImage(File(pickedImage!.path)),
+                              fit: BoxFit.cover,
+                              filterQuality: FilterQuality.high))),
+                )
+              : Container(),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Text(
+              emergencyValue!,
+              style: const TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 15.0),
+            ),
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Text(
+              _additionalInfoEditingController.text,
+              style: const TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 15.0),
+            ),
+          ),
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      fixedSize: const Size(150, 50.0),
+                      primary: Colors.grey[400]),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontSize: 20.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 20),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    fixedSize: const Size(150, 50.0),
+                    primary: const Color(0xffcc021d),
+                  ),
+                  child: const Text(
+                    'Confirm',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontSize: 20.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+              )
+            ],
+          )
+        ]),
+      )),
     );
   }
 }

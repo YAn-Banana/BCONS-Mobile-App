@@ -1,5 +1,3 @@
-import 'package:geocoding/geocoding.dart';
-
 class UserModel {
   String? uid;
   String? email;

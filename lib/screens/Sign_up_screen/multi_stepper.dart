@@ -26,8 +26,6 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
   final _firstNameEditingController = TextEditingController();
   final _lastNameEditingController = TextEditingController();
   final _midNameEditingController = TextEditingController();
-  final _genderEditingController = TextEditingController();
-  final _bloodTypeEditingController = TextEditingController();
   final _contactNumberEditingController = TextEditingController();
   final _streetEditingController = TextEditingController();
   final _brgyEditingController = TextEditingController();
@@ -42,6 +40,66 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
   DateTime? date;
   String textSelect = 'Press to Select your Birthday';
   int? days;
+
+  String? bloodTypeValue;
+  String? genderValue;
+  String? municipalityValue;
+  String? provinceValue;
+
+  final municipalityList = [
+    'Angat',
+    'Balagtas',
+    'Baliuag',
+    'Bocaue',
+    'Bulakan',
+    'Bustos',
+    'Calumpit',
+    'Dona Remdios Trinidad',
+    'Guiguinto',
+    'Hagonoy',
+    'Marilao',
+    'Norzagaray',
+    'Obando',
+    'Pandi',
+    'Paombong',
+    'Plaridel',
+    'Pulilan',
+    'San Ildefonso',
+    'San Miguel',
+    'San Rafael',
+    'Santa Maria'
+  ];
+  final provinceList = ['Bulacan'];
+
+  final bloodTypeList = [
+    'A+',
+    'O+',
+    'B+',
+    'AB+',
+    'A-',
+    '0-',
+    'B-',
+    'AB-',
+    'None'
+  ];
+  final genderList = [
+    'Male',
+    'Female',
+  ];
+
+  DropdownMenuItem<String> buildMenuItem(String emergency) {
+    return DropdownMenuItem(
+      value: emergency,
+      child: Text(
+        emergency,
+        style: const TextStyle(
+            fontFamily: 'PoppinsRegular',
+            letterSpacing: 1.5,
+            color: Colors.black,
+            fontSize: 12.0),
+      ),
+    );
+  }
 
   //Show Date Picker
   Future<void> selectDate(BuildContext context) async {
@@ -165,15 +223,15 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     userModel.firstName = _firstNameEditingController.text;
     userModel.lastName = _lastNameEditingController.text;
     userModel.middleInitial = _midNameEditingController.text;
-    userModel.gender = _genderEditingController.text;
+    userModel.gender = genderValue;
     userModel.contactNumber = _contactNumberEditingController.text;
     userModel.birthday = getDate();
     userModel.age = getAge();
-    userModel.bloodType = _bloodTypeEditingController.text;
+    userModel.bloodType = bloodTypeValue;
     userModel.street = _streetEditingController.text;
     userModel.brgy = _brgyEditingController.text;
-    userModel.municipality = _municipalityEditingController.text;
-    userModel.province = _provinceEditingController.text;
+    userModel.municipality = municipalityValue;
+    userModel.province = provinceValue;
 
     await firebaseFirestore
         .collection("Users")
@@ -365,23 +423,106 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                       136.0,
                                                       45.0),
                                                   const SizedBox(width: 10.0),
-                                                  textForm(
-                                                      'Sex',
-                                                      _genderEditingController,
-                                                      'null',
-                                                      136.0,
-                                                      45.0),
+                                                  Container(
+                                                    height: 45,
+                                                    width: 136,
+                                                    padding: const EdgeInsets
+                                                            .symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4),
+                                                    decoration: BoxDecoration(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15),
+                                                        border: Border.all(
+                                                            color: Colors.black,
+                                                            width: 0.5)),
+                                                    child:
+                                                        DropdownButtonHideUnderline(
+                                                      child: DropdownButton<
+                                                              String>(
+                                                          icon: const Icon(
+                                                            Icons
+                                                                .arrow_drop_down,
+                                                            size: 20,
+                                                            color: Colors.black,
+                                                          ),
+                                                          hint: const Text(
+                                                            'Sex',
+                                                            style: TextStyle(
+                                                                fontFamily:
+                                                                    'PoppinsRegular',
+                                                                letterSpacing:
+                                                                    1.5,
+                                                                color: Colors
+                                                                    .black,
+                                                                fontSize: 12.0),
+                                                          ),
+                                                          value: genderValue,
+                                                          isExpanded: true,
+                                                          items: genderList
+                                                              .map(
+                                                                  buildMenuItem)
+                                                              .toList(),
+                                                          onChanged: (value) {
+                                                            setState(() {
+                                                              genderValue =
+                                                                  value;
+                                                            });
+                                                          }),
+                                                    ),
+                                                  ),
                                                 ],
                                               ),
                                               const SizedBox(height: 10),
-                                              textForm(
-                                                  'Blood Type',
-                                                  _bloodTypeEditingController,
-                                                  'null',
-                                                  MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  45.0),
+                                              Container(
+                                                height: 45,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
+                                                padding:
+                                                    const EdgeInsets.symmetric(
+                                                        horizontal: 12,
+                                                        vertical: 4),
+                                                decoration: BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            15),
+                                                    border: Border.all(
+                                                        color: Colors.black,
+                                                        width: 0.5)),
+                                                child:
+                                                    DropdownButtonHideUnderline(
+                                                  child: DropdownButton<String>(
+                                                      icon: const Icon(
+                                                        Icons.arrow_drop_down,
+                                                        size: 20,
+                                                        color: Colors.black,
+                                                      ),
+                                                      hint: const Text(
+                                                        'Blood Type',
+                                                        style: TextStyle(
+                                                            fontFamily:
+                                                                'PoppinsRegular',
+                                                            letterSpacing: 1.5,
+                                                            color:
+                                                                Color.fromRGBO(
+                                                                    0, 0, 0, 1),
+                                                            fontSize: 12.0),
+                                                      ),
+                                                      value: bloodTypeValue,
+                                                      isExpanded: true,
+                                                      items: bloodTypeList
+                                                          .map(buildMenuItem)
+                                                          .toList(),
+                                                      onChanged: (value) {
+                                                        setState(() {
+                                                          bloodTypeValue =
+                                                              value;
+                                                        });
+                                                      }),
+                                                ),
+                                              ),
                                             ]),
                                       ),
                                       Step(
@@ -412,7 +553,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                                 .circular(15.0),
                                                         side: const BorderSide(
                                                             width: 1.0,
-                                                            color: Colors.grey),
+                                                            color:
+                                                                Colors.black),
                                                       ),
                                                       fixedSize: Size(
                                                           MediaQuery.of(context)
@@ -474,25 +616,111 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                 const SizedBox(
                                                   height: 10.0,
                                                 ),
-                                                textForm(
-                                                    'Municipality',
-                                                    _municipalityEditingController,
-                                                    'municipalityValidator',
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    45.0),
+                                                Container(
+                                                  height: 45,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 0.5)),
+                                                  child:
+                                                      DropdownButtonHideUnderline(
+                                                    child: DropdownButton<
+                                                            String>(
+                                                        icon: const Icon(
+                                                          Icons.arrow_drop_down,
+                                                          size: 20,
+                                                          color: Colors.black,
+                                                        ),
+                                                        hint: const Text(
+                                                          'Municipality',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'PoppinsRegular',
+                                                              letterSpacing:
+                                                                  1.5,
+                                                              color:
+                                                                  Colors.black,
+                                                              fontSize: 12.0),
+                                                        ),
+                                                        value:
+                                                            municipalityValue,
+                                                        isExpanded: true,
+                                                        items: municipalityList
+                                                            .map(buildMenuItem)
+                                                            .toList(),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            municipalityValue =
+                                                                value;
+                                                          });
+                                                        }),
+                                                  ),
+                                                ),
                                                 const SizedBox(
                                                   height: 10.0,
                                                 ),
-                                                textForm(
-                                                    'Province',
-                                                    _provinceEditingController,
-                                                    'provinceValidator',
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    45.0),
+                                                Container(
+                                                  height: 45,
+                                                  width: MediaQuery.of(context)
+                                                      .size
+                                                      .width,
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 12,
+                                                      vertical: 4),
+                                                  decoration: BoxDecoration(
+                                                      color: Colors.white,
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              15),
+                                                      border: Border.all(
+                                                          color: Colors.black,
+                                                          width: 0.5)),
+                                                  child:
+                                                      DropdownButtonHideUnderline(
+                                                    child: DropdownButton<
+                                                            String>(
+                                                        icon: const Icon(
+                                                          Icons.arrow_drop_down,
+                                                          size: 20,
+                                                          color: Colors.black,
+                                                        ),
+                                                        hint: const Text(
+                                                          'Province',
+                                                          style: TextStyle(
+                                                              fontFamily:
+                                                                  'PoppinsRegular',
+                                                              letterSpacing:
+                                                                  1.5,
+                                                              color: Color
+                                                                  .fromRGBO(0,
+                                                                      0, 0, 1),
+                                                              fontSize: 12.0),
+                                                        ),
+                                                        value: provinceValue,
+                                                        isExpanded: true,
+                                                        items: provinceList
+                                                            .map(buildMenuItem)
+                                                            .toList(),
+                                                        onChanged: (value) {
+                                                          setState(() {
+                                                            provinceValue =
+                                                                value;
+                                                          });
+                                                        }),
+                                                  ),
+                                                ),
                                               ])),
                                       Step(
                                           state: StepState.complete,
@@ -540,8 +768,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                               const SizedBox(
                                                 height: 10.0,
                                               ),
-                                              Text(
-                                                  'Sex: ${_genderEditingController.text}',
+                                              Text('Sex: $genderValue',
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     fontFamily:
@@ -552,6 +779,15 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                               const SizedBox(
                                                 height: 10.0,
                                               ),
+                                              Text(
+                                                  'Blood Type: $bloodTypeValue',
+                                                  style: const TextStyle(
+                                                    fontSize: 15.0,
+                                                    fontFamily:
+                                                        'PoppinsRegular',
+                                                    letterSpacing: 1.5,
+                                                    color: Colors.black,
+                                                  )),
                                               Text(
                                                   'Contact No: +63${_contactNumberEditingController.text}',
                                                   style: const TextStyle(
@@ -587,7 +823,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                 height: 10.0,
                                               ),
                                               Text(
-                                                  'Address: ${_streetEditingController.text} ${_brgyEditingController.text} ${_municipalityEditingController.text}, ${_provinceEditingController.text}',
+                                                  'Address: ${_streetEditingController.text} ${_brgyEditingController.text} $municipalityValue, $provinceValue',
                                                   style: const TextStyle(
                                                     fontSize: 15.0,
                                                     fontFamily:
@@ -778,19 +1014,19 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           labelText: labelText,
           fillColor: Colors.white,
           filled: true,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             fontSize: 12.0,
-            color: Colors.grey[600],
+            color: Colors.black,
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.5, color: Colors.black),
+            borderSide: const BorderSide(width: 0.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            borderSide: const BorderSide(width: 1, color: Colors.black),
           ),
         ),
       ),
@@ -836,9 +1072,9 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           suffixIcon: InkWell(child: icon, onTap: togglePasswordView),
           fillColor: Colors.white,
           filled: true,
-          labelStyle: TextStyle(
+          labelStyle: const TextStyle(
             fontSize: 12.0,
-            color: Colors.grey[600],
+            color: Colors.black,
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
           ),
@@ -847,9 +1083,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
             borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
-          ),
+              borderRadius: BorderRadius.circular(15.0),
+              borderSide: const BorderSide(width: 1, color: Colors.black)),
         ),
       ),
     );
@@ -884,19 +1119,19 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           hintText: hintText,
           fillColor: Colors.white,
           filled: true,
-          hintStyle: TextStyle(
+          hintStyle: const TextStyle(
             fontSize: 12.0,
-            color: Colors.grey[600],
+            color: Colors.black,
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.5, color: Colors.black),
+            borderSide: const BorderSide(width: 0.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+            borderSide: const BorderSide(width: 1, color: Colors.black),
           ),
         ),
       ),

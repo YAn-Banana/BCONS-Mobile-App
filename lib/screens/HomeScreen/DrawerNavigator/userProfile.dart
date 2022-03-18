@@ -64,6 +64,7 @@ class _NewUserProfileState extends State<NewUserProfile> {
     if (image != null) {
       setState(() {
         imagePath = image;
+        isPhotoAlbumClick = true;
       });
     }
   }
@@ -131,13 +132,14 @@ class _NewUserProfileState extends State<NewUserProfile> {
     userModel.lastName = _lastNameEditingController.text;
     userModel.middleInitial = _midNameEditingController.text;
     userModel.gender = _genderEditingController.text;
+    userModel.bloodType = bloodTypeValue;
     userModel.contactNumber = _contactNumberEditingController.text;
     userModel.birthday = loggedInUser.birthday;
     userModel.age = loggedInUser.age;
     userModel.street = _streetEditingController.text;
     userModel.brgy = _brgyEditingController.text;
-    userModel.municipality = _municipalityEditingController.text;
-    userModel.province = _provinceEditingController.text;
+    userModel.municipality = municipalityValue;
+    userModel.province = provinceValue;
 
     try {
       firebaseFirestore
@@ -150,6 +152,60 @@ class _NewUserProfileState extends State<NewUserProfile> {
       final snackBar = SnackBar(content: Text(e.toString()));
       ScaffoldMessenger.of(context).showSnackBar(snackBar);
     }
+  }
+
+  String? municipalityValue;
+  String? provinceValue;
+  String? bloodTypeValue;
+
+  final bloodTypeList = [
+    'A+',
+    'O+',
+    'B+',
+    'AB+',
+    'A-',
+    '0-',
+    'B-',
+    'AB-',
+    'None'
+  ];
+  final municipalityList = [
+    'Angat',
+    'Balagtas',
+    'Baliuag',
+    'Bocaue',
+    'Bulakan',
+    'Bustos',
+    'Calumpit',
+    'Dona Remdios Trinidad',
+    'Guiguinto',
+    'Hagonoy',
+    'Marilao',
+    'Norzagaray',
+    'Obando',
+    'Pandi',
+    'Paombong',
+    'Plaridel',
+    'Pulilan',
+    'San Ildefonso',
+    'San Miguel',
+    'San Rafael',
+    'Santa Maria'
+  ];
+  final provinceList = ['Bulacan'];
+
+  DropdownMenuItem<String> buildMenuItem(String emergency) {
+    return DropdownMenuItem(
+      value: emergency,
+      child: Text(
+        emergency,
+        style: const TextStyle(
+            fontFamily: 'PoppinsRegular',
+            letterSpacing: 1.5,
+            color: Colors.black,
+            fontSize: 12.0),
+      ),
+    );
   }
 
   @override
@@ -555,139 +611,349 @@ class _NewUserProfileState extends State<NewUserProfile> {
   }
 
   Widget buildSheet(context, state) {
-    return SingleChildScrollView(
-      child: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
-        child: Form(
-          key: _formkey,
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                const Text(
-                  'Edit Profile',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsBold',
-                      letterSpacing: 2.0,
-                      color: Colors.black,
-                      fontSize: 20.0),
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: textForm(
-                          '${loggedInUser.lastName}',
-                          _lastNameEditingController,
-                          MediaQuery.of(context).size.width,
-                          45),
+    return Material(
+      child: SingleChildScrollView(
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height + 200,
+          width: MediaQuery.of(context).size.width,
+          child: Form(
+            key: _formkey,
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Center(
+                    child: Text(
+                      'Edit Profile',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsBold',
+                          letterSpacing: 2.0,
+                          color: Colors.black,
+                          fontSize: 20.0),
                     ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      flex: 2,
-                      child: textForm(
-                          '${loggedInUser.firstName}',
-                          _firstNameEditingController,
-                          MediaQuery.of(context).size.width,
-                          45),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      flex: 1,
-                      child: textForm(
-                          '${loggedInUser.middleInitial}',
-                          _midNameEditingController,
-                          MediaQuery.of(context).size.width,
-                          45),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                Row(
-                  children: [
-                    Expanded(
-                      flex: 2,
-                      child: textForm(
-                          '${loggedInUser.bloodType}',
-                          _firstNameEditingController,
-                          MediaQuery.of(context).size.width,
-                          45),
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    Expanded(
-                      flex: 3,
-                      child: contactNumberForm(
-                          '+63${loggedInUser.contactNumber}',
-                          _contactNumberEditingController,
-                          MediaQuery.of(context).size.width,
-                          45),
-                    ),
-                  ],
-                ),
-                const SizedBox(
-                  height: 10,
-                ),
-                textForm('${loggedInUser.street}', _streetEditingController,
-                    MediaQuery.of(context).size.width, 45),
-                const SizedBox(
-                  height: 10,
-                ),
-                textForm('${loggedInUser.brgy}', _brgyEditingController,
-                    MediaQuery.of(context).size.width, 45),
-                const SizedBox(
-                  height: 10,
-                ),
-                textForm(
-                    '${loggedInUser.municipality}',
-                    _municipalityEditingController,
-                    MediaQuery.of(context).size.width,
-                    45),
-                const SizedBox(
-                  height: 10,
-                ),
-                textForm('${loggedInUser.province}', _provinceEditingController,
-                    MediaQuery.of(context).size.width, 45),
-                const SizedBox(
-                  height: 30,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    updateUserInstance();
-                    setState(() {
-                      edit = false;
-                    });
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    fixedSize: const Size(100, 50.0),
-                    primary: const Color(0xffcc021d),
                   ),
-                  child: const Text(
-                    'Save',
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Last Name',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 2.0,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          )),
+                      SizedBox(width: 10),
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                            'First Name',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 2.0,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          )),
+                      SizedBox(width: 10),
+                      Expanded(
+                          flex: 1,
+                          child: Text(
+                            'M.I.',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 2.0,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: textForm(
+                            '${loggedInUser.lastName}',
+                            _lastNameEditingController,
+                            MediaQuery.of(context).size.width,
+                            45),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        flex: 2,
+                        child: textForm(
+                            '${loggedInUser.firstName}',
+                            _firstNameEditingController,
+                            MediaQuery.of(context).size.width,
+                            45),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        flex: 1,
+                        child: textForm(
+                            '${loggedInUser.middleInitial}',
+                            _midNameEditingController,
+                            MediaQuery.of(context).size.width,
+                            45),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: const [
+                      Expanded(
+                          flex: 2,
+                          child: Text(
+                            'Blood Type',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 2.0,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          )),
+                      SizedBox(width: 10),
+                      Expanded(
+                          flex: 3,
+                          child: Text(
+                            'Contact Number',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 2.0,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          )),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Row(
+                    children: [
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          height: 45,
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 12, vertical: 4),
+                          decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                              border:
+                                  Border.all(color: Colors.black, width: 0.5)),
+                          child: DropdownButtonHideUnderline(
+                            child: DropdownButton<String>(
+                                icon: const Icon(
+                                  Icons.arrow_drop_down,
+                                  size: 20,
+                                  color: Colors.black,
+                                ),
+                                hint: const Text(
+                                  'Blood Type',
+                                  style: TextStyle(
+                                      fontFamily: 'PoppinsRegular',
+                                      letterSpacing: 1.5,
+                                      color: Color.fromRGBO(0, 0, 0, 1),
+                                      fontSize: 12.0),
+                                ),
+                                value: bloodTypeValue,
+                                isExpanded: true,
+                                items:
+                                    bloodTypeList.map(buildMenuItem).toList(),
+                                onChanged: (value) {
+                                  setState(() {
+                                    bloodTypeValue = value;
+                                  });
+                                }),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Expanded(
+                        flex: 3,
+                        child: contactNumberForm(
+                            '+63${loggedInUser.contactNumber}',
+                            _contactNumberEditingController,
+                            MediaQuery.of(context).size.width,
+                            45),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'House no. / Street',
                     style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
+                        fontFamily: 'PoppinsRegular',
                         letterSpacing: 2.0,
-                        fontSize: 20.0,
-                        fontFamily: 'PoppinsBold'),
+                        color: Colors.black,
+                        fontSize: 15.0),
                   ),
-                ),
-              ],
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  textForm('${loggedInUser.street}', _streetEditingController,
+                      MediaQuery.of(context).size.width, 45),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Barangay',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 2.0,
+                        color: Colors.black,
+                        fontSize: 15.0),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  textForm('${loggedInUser.brgy}', _brgyEditingController,
+                      MediaQuery.of(context).size.width, 45),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Municipality',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 2.0,
+                        color: Colors.black,
+                        fontSize: 15.0),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.black, width: 0.5)),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          hint: const Text(
+                            'Municipality',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 1.5,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontSize: 12.0),
+                          ),
+                          value: municipalityValue,
+                          isExpanded: true,
+                          items: municipalityList.map(buildMenuItem).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              municipalityValue = value;
+                            });
+                          }),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const Text(
+                    'Province',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 2.0,
+                        color: Colors.black,
+                        fontSize: 15.0),
+                  ),
+                  const SizedBox(
+                    height: 5,
+                  ),
+                  Container(
+                    height: 45,
+                    width: MediaQuery.of(context).size.width,
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.black, width: 0.5)),
+                    child: DropdownButtonHideUnderline(
+                      child: DropdownButton<String>(
+                          icon: const Icon(
+                            Icons.arrow_drop_down,
+                            size: 20,
+                            color: Colors.black,
+                          ),
+                          hint: const Text(
+                            'Province',
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 1.5,
+                                color: Color.fromRGBO(0, 0, 0, 1),
+                                fontSize: 12.0),
+                          ),
+                          value: provinceValue,
+                          isExpanded: true,
+                          items: provinceList.map(buildMenuItem).toList(),
+                          onChanged: (value) {
+                            setState(() {
+                              provinceValue = value;
+                            });
+                          }),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 30,
+                  ),
+                  Center(
+                    child: ElevatedButton(
+                      onPressed: () {
+                        updateUserInstance();
+                        setState(() {
+                          edit = false;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(15.0)),
+                        fixedSize: const Size(100, 50.0),
+                        primary: const Color(0xffcc021d),
+                      ),
+                      child: const Text(
+                        'Save',
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2.0,
+                            fontSize: 20.0,
+                            fontFamily: 'PoppinsBold'),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -713,19 +979,19 @@ class _NewUserProfileState extends State<NewUserProfile> {
             hintText: hintText,
             fillColor: Colors.white,
             filled: true,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 12.0,
-              color: Colors.grey[600],
+              color: Colors.black,
               fontFamily: 'PoppinsRegular',
               letterSpacing: 1.5,
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.0),
-              borderSide: const BorderSide(width: 1.5, color: Colors.black),
+              borderSide: const BorderSide(width: 1, color: Colors.black),
             ),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(15.0),
-              borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+              borderSide: const BorderSide(width: 1.0, color: Colors.black),
             ),
           ),
         ),
@@ -759,13 +1025,13 @@ class _NewUserProfileState extends State<NewUserProfile> {
               ),
             ),
             contentPadding:
-                const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+                const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
             hintText: hintText,
             fillColor: Colors.white,
             filled: true,
-            hintStyle: TextStyle(
+            hintStyle: const TextStyle(
               fontSize: 12.0,
-              color: Colors.grey[600],
+              color: Colors.black,
               fontFamily: 'PoppinsRegular',
               letterSpacing: 1.5,
             ),

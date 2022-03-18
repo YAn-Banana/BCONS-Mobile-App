@@ -1,6 +1,7 @@
 //import 'dart:html';
 
 import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/history.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
@@ -53,6 +54,12 @@ class _DrawerLayoutState extends State<DrawerLayout> {
     Navigator.pop(context);
     Navigator.push(context,
         MaterialPageRoute(builder: (context) => const ContactScreen()));
+  }
+
+  void historyReportScreen(BuildContext context) {
+    Navigator.pop(context);
+    Navigator.push(context,
+        MaterialPageRoute(builder: (context) => const HistoryOfReports()));
   }
 
   void bconsScreen(BuildContext context) {
@@ -247,7 +254,9 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                           fontSize: 14.0,
                         ),
                       ),
-                      onTap: () {},
+                      onTap: () {
+                        historyReportScreen(context);
+                      },
                     ),
                     ListTile(
                       leading: const Icon(
