@@ -222,8 +222,9 @@ class _CreatePDFState extends State<CreatePDF> {
           DatabaseReference database = FirebaseDatabase.instance
               .ref()
               .child('User\'s Report')
-              .child('${loggedInUser.uid}');
-          String? uploadId = database.push().key;
+              .child(user!.uid);
+          String? uploadId =
+              database.child('User\'s Report').child(user!.uid).push().key;
 
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
@@ -367,10 +368,8 @@ class _CreatePDFState extends State<CreatePDF> {
   }
 */
   Future<void> storeToRealTimeDatabase() async {
-    DatabaseReference database = FirebaseDatabase.instance
-        .ref()
-        .child('User\'s Report')
-        .child('${loggedInUser.uid}');
+    DatabaseReference database =
+        FirebaseDatabase.instance.ref().child('${loggedInUser.uid}');
     String? uploadId = database.push().key;
 
     HashMap map = HashMap();

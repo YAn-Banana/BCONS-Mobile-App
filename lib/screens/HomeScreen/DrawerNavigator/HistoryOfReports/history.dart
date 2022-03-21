@@ -2,6 +2,7 @@ import 'package:bcons_app/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
 
 import 'data_history.dart';
@@ -15,11 +16,13 @@ class HistoryOfReports extends StatefulWidget {
 
 class _HistoryOfReportsState extends State<HistoryOfReports> {
   List<Data> dataList = [];
+  User? user = FirebaseAuth.instance.currentUser;
+  UserModel loggedInUser = UserModel();
+  bool searchState = false;
+  bool search = false;
 
   @override
   void initState() {
-    User? user = FirebaseAuth.instance.currentUser;
-    UserModel loggedInUser = UserModel();
     super.initState();
     FirebaseFirestore.instance
         .collection('Users')
@@ -29,67 +32,98 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
       loggedInUser = UserModel.fromMap(value.data());
       setState(() {});
     });
-    DatabaseReference databaseReference =
-        FirebaseDatabase.instance.ref().child('User\'s Report');
-
-    databaseReference.once().then((dataSnapshot) {
-      print('${loggedInUser.uid}');
-      print(dataSnapshot.snapshot.value);
-      dataList.clear();
-    });
   }
 
   @override
   Widget build(BuildContext context) {
+    DatabaseReference databaseReference = FirebaseDatabase.instance
+        .ref()
+        .child('User\'s Report')
+        .child(user!.uid);
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'History of Reports',
-          style: TextStyle(
-              fontFamily: 'PoppinsBold',
-              letterSpacing: 2.0,
-              color: Colors.white,
-              fontSize: 20.0),
-        ),
-        elevation: 0.0,
-        centerTitle: true,
-        backgroundColor: const Color(0xffcc021d),
-        leading: InkWell(
-          child: const Icon(
-            Icons.arrow_back,
+        appBar: AppBar(
+          title: !searchState
+              ? const Text(
+                  'History of Reports',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 2.0,
+                      color: Colors.white,
+                      fontSize: 20.0),
+                )
+              : TextFormField(
+                  autofocus: true,
+                  decoration: const InputDecoration(
+                    icon: Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 30,
+                    ),
+                    hintText: 'Search...',
+                    hintStyle: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5),
+                    contentPadding:
+                        EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+                  ),
+                  onChanged: (text) {},
+                ),
+          elevation: 0.0,
+          centerTitle: true,
+          backgroundColor: const Color(0xffcc021d),
+          leading: InkWell(
+            child: const Icon(
+              Icons.arrow_back,
+            ),
+            onTap: () => Navigator.of(context).pop(),
           ),
-          onTap: () => Navigator.of(context).pop(),
+          actions: [
+            !searchState
+                ? IconButton(
+                    onPressed: () {
+                      setState(() {
+                        searchState = !searchState;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.search,
+                      color: Colors.white,
+                      size: 30,
+                    ))
+                : IconButton(
+                    onPressed: () {
+                      setState(() {
+                        searchState = !searchState;
+                      });
+                    },
+                    icon: const Icon(
+                      Icons.cancel,
+                      color: Colors.white,
+                      size: 30,
+                    ))
+          ],
         ),
-      ),
-      body: dataList.isEmpty
-          ? const Center(
-              child: Text(
-                'No data available',
-                style: TextStyle(
-                    fontFamily: 'PoppinsBold',
-                    letterSpacing: 2.0,
-                    color: Colors.black,
-                    fontSize: 20.0),
-              ),
-            )
-          : SingleChildScrollView(
-              child: SizedBox(
-              height: MediaQuery.of(context).size.height,
-              width: MediaQuery.of(context).size.width,
-              child: ListView.builder(
-                  itemCount: dataList.length,
-                  itemBuilder: (context, index) {
-                    return cardUI(
-                      dataList[index].image,
-                      dataList[index].emergencyTypeOfReport,
-                      dataList[index].description,
-                      dataList[index].location,
-                      dataList[index].address,
-                      dataList[index].dateAndTime,
-                    );
-                  }),
-            )),
-    );
+        body: SingleChildScrollView(
+            child: SizedBox(
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: FirebaseAnimatedList(
+            query: databaseReference,
+            itemBuilder: (BuildContext context, DataSnapshot snapshot,
+                Animation<double> animation, int index) {
+              Map map = snapshot.value as Map;
+              return cardUI(
+                  map['image'].toString(),
+                  map['emergencyTypeOfReport'].toString(),
+                  map['description'].toString(),
+                  map['location'].toString(),
+                  map['address'].toString(),
+                  map['dateAndTime'].toString());
+            },
+          ),
+        )));
   }
 }
 
@@ -117,10 +151,10 @@ Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
             Text(
               emergencyClass!,
               style: const TextStyle(
-                  fontFamily: 'PoppinsBold',
+                  fontFamily: 'PoppinsRegular',
                   letterSpacing: 2.0,
                   color: Colors.black,
-                  fontSize: 20.0),
+                  fontSize: 10.0),
             ),
             const SizedBox(
               height: 1,
@@ -128,10 +162,10 @@ Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
             Text(
               description!,
               style: const TextStyle(
-                  fontFamily: 'PoppinsBold',
+                  fontFamily: 'PoppinsRegular',
                   letterSpacing: 2.0,
                   color: Colors.black,
-                  fontSize: 20.0),
+                  fontSize: 10.0),
             ),
             const SizedBox(
               height: 1,
@@ -139,10 +173,10 @@ Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
             Text(
               locationInMaps!,
               style: const TextStyle(
-                  fontFamily: 'PoppinsBold',
+                  fontFamily: 'PoppinsRegular',
                   letterSpacing: 2.0,
                   color: Colors.black,
-                  fontSize: 20.0),
+                  fontSize: 10.0),
             ),
             const SizedBox(
               height: 1,
@@ -150,10 +184,10 @@ Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
             Text(
               exactAddress!,
               style: const TextStyle(
-                  fontFamily: 'PoppinsBold',
+                  fontFamily: 'PoppinsRegular',
                   letterSpacing: 2.0,
                   color: Colors.black,
-                  fontSize: 20.0),
+                  fontSize: 10.0),
             ),
             const SizedBox(
               height: 1,
@@ -161,10 +195,10 @@ Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
             Text(
               exactDateAndTime!,
               style: const TextStyle(
-                  fontFamily: 'PoppinsBold',
+                  fontFamily: 'PoppinsRegular',
                   letterSpacing: 2.0,
                   color: Colors.black,
-                  fontSize: 20.0),
+                  fontSize: 10.0),
             ),
           ]),
     ),
