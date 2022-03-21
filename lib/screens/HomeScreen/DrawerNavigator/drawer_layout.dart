@@ -5,6 +5,7 @@ import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/hi
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,8 +40,8 @@ class _DrawerLayoutState extends State<DrawerLayout> {
   //Navigate to User Profile Screen
   void userProfile(BuildContext context) {
     Navigator.pop(context);
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => const NewUserProfile()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => const UserProfile()));
   }
 
   void contactUs(BuildContext context) {
@@ -68,7 +69,6 @@ class _DrawerLayoutState extends State<DrawerLayout> {
         context, MaterialPageRoute(builder: (context) => const AboutBcons()));
   }
 
-  //Navigate to User Profile Screen
   void home(BuildContext context) {
     Navigator.pop(context);
     Navigator.push(

@@ -5,6 +5,7 @@ import 'package:bcons_app/PracticeFunctions/getUserCurrentLocation.dart';
 import 'package:bcons_app/PracticeFunctions/machineLearning.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/bottom_navigation_bar.dart';
 import 'package:bcons_app/screens/Sign_up_screen/multi_stepper.dart';
 import 'package:bcons_app/screens/Sign_up_screen/phone_auth_log_in.dart';
