@@ -1,4 +1,3 @@
-import 'package:bcons_app/PracticeFunctions/Create%20PDF/manual_report_with_confirmation.dart';
 import 'package:bcons_app/model/user_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -8,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 import '../screens/HomeScreen/home_screen.dart';
+import 'TypeOfReport/manual_report_with_confirmation.dart';
 
 class UsersCurrentLocation extends StatefulWidget {
   const UsersCurrentLocation({Key? key}) : super(key: key);

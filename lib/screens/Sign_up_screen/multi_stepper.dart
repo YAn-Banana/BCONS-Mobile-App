@@ -57,6 +57,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     'Dona Remdios Trinidad',
     'Guiguinto',
     'Hagonoy',
+    'Malolos',
     'Marilao',
     'Norzagaray',
     'Obando',
