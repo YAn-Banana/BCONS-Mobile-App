@@ -1,11 +1,11 @@
 import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/data_history_model.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/history_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_database/ui/firebase_animated_list.dart';
 import 'package:flutter/material.dart';
-
-import 'data_history.dart';
 
 class HistoryOfReports extends StatefulWidget {
   const HistoryOfReports({Key? key}) : super(key: key);
@@ -15,7 +15,6 @@ class HistoryOfReports extends StatefulWidget {
 }
 
 class _HistoryOfReportsState extends State<HistoryOfReports> {
-  List<Data> dataList = [];
   User? user = FirebaseAuth.instance.currentUser;
   UserModel loggedInUser = UserModel();
   bool searchState = false;
@@ -40,6 +39,7 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
         .ref()
         .child('User\'s Report')
         .child(user!.uid);
+
     return Scaffold(
         appBar: AppBar(
           title: !searchState
@@ -105,8 +105,7 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
                     ))
           ],
         ),
-        body: SingleChildScrollView(
-            child: SizedBox(
+        body: SizedBox(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: FirebaseAnimatedList(
@@ -114,91 +113,163 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
             itemBuilder: (BuildContext context, DataSnapshot snapshot,
                 Animation<double> animation, int index) {
               Map map = snapshot.value as Map;
+              print(map.keys);
+
+              List<DataHistoryModel> _dataHistoryModel = [
+                DataHistoryModel(
+                    emergencyTypeOfReport: map['emergencyTypeOfReport'],
+                    imageUrl: map['image'],
+                    description: map['description'],
+                    dateAndTime: map['dateAndTime'],
+                    location: map['location'],
+                    address: map['address'])
+              ];
+              List<String> imageLength = [];
+              imageLength.add(map['imageUrl'].toString());
               return cardUI(
                   map['image'].toString(),
                   map['emergencyTypeOfReport'].toString(),
                   map['description'].toString(),
                   map['location'].toString(),
                   map['address'].toString(),
-                  map['dateAndTime'].toString());
+                  map['dateAndTime'].toString(),
+                  context,
+                  index,
+                  _dataHistoryModel);
             },
           ),
-        )));
+        ));
   }
 }
 
-Widget cardUI(String? imageUrl, String? emergencyClass, String? description,
-    String? locationInMaps, String? exactAddress, String? exactDateAndTime) {
+Widget cardUI(
+    String? imageUrl,
+    String? emergencyClass,
+    String? description,
+    String? locationInMaps,
+    String? exactAddress,
+    String? exactDateAndTime,
+    BuildContext context,
+    int index,
+    map) {
   return Card(
-    margin: const EdgeInsets.all(15),
-    color: Colors.white,
+    margin: const EdgeInsets.all(20),
+    color: Colors.grey[300],
     child: Container(
-      color: Colors.white,
-      margin: const EdgeInsets.all(1.5),
+      margin: const EdgeInsets.all(15),
       padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.grey[300],
+        borderRadius: BorderRadius.circular(15),
+      ),
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(
-              imageUrl!,
-              fit: BoxFit.cover,
-              height: 100,
+            Center(
+              child: Container(
+                width: 200,
+                height: 200,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15.0),
+                    image: DecorationImage(
+                        image: NetworkImage(imageUrl!),
+                        fit: BoxFit.cover,
+                        filterQuality: FilterQuality.high)),
+              ),
             ),
             const SizedBox(
-              height: 1,
+              height: 10,
             ),
-            Text(
-              emergencyClass!,
-              style: const TextStyle(
-                  fontFamily: 'PoppinsRegular',
-                  letterSpacing: 2.0,
+            Center(
+              child: Text(
+                emergencyClass!,
+                style: const TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    letterSpacing: 2.0,
+                    color: Color(0xffcc021d),
+                    fontSize: 25),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Date: ',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+                Text(
+                  exactDateAndTime!,
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            const Text(
+              'Description',
+              style: TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 1.5,
                   color: Colors.black,
-                  fontSize: 10.0),
-            ),
-            const SizedBox(
-              height: 1,
+                  fontSize: 15.0),
             ),
             Text(
               description!,
               style: const TextStyle(
                   fontFamily: 'PoppinsRegular',
-                  letterSpacing: 2.0,
+                  letterSpacing: 1.5,
                   color: Colors.black,
-                  fontSize: 10.0),
+                  fontSize: 15.0),
             ),
             const SizedBox(
-              height: 1,
+              height: 10,
             ),
-            Text(
-              locationInMaps!,
-              style: const TextStyle(
-                  fontFamily: 'PoppinsRegular',
-                  letterSpacing: 2.0,
+            const Text(
+              'Location: ',
+              style: TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 1.5,
                   color: Colors.black,
-                  fontSize: 10.0),
-            ),
-            const SizedBox(
-              height: 1,
+                  fontSize: 15.0),
             ),
             Text(
               exactAddress!,
               style: const TextStyle(
                   fontFamily: 'PoppinsRegular',
-                  letterSpacing: 2.0,
+                  letterSpacing: 1.5,
                   color: Colors.black,
-                  fontSize: 10.0),
+                  fontSize: 15.0),
             ),
             const SizedBox(
-              height: 1,
+              height: 10,
+            ),
+            const Text(
+              'Location in Maps: ',
+              style: TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 1.5,
+                  color: Colors.black,
+                  fontSize: 15.0),
             ),
             Text(
-              exactDateAndTime!,
+              locationInMaps!,
               style: const TextStyle(
                   fontFamily: 'PoppinsRegular',
-                  letterSpacing: 2.0,
+                  letterSpacing: 1.5,
                   color: Colors.black,
-                  fontSize: 10.0),
+                  fontSize: 15.0),
             ),
           ]),
     ),

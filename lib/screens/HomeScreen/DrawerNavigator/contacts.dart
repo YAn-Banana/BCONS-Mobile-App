@@ -1,3 +1,4 @@
+import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -24,11 +25,13 @@ class _ContactScreenState extends State<ContactScreen> {
         centerTitle: true,
         backgroundColor: const Color(0xffcc021d),
         leading: InkWell(
-          child: const Icon(
-            Icons.arrow_back,
-          ),
-          onTap: () => Navigator.of(context).pop(),
-        ),
+            child: const Icon(
+              Icons.arrow_back,
+            ),
+            onTap: () => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (route) => false)),
       ),
     );
   }

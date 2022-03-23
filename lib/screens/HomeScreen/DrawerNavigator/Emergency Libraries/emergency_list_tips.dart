@@ -4,6 +4,7 @@ import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Librari
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/earthquake_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/fire_prevention_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/health_awareness.dart';
+import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
 class EmergencyTips extends StatefulWidget {
@@ -30,11 +31,13 @@ class _EmergencyTipsState extends State<EmergencyTips> {
         centerTitle: true,
         backgroundColor: const Color(0xffcc021d),
         leading: InkWell(
-          child: const Icon(
-            Icons.arrow_back,
-          ),
-          onTap: () => Navigator.of(context).pop(),
-        ),
+            child: const Icon(
+              Icons.arrow_back,
+            ),
+            onTap: () => Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()),
+                (route) => false)),
       ),
       body: Container(
         width: MediaQuery.of(context).size.width,

@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:io';
+import 'dart:math';
 
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
@@ -15,6 +16,7 @@ import 'package:path_provider/path_provider.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:sliding_sheet/sliding_sheet.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class CreatePDF extends StatefulWidget {
   const CreatePDF({Key? key}) : super(key: key);
@@ -203,6 +205,8 @@ class _CreatePDFState extends State<CreatePDF> {
   }
 
   uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    firebase_auth.User? user = firebaseAuth.currentUser;
     FirebaseStorage storageRef = FirebaseStorage.instance;
     String uploadFileName =
         '${loggedInUser.uid},${DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate)}.jpg';
@@ -219,12 +223,24 @@ class _CreatePDFState extends State<CreatePDF> {
       print(uploadPath);
       if (uploadPath.isNotEmpty) {
         try {
+          String generateRandomString(int length) {
+            final _random = Random();
+            const _availableChars =
+                'AaBbCcDdEeFfGgHhIiJjKkLlMmNnOoPpQqRrSsTtUuVvWwXxYyZz1234567890';
+            final randomString = List.generate(
+                length,
+                (index) => _availableChars[
+                    _random.nextInt(_availableChars.length)]).join();
+
+            return randomString;
+          }
+
           DatabaseReference database = FirebaseDatabase.instance
               .ref()
               .child('User\'s Report')
               .child(user!.uid);
           String? uploadId =
-              database.child('User\'s Report').child(user!.uid).push().key;
+              database.child('User\'s Report').child(user.uid).push().key;
 
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
@@ -240,12 +256,35 @@ class _CreatePDFState extends State<CreatePDF> {
           map['address'] = loggedInUser.address;
           map['location'] = loggedInUser.location;
           map['solvedOrUnsolved'] = 'unsolved';
-          database.child(uploadId!).set(map).whenComplete(
-                () => Navigator.pushAndRemoveUntil(
-                    context,
-                    MaterialPageRoute(builder: (builder) => const HomeScreen()),
-                    (route) => false),
-              );
+          database.child(uploadId!).set(map).whenComplete(() {
+            Navigator.pushAndRemoveUntil(
+                context,
+                MaterialPageRoute(builder: (builder) => const HomeScreen()),
+                (route) => false);
+
+            //Upload To Firestore
+            firebaseFirestore
+                .collection("User Reports")
+                .doc(generateRandomString(20))
+                .set({
+              'email': '${loggedInUser.email}',
+              'uid': '${loggedInUser.uid}',
+              'bloodType': '${loggedInUser.bloodType}',
+              'solvedOrUnsolved': 'unsolved',
+              'autoOrManual': 'manual',
+              'name':
+                  '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
+              'age': '${loggedInUser.age}',
+              'sex': '${loggedInUser.gender}',
+              'dateAndTime':
+                  DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate),
+              'emergencyTypeOfReport': emergencyValue,
+              'description': _additionalInfoEditingController.text,
+              'image': uploadPath,
+              'address': loggedInUser.address,
+              'location': loggedInUser.location,
+            });
+          });
           showSnackBar(context, 'Completely Reported');
         } catch (e) {
           showSnackBar(context, e.toString());
