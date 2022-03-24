@@ -72,16 +72,17 @@ class _AutomatedReportState extends State<AutomatedReport> {
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
           map['name'] =
-              '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+              '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
           map['dateAndTime'] =
-              DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+              DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate);
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
           map['address'] = loggedInUser.address;
-          map['location'] = loggedInUser.location;
+          map['latitude'] = loggedInUser.latitude;
+          map['longitude'] = loggedInUser.longitude;
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -100,7 +101,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'solvedOrUnsolved': 'unsolved',
               'autoOrManual': 'manual',
               'name':
-                  '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
+                  '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
               'dateAndTime':
@@ -109,7 +110,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
               //  'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-              'location': loggedInUser.location,
+              'longitude': loggedInUser.longitude,
+              'latitude': loggedInUser.latitude
             });
           });
           showSnackBar(context, 'Completely Reported');
@@ -248,7 +250,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Location in Maps: ${loggedInUser.location}',
+            'Location in Maps: ${loggedInUser.latitude}, ${loggedInUser.longitude}',
             style: const TextStyle(
                 fontFamily: 'PoppinsRegular',
                 letterSpacing: 1.5,

@@ -242,16 +242,18 @@ class _CreatePDFState extends State<CreatePDF> {
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
           map['name'] =
-              '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+              '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
-          map['dateAndTime'] =
-              DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+          map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
+          map['time'] = DateFormat("hh:mm:ss").format(initialDate);
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
+          map['latitude'] = loggedInUser.latitude;
+          map['longitude'] = loggedInUser.longitude;
           map['address'] = loggedInUser.address;
-          map['location'] = loggedInUser.location;
+
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -270,7 +272,7 @@ class _CreatePDFState extends State<CreatePDF> {
               'solvedOrUnsolved': 'unsolved',
               'autoOrManual': 'manual',
               'name':
-                  '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
+                  '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
               'dateAndTime':
@@ -279,7 +281,8 @@ class _CreatePDFState extends State<CreatePDF> {
               'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-              'location': loggedInUser.location,
+              'longitude': loggedInUser.longitude,
+              'latitude': loggedInUser.latitude
             });
           });
           showSnackBar(context, 'Completely Reported');
@@ -418,7 +421,8 @@ class _CreatePDFState extends State<CreatePDF> {
     map['description'] = _additionalInfoEditingController.text;
     map['image'] = imageUrl;
     map['address'] = loggedInUser.address;
-    map['location'] = loggedInUser.location;
+    map['latitude'] = loggedInUser.latitude;
+    map['longitude'] = loggedInUser.longitude;
     database.child(uploadId!).set(map).whenComplete(() =>
         Navigator.pushAndRemoveUntil(
             context,
@@ -570,7 +574,7 @@ class _CreatePDFState extends State<CreatePDF> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Location in Maps: ${loggedInUser.location}',
+            'Location in Maps: ${loggedInUser.latitude}, ${loggedInUser.longitude}',
             style: const TextStyle(
                 fontFamily: 'PoppinsRegular',
                 letterSpacing: 1.5,

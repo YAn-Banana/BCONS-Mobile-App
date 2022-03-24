@@ -17,7 +17,8 @@ class UsersCurrentLocation extends StatefulWidget {
 }
 
 class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
-  String location = '';
+  String longitude = '';
+  String latitude = '';
   String locality = '';
   String municipality = '';
   bool isLoading = false;
@@ -119,8 +120,9 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
               onPressed: () async {
                 Position position = await _determinePosition();
                 print(position);
-                location =
-                    'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
+
+                latitude = 'Latitude: ${position.latitude}';
+                longitude = 'Longitude: ${position.longitude}';
                 getAddressFromUserLongAndLat(position);
                 setState(() {
                   isLoading = true;
@@ -145,7 +147,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                       height: 10,
                     ),
                     Text(
-                      location,
+                      '$latitude, $longitude',
                       style: const TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
@@ -192,7 +194,8 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                 firebase_auth.User? user = firebaseAuth.currentUser;
                 try {
                   firebaseFirestore.collection('Users').doc(user!.uid).update({
-                    'location': location,
+                    'latitude': latitude,
+                    'longitude': longitude,
                     'address': '$locality, $municipality'
                   });
                   Navigator.pushReplacement(
