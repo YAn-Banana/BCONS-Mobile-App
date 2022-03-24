@@ -3,14 +3,11 @@ import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/drawer_layout.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/report_style.dart';
-import 'package:bcons_app/screens/login_screen.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
-import 'bottom_navigation_bar.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -147,7 +144,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   )),
-              Container(
+              SizedBox(
                   height: 60,
                   width: MediaQuery.of(context).size.width,
                   child: Row(

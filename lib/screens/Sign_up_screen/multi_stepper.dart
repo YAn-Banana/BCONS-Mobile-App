@@ -4,7 +4,6 @@ import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -111,7 +110,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
       lastDate: DateTime(2025),
     );
     if (newDate == null) return;
-    if (newDate != null && newDate != initialDate) {
+    if (newDate != initialDate) {
       setState(() {
         date = newDate;
         days = findDays(date!.month, date!.year);

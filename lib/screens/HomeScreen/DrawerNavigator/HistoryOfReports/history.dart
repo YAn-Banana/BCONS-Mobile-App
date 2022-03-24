@@ -1,6 +1,5 @@
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/data_history_model.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/history_details.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';

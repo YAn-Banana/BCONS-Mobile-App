@@ -348,6 +348,7 @@ class _LoginScreenState extends State<LoginScreen> {
             }
             return null;
           }
+          return null;
         },
         obscureText: isHiddenPassword,
         autofocus: false,

@@ -11,7 +11,6 @@ import 'package:otp_text_field/style.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../HomeScreen/home_screen.dart';
-import '../login_screen.dart';
 
 class PhoneAuthLoginScreen extends StatefulWidget {
   const PhoneAuthLoginScreen({Key? key}) : super(key: key);
@@ -87,7 +86,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
               isEqualTo: '+63 ' + _contactNumberEditingController.text.trim())
           .get()
           .then((result) {
-        if (result.docs.length > 0) {
+        if (result.docs.isNotEmpty) {
           setState(() {
             isValidUser = true;
           });

@@ -57,7 +57,6 @@ class _IntroScreenState extends State<IntroScreen> {
         showNextButton: true,
         dotsDecorator: getDotsDecorator(),
         nextFlex: 0,
-        skipFlex: 0,
       ),
     );
   }
@@ -76,7 +75,7 @@ class _IntroScreenState extends State<IntroScreen> {
           letterSpacing: 2.0),
       bodyTextStyle: const TextStyle(
           fontSize: 20.0, letterSpacing: 1.5, fontFamily: 'PoppinsRegular'),
-      descriptionPadding: const EdgeInsets.all(5.0).copyWith(bottom: 0),
+      footerPadding: const EdgeInsets.all(5.0).copyWith(bottom: 0),
       imagePadding: const EdgeInsets.all(5.0),
       pageColor: Colors.white);
 

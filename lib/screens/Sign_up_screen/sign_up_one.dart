@@ -41,7 +41,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
       lastDate: DateTime(2025),
     );
     if (newDate == null) return;
-    if (newDate != null && newDate != initialDate) {
+    if (newDate != initialDate) {
       setState(() {
         date = newDate;
       });

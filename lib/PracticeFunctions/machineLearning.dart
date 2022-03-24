@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tflite/tflite.dart';
 
 class MachineLearning extends StatefulWidget {
   const MachineLearning({Key? key}) : super(key: key);
@@ -12,8 +13,9 @@ class MachineLearning extends StatefulWidget {
 
 class _MachineLearningState extends State<MachineLearning> {
   XFile? pickedImage;
-  bool isImageLoading = false;
+  late bool isImageLoading = false;
   final ImagePicker picker = ImagePicker();
+  List outputs = [];
 
   imagePicker() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -23,6 +25,32 @@ class _MachineLearningState extends State<MachineLearning> {
         isImageLoading = true;
       });
     }
+    classifyImage(pickedImage!);
+  }
+
+  void loadModel() async {
+    await Tflite.loadModel(
+        labels: 'assets/labels.txt', model: 'assets/model_unquant.tflite');
+  }
+
+  void classifyImage(XFile image) async {
+    var recognitions = await Tflite.runModelOnImage(
+        path: image.path, // required
+        imageMean: 127.5, // defaults to 117.0
+        imageStd: 127.5, // defaults to 1.0
+        numResults: 2, // defaults to 5
+        threshold: 0.5, // defaults to 0.1
+        asynch: true // defaults to true
+        );
+    setState(() {
+      outputs = recognitions!;
+      print('${outputs.length}');
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
   }
 
   @override
@@ -47,10 +75,10 @@ class _MachineLearningState extends State<MachineLearning> {
           onTap: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Container(
+      body: SizedBox(
         height: MediaQuery.of(context).size.height,
         width: MediaQuery.of(context).size.width,
-        child: Column(children: [
+        child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
           isImageLoading
               ? Container(
                   height: 350,
@@ -58,7 +86,13 @@ class _MachineLearningState extends State<MachineLearning> {
                   decoration: BoxDecoration(
                       image: DecorationImage(
                           image: FileImage(File(pickedImage!.path)))))
-              : Container()
+              : Container(),
+          const SizedBox(
+            height: 10,
+          ),
+          (outputs.isNotEmpty)
+              ? Text('${outputs[0]['label']}'.replaceAll(RegExp(r'[0-9]'), ''))
+              : const Text('Classification Waiting'),
         ]),
       ),
       floatingActionButton: FloatingActionButton(

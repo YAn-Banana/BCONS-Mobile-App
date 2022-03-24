@@ -60,6 +60,7 @@ class _UserProfileState extends State<UserProfile> {
     'Dona Remdios Trinidad',
     'Guiguinto',
     'Hagonoy',
+    'Malolos',
     'Marilao',
     'Norzagaray',
     'Obando',

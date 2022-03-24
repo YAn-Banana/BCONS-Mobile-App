@@ -1,7 +1,5 @@
-import 'package:bcons_app/screens/Sign_up_screen/phone_auth_log_in.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../screens/HomeScreen/home_screen.dart';

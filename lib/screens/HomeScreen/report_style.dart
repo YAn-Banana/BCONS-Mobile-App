@@ -1,5 +1,4 @@
 import 'package:bcons_app/PracticeFunctions/getUserCurrentLocation.dart';
-import 'package:bcons_app/screens/HomeScreen/manual_report.dart';
 import 'package:flutter/material.dart';
 
 class ChooseReport extends StatefulWidget {

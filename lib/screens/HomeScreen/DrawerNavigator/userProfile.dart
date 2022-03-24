@@ -4,12 +4,10 @@ import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:intl/intl.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 
 class NewUserProfile extends StatefulWidget {

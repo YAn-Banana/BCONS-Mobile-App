@@ -4,7 +4,6 @@ import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/HistoryOfReports/history.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contact_us.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/user_profile.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

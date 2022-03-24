@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:bcons_app/Service/AuthService.dart';
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/Sign_up_screen/privacyPolicy.dart';
 import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
@@ -8,7 +7,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:intl/intl.dart';
