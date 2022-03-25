@@ -16,12 +16,16 @@ class _MachineLearningState extends State<MachineLearning> {
   late bool isImageLoading = false;
   final ImagePicker picker = ImagePicker();
   List outputs = [];
+  String confidence = '';
+  String name = '';
+  String numbers = '';
 
   imagePicker() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       setState(() {
         pickedImage = image;
+        print(pickedImage!.path);
         isImageLoading = true;
       });
     }
@@ -29,28 +33,42 @@ class _MachineLearningState extends State<MachineLearning> {
   }
 
   void loadModel() async {
-    await Tflite.loadModel(
-        labels: 'assets/labels.txt', model: 'assets/model_unquant.tflite');
+    var resultant = await Tflite.loadModel(
+        labels: 'assets/labels1.txt', model: 'assets/model3.tflite');
+    print('$resultant');
   }
 
-  void classifyImage(XFile image) async {
+  classifyImage(XFile image) async {
     var recognitions = await Tflite.runModelOnImage(
         path: image.path, // required
-        imageMean: 127.5, // defaults to 117.0
-        imageStd: 127.5, // defaults to 1.0
-        numResults: 2, // defaults to 5
+        imageMean: 117, // defaults to 117.0
+        imageStd: 1, // defaults to 1.0
+        numResults: 4, // defaults to 5
         threshold: 0.5, // defaults to 0.1
         asynch: true // defaults to true
         );
+    print('$recognitions');
     setState(() {
       outputs = recognitions!;
-      print('${outputs.length}');
+      String str = outputs[0]['label'];
+
+      name = str.substring(2);
+      confidence = outputs.isNotEmpty
+          ? (outputs[0]['confidence'] * 100.0).toString().substring(0, 2) + '%'
+          : '';
     });
   }
 
   @override
   void initState() {
     super.initState();
+    loadModel();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
   }
 
   @override
@@ -90,9 +108,7 @@ class _MachineLearningState extends State<MachineLearning> {
           const SizedBox(
             height: 10,
           ),
-          (outputs.isNotEmpty)
-              ? Text('${outputs[0]['label']}'.replaceAll(RegExp(r'[0-9]'), ''))
-              : const Text('Classification Waiting'),
+          Text('Name: $name \n Confidence: $confidence'),
         ]),
       ),
       floatingActionButton: FloatingActionButton(
