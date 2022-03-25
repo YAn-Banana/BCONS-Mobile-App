@@ -13,6 +13,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:tflite/tflite.dart';
 
 class AutomatedReport extends StatefulWidget {
   const AutomatedReport({Key? key}) : super(key: key);
@@ -30,6 +31,49 @@ class _AutomatedReportState extends State<AutomatedReport> {
   bool isImageLoading = false;
   final ImagePicker picker = ImagePicker();
   String imageUrl = '';
+  List outputs = [];
+  String confidence = '';
+  String name = '';
+  String numbers = '';
+
+  imagePicker() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        pickedImage = image;
+        print(pickedImage!.path);
+        isImageLoading = true;
+      });
+    }
+    classifyImage(pickedImage!);
+  }
+
+  void loadModel() async {
+    var resultant = await Tflite.loadModel(
+        labels: 'assets/labels1.txt', model: 'assets/model3.tflite');
+    print('$resultant');
+  }
+
+  classifyImage(XFile image) async {
+    var recognitions = await Tflite.runModelOnImage(
+        path: image.path, // required
+        imageMean: 127.5, // defaults to 117.0
+        imageStd: 127.5, // defaults to 1.0
+        numResults: 2, // defaults to 5
+        threshold: 0.5, // defaults to 0.1
+        asynch: true // defaults to true
+        );
+    print('$recognitions');
+    setState(() {
+      outputs = recognitions!;
+      String str = outputs[0]['label'];
+
+      name = str.substring(2);
+      confidence = outputs.isNotEmpty
+          ? (outputs[0]['confidence'] * 100.0).toString().substring(0, 2) + '%'
+          : '';
+    });
+  }
 
   uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
@@ -72,16 +116,17 @@ class _AutomatedReportState extends State<AutomatedReport> {
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
           map['name'] =
-              '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+              '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
-          map['dateAndTime'] =
-              DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+          map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
+          map['time'] = DateFormat("hh:mm:ss").format(initialDate);
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
           map['address'] = loggedInUser.address;
-          map['location'] = loggedInUser.location;
+          map['latitude'] = loggedInUser.latitude;
+          map['longitude'] = loggedInUser.longitude;
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -100,16 +145,17 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'solvedOrUnsolved': 'unsolved',
               'autoOrManual': 'manual',
               'name':
-                  '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
+                  '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
-              'dateAndTime':
-                  DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate),
+              'date': DateFormat("yyyy-MM-dd").format(initialDate),
+              'time': DateFormat("hh:mm:ss").format(initialDate),
               //  'emergencyTypeOfReport': emergencyValue,
               //  'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-              'location': loggedInUser.location,
+              'latitude': loggedInUser.latitude,
+              'longitude': loggedInUser.longitude
             });
           });
           showSnackBar(context, 'Completely Reported');
@@ -128,8 +174,15 @@ class _AutomatedReportState extends State<AutomatedReport> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    Tflite.close();
+  }
+
+  @override
   void initState() {
     super.initState();
+    loadModel();
     FirebaseFirestore.instance
         .collection('Users')
         .doc(user!.uid)
@@ -248,7 +301,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Location in Maps: ${loggedInUser.location}',
+            'Location in Maps: ${loggedInUser.latitude}, ${loggedInUser.longitude}',
             style: const TextStyle(
                 fontFamily: 'PoppinsRegular',
                 letterSpacing: 1.5,

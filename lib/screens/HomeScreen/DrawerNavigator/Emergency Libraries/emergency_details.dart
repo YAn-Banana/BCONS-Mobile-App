@@ -27,28 +27,31 @@ class EmergencyDetails extends StatelessWidget {
           onTap: () => Navigator.of(context).pop(),
         ),
       ),
-      body: Container(
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
-        decoration: const BoxDecoration(
-          gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomRight,
-              colors: [Colors.black, Colors.red, Colors.black]),
+      body: InteractiveViewer(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomRight,
+                colors: [Colors.black, Colors.red, Colors.black]),
+          ),
+          child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+            Container(
+              height: 220,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15.0),
+                  image: DecorationImage(
+                      image: AssetImage(dataModel.imageUrl),
+                      fit: BoxFit.cover)),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ]),
         ),
-        child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
-          Container(
-            height: 220,
-            width: double.infinity,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15.0),
-                image: DecorationImage(
-                    image: AssetImage(dataModel.imageUrl), fit: BoxFit.cover)),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-        ]),
       ),
     );
   }

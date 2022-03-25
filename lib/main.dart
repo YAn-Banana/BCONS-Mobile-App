@@ -1,7 +1,7 @@
 import 'package:bcons_app/PracticeFunctions/machineLearning.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
 import 'screens/splash_screen.dart';
 
 void main() async {

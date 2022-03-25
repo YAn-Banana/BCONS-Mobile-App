@@ -14,7 +14,8 @@ class UserModel {
   String? brgy;
   String? municipality;
   String? province;
-  String? location;
+  String? longitude;
+  String? latitude;
   String? address;
 
   UserModel(
@@ -33,7 +34,8 @@ class UserModel {
       this.brgy,
       this.municipality,
       this.province,
-      this.location,
+      this.longitude,
+      this.latitude,
       this.address});
 
   // get the data from the server
@@ -54,7 +56,8 @@ class UserModel {
       brgy: map['brgy'],
       municipality: map['municipality'],
       province: map['province'],
-      location: map['location'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
       address: map['address'],
     );
   }
@@ -77,7 +80,8 @@ class UserModel {
       'brgy': brgy,
       'municipality': municipality,
       'province': province,
-      'location': location,
+      'latitude': latitude,
+      'longitude': longitude,
       'address': address,
     };
   }

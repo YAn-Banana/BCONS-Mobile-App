@@ -1,0 +1,4 @@
+0 Earthquake
+1 Fire
+2 Flood
+3 Traffic Accident

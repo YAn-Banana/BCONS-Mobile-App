@@ -25,6 +25,7 @@ class CreatePDF extends StatefulWidget {
 class _CreatePDFState extends State<CreatePDF> {
   XFile? pickedImage;
   bool isImageLoading = false;
+  bool isConfirm = false;
   final ImagePicker picker = ImagePicker();
   String imageUrl = '';
 
@@ -242,16 +243,17 @@ class _CreatePDFState extends State<CreatePDF> {
           HashMap map = HashMap();
           map['email'] = '${loggedInUser.email}';
           map['name'] =
-              '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
+              '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
-          map['dateAndTime'] =
-              DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
+          map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
+          map['time'] = DateFormat("hh:mm:ss").format(initialDate);
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
           map['address'] = loggedInUser.address;
-          map['location'] = loggedInUser.location;
+          map['latitude'] = loggedInUser.latitude;
+          map['longitude'] = loggedInUser.longitude;
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -270,16 +272,17 @@ class _CreatePDFState extends State<CreatePDF> {
               'solvedOrUnsolved': 'unsolved',
               'autoOrManual': 'manual',
               'name':
-                  '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
+                  '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
-              'dateAndTime':
-                  DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate),
+              'date': DateFormat("yyyy-MM-dd").format(initialDate),
+              'time': DateFormat("hh:mm:ss").format(initialDate),
               'emergencyTypeOfReport': emergencyValue,
               'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-              'location': loggedInUser.location,
+              'latitude': loggedInUser.latitude,
+              'longitude': loggedInUser.longitude
             });
           });
           showSnackBar(context, 'Completely Reported');
@@ -403,28 +406,6 @@ class _CreatePDFState extends State<CreatePDF> {
     }
   }
 */
-  Future<void> storeToRealTimeDatabase() async {
-    DatabaseReference database =
-        FirebaseDatabase.instance.ref().child('${loggedInUser.uid}');
-    String? uploadId = database.push().key;
-
-    HashMap map = HashMap();
-    map['email'] = '${loggedInUser.email}';
-    map['name'] =
-        '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}';
-    map['date and time'] =
-        DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate);
-    map['emergency type of report'] = emergencyValue;
-    map['description'] = _additionalInfoEditingController.text;
-    map['image'] = imageUrl;
-    map['address'] = loggedInUser.address;
-    map['location'] = loggedInUser.location;
-    database.child(uploadId!).set(map).whenComplete(() =>
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (builder) => const HomeScreen()),
-            (route) => false));
-  }
 
   /*Future<firebase_storage.UploadTask> uploadFile(File file) async {
     firebase_storage.UploadTask uploadTask;
@@ -570,7 +551,16 @@ class _CreatePDFState extends State<CreatePDF> {
           ),
           const SizedBox(height: 10),
           Text(
-            'Location in Maps: ${loggedInUser.location}',
+            'Date and Time: ${DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate)}',
+            style: const TextStyle(
+                fontFamily: 'PoppinsRegular',
+                letterSpacing: 1.5,
+                color: Colors.white,
+                fontSize: 15.0),
+          ),
+          const SizedBox(height: 10),
+          Text(
+            'Location in Maps: ${loggedInUser.latitude}, ${loggedInUser.longitude}',
             style: const TextStyle(
                 fontFamily: 'PoppinsRegular',
                 letterSpacing: 1.5,
@@ -627,55 +617,63 @@ class _CreatePDFState extends State<CreatePDF> {
             ),
           ),
           const SizedBox(height: 30),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  style: ElevatedButton.styleFrom(
-                      shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(15.0)),
-                      fixedSize: const Size(150, 50.0),
-                      primary: Colors.grey[400]),
-                  child: const Text(
-                    'Cancel',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2.0,
-                        fontSize: 20.0,
-                        fontFamily: 'PoppinsBold'),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20),
-              Center(
-                child: ElevatedButton(
-                  onPressed: () {
-                    uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0)),
-                    fixedSize: const Size(150, 50.0),
-                    primary: const Color(0xffcc021d),
-                  ),
-                  child: const Text(
-                    'Confirm',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 2.0,
-                        fontSize: 20.0,
-                        fontFamily: 'PoppinsBold'),
-                  ),
-                ),
-              )
-            ],
-          )
+          isConfirm != true
+              ? Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          setState(() {
+                            isConfirm = true;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(15.0)),
+                            fixedSize: const Size(150, 50.0),
+                            primary: Colors.grey[400]),
+                        child: const Text(
+                          'Cancel',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2.0,
+                              fontSize: 20.0,
+                              fontFamily: 'PoppinsBold'),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 20),
+                    Center(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            isConfirm = true;
+                          });
+                          uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
+                        },
+                        style: ElevatedButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(15.0)),
+                          fixedSize: const Size(150, 50.0),
+                          primary: const Color(0xffcc021d),
+                        ),
+                        child: const Text(
+                          'Confirm',
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2.0,
+                              fontSize: 20.0,
+                              fontFamily: 'PoppinsBold'),
+                        ),
+                      ),
+                    )
+                  ],
+                )
+              : const Center(child: CircularProgressIndicator(value: 20)),
         ]),
       )),
     );
