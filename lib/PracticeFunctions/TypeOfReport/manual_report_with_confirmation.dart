@@ -251,9 +251,9 @@ class _CreatePDFState extends State<CreatePDF> {
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
-          map['address'] = loggedInUser.address;
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
+          map['address'] = loggedInUser.address;
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -542,16 +542,7 @@ class _CreatePDFState extends State<CreatePDF> {
             height: 30,
           ),
           Text(
-            'Time: ${DateFormat("yyyy-MM-dd, hh:mm:ss").format(initialDate)}',
-            style: const TextStyle(
-                fontFamily: 'PoppinsRegular',
-                letterSpacing: 1.5,
-                color: Colors.white,
-                fontSize: 15.0),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            'Date and Time: ${DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate)}',
+            'Date and Time: ${DateFormat("yyyy-MM-dd, hh:mm:ss").format(initialDate)}',
             style: const TextStyle(
                 fontFamily: 'PoppinsRegular',
                 letterSpacing: 1.5,

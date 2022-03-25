@@ -14,8 +14,8 @@ class UserModel {
   String? brgy;
   String? municipality;
   String? province;
-  String? longitude;
   String? latitude;
+  String? longitude;
   String? address;
 
   UserModel(
@@ -34,8 +34,8 @@ class UserModel {
       this.brgy,
       this.municipality,
       this.province,
-      this.longitude,
       this.latitude,
+      this.longitude,
       this.address});
 
   // get the data from the server

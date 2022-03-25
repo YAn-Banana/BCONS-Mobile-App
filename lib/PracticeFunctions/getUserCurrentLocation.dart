@@ -123,8 +123,9 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                 print(position);
                 location =
                     'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
-                latitude = '${position.latitude}';
-                longitude = '${position.longitude}';
+
+                latitude = 'Latitude: ${position.latitude}';
+                longitude = 'Longitude: ${position.longitude}';
                 getAddressFromUserLongAndLat(position);
                 setState(() {
                   isLoading = true;
@@ -149,7 +150,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                       height: 10,
                     ),
                     Text(
-                      location,
+                      '$latitude, $longitude',
                       style: const TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
