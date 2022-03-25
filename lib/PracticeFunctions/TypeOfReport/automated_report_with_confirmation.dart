@@ -119,13 +119,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
               '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
-<<<<<<< HEAD
           map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
           map['time'] = DateFormat("hh:mm:ss").format(initialDate);
-=======
-          map['dateAndTime'] =
-              DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate);
->>>>>>> 3b8d43d7fc8c997300f33439c518aaf4d7cf09d8
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
@@ -159,13 +154,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
               //  'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-<<<<<<< HEAD
-              'latitude': loggedInUser.latitude,
-              'longitude': loggedInUser.longitude
-=======
               'longitude': loggedInUser.longitude,
               'latitude': loggedInUser.latitude
->>>>>>> 3b8d43d7fc8c997300f33439c518aaf4d7cf09d8
             });
           });
           showSnackBar(context, 'Completely Reported');
