@@ -28,8 +28,6 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
   final _contactNumberEditingController = TextEditingController();
   final _streetEditingController = TextEditingController();
   final _brgyEditingController = TextEditingController();
-  final _municipalityEditingController = TextEditingController();
-  final _provinceEditingController = TextEditingController();
   bool isChecked = false;
   bool isHiddenPassword = true;
   bool viewPassword = false;
@@ -223,8 +221,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     userModel.firstName = _firstNameEditingController.text;
     userModel.lastName = _lastNameEditingController.text;
     userModel.middleInitial = _midNameEditingController.text;
-    userModel.fUllName =
-        '${_lastNameEditingController.text}, ${_lastNameEditingController.text} ${_midNameEditingController.text}';
+    userModel.fullName =
+        '${_firstNameEditingController.text} ${_lastNameEditingController.text}';
     userModel.gender = genderValue;
     userModel.contactNumber = _contactNumberEditingController.text;
     userModel.birthday = getDate();

@@ -8,11 +8,13 @@ import 'package:flutter/material.dart';
 class ChatMateRoom extends StatefulWidget {
   final String chatMateFirstName;
   final String chatMateLastName;
+  final String chatMateUid;
 
   const ChatMateRoom(
       {Key? key,
       required this.chatMateFirstName,
-      required this.chatMateLastName})
+      required this.chatMateLastName,
+      required this.chatMateUid})
       : super(key: key);
 
   @override
@@ -37,9 +39,9 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      chatRoomId = getChatRoomIdByUsernames(
-          '${widget.chatMateFirstName}${widget.chatMateLastName}',
-          '${loggedInUser.firstName}${loggedInUser.lastName}');
+      chatRoomId =
+          getChatRoomIdByUsernames(widget.chatMateUid, '${loggedInUser.uid}');
+
       getAndSetMessages();
       setState(() {});
     });
@@ -127,16 +129,6 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot>> getChatRooms() async {
-    String myUsername = '${loggedInUser.firstName} ${loggedInUser.lastName}';
-    setState(() {});
-    return FirebaseFirestore.instance
-        .collection("chatrooms")
-        .orderBy("lastMessageSendTs", descending: true)
-        .where("users", arrayContains: myUsername)
-        .snapshots();
-  }
-
   getAndSetMessages() async {
     messageStream = await getChatRoomMessages(chatRoomId);
     setState(() {});
@@ -161,7 +153,7 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
                       ? const Radius.circular(24)
                       : const Radius.circular(0),
                 ),
-                color: sendByMe ? Colors.blue : const Color(0xfff1f0f0),
+                color: sendByMe ? Colors.blue : Colors.black,
               ),
               padding: const EdgeInsets.all(16),
               child: Text(
@@ -231,7 +223,7 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
                         child: TextField(
                       controller: messageTextEdittingController,
                       onChanged: (value) {
-                        addingMessage(false);
+                        //addingMessage(false);
                       },
                       style: const TextStyle(color: Colors.white),
                       decoration: const InputDecoration(

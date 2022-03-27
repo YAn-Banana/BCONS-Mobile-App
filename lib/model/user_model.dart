@@ -4,7 +4,7 @@ class UserModel {
   String? firstName;
   String? lastName;
   String? middleInitial;
-  String? fUllName;
+  String? fullName;
   String? gender;
   String? image;
   String? contactNumber;
@@ -25,7 +25,7 @@ class UserModel {
       this.firstName,
       this.lastName,
       this.middleInitial,
-      this.fUllName,
+      this.fullName,
       this.gender,
       this.image,
       this.contactNumber,
@@ -48,7 +48,7 @@ class UserModel {
       firstName: map['firstName'],
       lastName: map['lastName'],
       middleInitial: map['middleInitial'],
-      fUllName: map['fullName'],
+      fullName: map['fullName'],
       gender: map['gender'],
       image: map['image'],
       contactNumber: map['contactNumber'],
@@ -73,7 +73,7 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'middleInitial': middleInitial,
-      'fullName': fUllName,
+      'fullName': fullName,
       'gender': gender,
       'image': image,
       'contactNumber': contactNumber,

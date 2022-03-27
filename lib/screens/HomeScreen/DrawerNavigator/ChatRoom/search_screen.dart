@@ -22,7 +22,7 @@ class _SearchScreenState extends State<SearchScreen> {
   Future<Stream<QuerySnapshot>> getUserByUserName(String userName) async {
     return FirebaseFirestore.instance
         .collection('Users')
-        .where('firstName', isEqualTo: userName)
+        .where('municipality', isEqualTo: userName)
         .snapshots();
   }
 
@@ -60,24 +60,21 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   Widget searhListUserTile(String imageUrl, String lastName, String firstName,
-      String midName, String email) {
+      String midName, String email, String uid) {
     return GestureDetector(
       onTap: () {
-        var chatRoomId = getChatRoomIdByUsernames(
-            '${loggedInUser.firstName}${loggedInUser.lastName}',
-            '$firstName$lastName');
+        var chatRoomId = getChatRoomIdByUsernames('${loggedInUser.uid}', uid);
         Map<String, dynamic> chatRoomInfoMap = {
-          "users": [
-            '${loggedInUser.firstName}${loggedInUser.lastName}',
-            '$firstName$lastName'
-          ]
+          "users": ['${loggedInUser.uid}', uid]
         };
         createChatRoom(chatRoomId, chatRoomInfoMap);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ChatMateRoom(
-                    chatMateFirstName: firstName, chatMateLastName: lastName)));
+                    chatMateFirstName: firstName,
+                    chatMateLastName: lastName,
+                    chatMateUid: uid)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
@@ -139,8 +136,13 @@ class _SearchScreenState extends State<SearchScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
-                    return searhListUserTile(ds['image'], ds['lastName'],
-                        ds['firstName'], ds['middleInitial'], ds['email']);
+                    return searhListUserTile(
+                        ds['image'],
+                        ds['lastName'],
+                        ds['firstName'],
+                        ds['middleInitial'],
+                        ds['email'],
+                        ds['uid']);
                   })
               : const Center(
                   child: CircularProgressIndicator(),
@@ -161,8 +163,8 @@ class _SearchScreenState extends State<SearchScreen> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-      setState(() {});
     });
+    setState(() {});
   }
 
   @override
@@ -200,9 +202,9 @@ class _SearchScreenState extends State<SearchScreen> {
                   Expanded(
                     child: TextField(
                         controller: searcheditingcontroller,
-                        style: TextStyle(color: Colors.white),
-                        decoration: InputDecoration(
-                            hintText: 'Search Users..',
+                        style: const TextStyle(color: Colors.white),
+                        decoration: const InputDecoration(
+                            hintText: 'Search Users by their municipality..',
                             hintStyle: TextStyle(
                                 fontFamily: 'PoppinsRegular',
                                 letterSpacing: 1.5,
@@ -214,11 +216,11 @@ class _SearchScreenState extends State<SearchScreen> {
                     onTap: () {
                       onSearchButtonClick();
                     },
-                    child: Container(
+                    child: const SizedBox(
                         width: 40,
                         height: 40,
                         child: CircleAvatar(
-                          backgroundColor: const Color(0xffcc021d),
+                          backgroundColor: Color(0xffcc021d),
                           radius: 50,
                           child: Icon(
                             (Icons.search),
