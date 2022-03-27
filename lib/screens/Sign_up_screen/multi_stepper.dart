@@ -223,6 +223,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     userModel.firstName = _firstNameEditingController.text;
     userModel.lastName = _lastNameEditingController.text;
     userModel.middleInitial = _midNameEditingController.text;
+    userModel.fUllName =
+        '${_lastNameEditingController.text}, ${_lastNameEditingController.text} ${_midNameEditingController.text}';
     userModel.gender = genderValue;
     userModel.contactNumber = _contactNumberEditingController.text;
     userModel.birthday = getDate();

@@ -28,6 +28,7 @@ class _CreatePDFState extends State<CreatePDF> {
   bool isConfirm = false;
   final ImagePicker picker = ImagePicker();
   String imageUrl = '';
+  String reportId = '';
 
   final pdf = pw.Document();
   DateTime initialDate = DateTime.now();
@@ -233,6 +234,10 @@ class _CreatePDFState extends State<CreatePDF> {
             return randomString;
           }
 
+          setState(() {
+            reportId = generateRandomString(20);
+          });
+
           DatabaseReference database = FirebaseDatabase.instance
               .ref()
               .child('User\'s Report')
@@ -262,14 +267,11 @@ class _CreatePDFState extends State<CreatePDF> {
                 (route) => false);
 
             //Upload To Firestore
-            firebaseFirestore
-                .collection("User Reports")
-                .doc(generateRandomString(20))
-                .set({
+            firebaseFirestore.collection("User Reports").doc(reportId).set({
               'email': '${loggedInUser.email}',
               'uid': '${loggedInUser.uid}',
               'bloodType': '${loggedInUser.bloodType}',
-              'solvedOrUnsolved': 'unsolved',
+              'status': 'unsolved',
               'autoOrManual': 'manual',
               'name':
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
@@ -282,7 +284,8 @@ class _CreatePDFState extends State<CreatePDF> {
               'image': uploadPath,
               'address': loggedInUser.address,
               'latitude': loggedInUser.latitude,
-              'longitude': loggedInUser.longitude
+              'longitude': loggedInUser.longitude,
+              'reportId': reportId
             });
           });
           showSnackBar(context, 'Completely Reported');

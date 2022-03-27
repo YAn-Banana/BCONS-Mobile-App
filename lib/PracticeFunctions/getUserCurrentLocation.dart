@@ -124,8 +124,8 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                 location =
                     'Latitude: ${position.latitude}, Longitude: ${position.longitude}';
 
-                latitude = 'Latitude: ${position.latitude}';
-                longitude = 'Longitude: ${position.longitude}';
+                latitude = '${position.latitude}';
+                longitude = '${position.longitude}';
                 getAddressFromUserLongAndLat(position);
                 setState(() {
                   isLoading = true;
