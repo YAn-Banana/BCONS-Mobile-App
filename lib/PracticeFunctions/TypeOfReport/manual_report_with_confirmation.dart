@@ -11,7 +11,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:pdf/widgets.dart' as pw;
+
 import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
@@ -30,21 +30,38 @@ class _CreatePDFState extends State<CreatePDF> {
   String imageUrl = '';
   String reportId = '';
 
-  final pdf = pw.Document();
   DateTime initialDate = DateTime.now();
-  String pdfURL = '';
 
   final _formkey = GlobalKey<FormState>();
   final _additionalInfoEditingController = TextEditingController();
   String? emergencyValue;
   final emergencyClass = [
-    'Accident',
     'Crime',
     'Earthquake',
     'Fire',
     'Flood',
     'Health Emergency',
+    'Traffic Accident',
   ];
+  imagePickerFromGallery() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        pickedImage = image;
+        isImageLoading = true;
+      });
+    }
+  }
+
+  imagePickerFromCamera() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
+    if (image != null) {
+      setState(() {
+        pickedImage = image;
+        isImageLoading = true;
+      });
+    }
+  }
 
   DropdownMenuItem<String> buildMenuItem(String emergency) {
     return DropdownMenuItem(
@@ -55,7 +72,7 @@ class _CreatePDFState extends State<CreatePDF> {
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
             color: Color.fromRGBO(0, 0, 0, 1),
-            fontSize: 20.0),
+            fontSize: 15),
       ),
     );
   }
@@ -100,20 +117,6 @@ class _CreatePDFState extends State<CreatePDF> {
           elevation: 0.0,
           centerTitle: true,
           backgroundColor: const Color(0xffcc021d),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.only(right: 10),
-              child: InkWell(
-                onTap: () {
-                  showSheet();
-                },
-                child: const Icon(
-                  Icons.done,
-                  size: 30,
-                ),
-              ),
-            )
-          ],
           leading: InkWell(
             child: const Icon(
               Icons.arrow_back,
@@ -138,22 +141,24 @@ class _CreatePDFState extends State<CreatePDF> {
                     isImageLoading
                         ? Center(
                             child: Container(
-                                height: 150,
-                                width: 200,
+                                height: 250,
+                                width: 250,
                                 decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(15.0),
                                     image: DecorationImage(
-                                        image: FileImage(
-                                            File(pickedImage!.path))))),
-                          )
+                                        image:
+                                            FileImage(File(pickedImage!.path)),
+                                        fit: BoxFit.cover,
+                                        filterQuality: FilterQuality.high))))
                         : Container(),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 20.0),
                     const Text(
                       'What kind of emergency are you going to report?',
                       style: TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
                           color: Colors.black,
-                          fontSize: 20.0),
+                          fontSize: 15),
                     ),
                     const SizedBox(height: 10.0),
                     Container(
@@ -172,6 +177,14 @@ class _CreatePDFState extends State<CreatePDF> {
                             ),
                             value: emergencyValue,
                             isExpanded: true,
+                            hint: const Text(
+                              'Emergency Label',
+                              style: TextStyle(
+                                  fontFamily: 'PoppinsRegular',
+                                  letterSpacing: 1.5,
+                                  color: Colors.grey,
+                                  fontSize: 15.0),
+                            ),
                             items: emergencyClass.map(buildMenuItem).toList(),
                             onChanged: (value) {
                               setState(() {
@@ -180,17 +193,17 @@ class _CreatePDFState extends State<CreatePDF> {
                             }),
                       ),
                     ),
-                    const SizedBox(height: 10.0),
+                    const SizedBox(height: 20.0),
                     const Text(
                       'Additional Information',
                       style: TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
                           color: Colors.black,
-                          fontSize: 20.0),
+                          fontSize: 15.0),
                     ),
                     const SizedBox(height: 10.0),
-                    textForm('Description', _additionalInfoEditingController,
+                    textForm(_additionalInfoEditingController,
                         MediaQuery.of(context).size.width, 100)
                   ],
                 ),
@@ -199,8 +212,48 @@ class _CreatePDFState extends State<CreatePDF> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-            child: const Icon(Icons.picture_in_picture_rounded),
-            onPressed: imagePicker));
+            backgroundColor:
+                isImageLoading == true ? const Color(0xffd90824) : Colors.grey,
+            child: const Text(
+              'Done',
+              style: TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 15.0),
+            ),
+            onPressed: isImageLoading == true ? showSheet : () {}),
+        persistentFooterButtons: [
+          Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(color: Colors.transparent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        imagePickerFromCamera();
+                      },
+                      icon: const Icon(
+                        Icons.camera_alt,
+                        size: 30,
+                      )),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        imagePickerFromGallery();
+                      },
+                      icon: Icon(
+                        Icons.image_outlined,
+                        size: 30,
+                        color: Colors.black,
+                      )),
+                ],
+              ))
+        ]);
   }
 
   uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
@@ -296,148 +349,6 @@ class _CreatePDFState extends State<CreatePDF> {
     });
   }
 
-/*
-  Future<void> createPdf() async {
-    final image = pw.MemoryImage(File(pickedImage!.path).readAsBytesSync());
-    pdf.addPage(
-      pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Column(
-                mainAxisAlignment: pw.MainAxisAlignment.start,
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
-                children: [
-                  pw.Text(
-                    'Name:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    '${loggedInUser.lastName}, ${loggedInUser.firstName} ${loggedInUser.middleInitial}',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.Text(
-                    'Age:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    '${loggedInUser.age}',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    'Sex:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    '${loggedInUser.gender}',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    'Location:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    '${loggedInUser.street} ${loggedInUser.brgy} ${loggedInUser.municipality}, ${loggedInUser.province}',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    'Emergency Details:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    emergencyValue.toString(),
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    'Additional Information: ',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    _additionalInfoEditingController.text,
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.SizedBox(height: 10),
-                  pw.Text(
-                    'Date and Time:',
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                  pw.Text(
-                    DateFormat("yyyy-MM-dd hh:mm:ss").format(initialDate),
-                    style: const pw.TextStyle(fontSize: 20),
-                  ),
-                ]); // Center
-          }),
-    );
-    pdf.addPage(
-      pw.Page(
-          pageFormat: PdfPageFormat.a4,
-          build: (pw.Context context) {
-            return pw.Center(
-              child: pw.Image(image),
-            ); // Center
-          }),
-    );
-  }
-  */
-  /* Future<void> savePdf() async {
-    String time = DateFormat("hh:mm:ss").format(initialDate);
-    try {
-      final dir = await getExternalStorageDirectory();
-      final file = File('${dir!.path}/example$time.pdf');
-      await file.writeAsBytes(await pdf.save());
-
-      firebase_storage.UploadTask task = await uploadFile(file);
-
-      print(task.snapshot.ref.getDownloadURL());
-
-      showSnackBar(context, "Saved to documents $file");
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (builder) => const HomeScreen()),
-          (route) => false);
-    } catch (e) {
-      showSnackBar(context, e.toString());
-    }
-  }
-*/
-
-  /*Future<firebase_storage.UploadTask> uploadFile(File file) async {
-    firebase_storage.UploadTask uploadTask;
-    String time = DateFormat("hh:mm:ss").format(initialDate);
-
-    // Create a Reference to the file
-    firebase_storage.Reference ref = firebase_storage.FirebaseStorage.instance
-        .ref()
-        .child('Users\' Report')
-        .child('/${loggedInUser.uid}-$time.pdf');
-
-    final metadata = firebase_storage.SettableMetadata(
-        contentType: 'file/pdf',
-        customMetadata: {'picked-file-path': file.path});
-
-    print("Uploading..!");
-
-    uploadTask = ref.putData(await file.readAsBytes(), metadata);
-    var uploadPath = await uploadTask.snapshot.ref.getDownloadURL();
-    setState(() {
-      pdfURL = uploadPath;
-    });
-    print("done..!");
-
-    
-
-    return Future.value(uploadTask);
-  }
-  */
   void showSnackBar(BuildContext context, String text) {
     final snackBar = SnackBar(
       content: Text(text),
@@ -445,8 +356,8 @@ class _CreatePDFState extends State<CreatePDF> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Widget textForm(String label, TextEditingController controller, double width,
-      double height) {
+  Widget textForm(
+      TextEditingController controller, double width, double height) {
     return SizedBox(
       width: width,
       height: height,
@@ -462,12 +373,12 @@ class _CreatePDFState extends State<CreatePDF> {
           decoration: InputDecoration(
             contentPadding:
                 const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-            label: Text(label),
+            hintText: 'Description',
             fillColor: Colors.white,
             filled: true,
-            labelStyle: const TextStyle(
-              fontSize: 20.0,
-              color: Colors.black,
+            hintStyle: const TextStyle(
+              fontSize: 15.0,
+              color: Colors.grey,
               fontFamily: 'PoppinsRegular',
               letterSpacing: 1.5,
             ),
@@ -611,17 +522,16 @@ class _CreatePDFState extends State<CreatePDF> {
             ),
           ),
           const SizedBox(height: 30),
-          isConfirm != true
-              ? Row(
+          isConfirm == true
+              ? const Center(child: CircularProgressIndicator())
+              : Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Center(
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.pop(context);
-                          setState(() {
-                            isConfirm = true;
-                          });
+                          setState(() {});
                         },
                         style: ElevatedButton.styleFrom(
                             shape: RoundedRectangleBorder(
@@ -667,7 +577,6 @@ class _CreatePDFState extends State<CreatePDF> {
                     )
                   ],
                 )
-              : const Center(child: CircularProgressIndicator(value: 20)),
         ]),
       )),
     );

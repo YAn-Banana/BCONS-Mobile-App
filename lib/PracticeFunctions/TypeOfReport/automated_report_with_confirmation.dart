@@ -36,8 +36,20 @@ class _AutomatedReportState extends State<AutomatedReport> {
   String name = '';
   String numbers = '';
 
-  imagePicker() async {
+  imagePickerFromGallery() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      setState(() {
+        pickedImage = image;
+        print(pickedImage!.path);
+        isImageLoading = true;
+      });
+    }
+    classifyImage(pickedImage!);
+  }
+
+  imagePickerFromCamera() async {
+    final XFile? image = await picker.pickImage(source: ImageSource.camera);
     if (image != null) {
       setState(() {
         pickedImage = image;
@@ -50,19 +62,21 @@ class _AutomatedReportState extends State<AutomatedReport> {
 
   void loadModel() async {
     var resultant = await Tflite.loadModel(
-        labels: 'assets/labels1.txt', model: 'assets/model3.tflite');
+        labels: 'assets/labels1.txt', model: 'assets/tunedmodel13.tflite');
     print('$resultant');
   }
 
   classifyImage(XFile image) async {
     var recognitions = await Tflite.runModelOnImage(
-        path: image.path, // required
-        imageMean: 127.5, // defaults to 117.0
-        imageStd: 127.5, // defaults to 1.0
-        numResults: 2, // defaults to 5
-        threshold: 0.5, // defaults to 0.1
-        asynch: true // defaults to true
-        );
+            path: image.path, // required
+            imageMean: 127.5, // defaults to 117.0
+            imageStd: 127.5, // defaults to 1.0
+            numResults: 2, // defaults to 5
+            threshold: 0.5, // defaults to 0.1
+            asynch: true // defaults to true
+            )
+        .onError((error, stackTrace) => null);
+
     print('$recognitions');
     setState(() {
       outputs = recognitions!;
@@ -127,6 +141,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['address'] = loggedInUser.address;
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
+          map['contactNumber'] = '+63${loggedInUser.contactNumber}';
           map['solvedOrUnsolved'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -143,7 +158,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'uid': '${loggedInUser.uid}',
               'bloodType': '${loggedInUser.bloodType}',
               'solvedOrUnsolved': 'unsolved',
-              'autoOrManual': 'manual',
+              'autoOrManual': 'automated',
+              'contact number': '+63${loggedInUser.contactNumber}',
               'name':
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
@@ -196,40 +212,95 @@ class _AutomatedReportState extends State<AutomatedReport> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Automation Report',
-          style: TextStyle(
-              fontFamily: 'PoppinsBold',
-              letterSpacing: 2.0,
-              color: Colors.white,
-              fontSize: 20.0),
-        ),
-        elevation: 0.0,
-        centerTitle: true,
-        backgroundColor: const Color(0xffcc021d),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 10),
-            child: InkWell(
-              onTap: () {
-                showSheet();
-              },
-              child: const Icon(
-                Icons.done,
-                size: 30,
-              ),
-            ),
-          )
-        ],
-        leading: InkWell(
-          child: const Icon(
-            Icons.arrow_back,
+        appBar: AppBar(
+          title: const Text(
+            'Automation Report',
+            style: TextStyle(
+                fontFamily: 'PoppinsBold',
+                letterSpacing: 2.0,
+                color: Colors.white,
+                fontSize: 20.0),
           ),
-          onTap: () => Navigator.of(context).pop(),
+          elevation: 0.0,
+          centerTitle: true,
+          backgroundColor: const Color(0xffcc021d),
+          leading: InkWell(
+            child: const Icon(
+              Icons.arrow_back,
+            ),
+            onTap: () => Navigator.of(context).pop(),
+          ),
         ),
-      ),
-    );
+        body: Container(
+          padding: const EdgeInsets.fromLTRB(0, 20, 0, 0),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
+            isImageLoading
+                ? Container(
+                    height: 350,
+                    width: 350,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        image: DecorationImage(
+                            image: FileImage(File(pickedImage!.path)),
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.low)))
+                : Container(),
+            const SizedBox(
+              height: 10,
+            ),
+            (isImageLoading == true)
+                ? outputs.isNotEmpty
+                    ? Text('Label: $name \nConfidence: $confidence')
+                    : const CircularProgressIndicator()
+                : Container()
+          ]),
+        ),
+        floatingActionButton: FloatingActionButton(
+            backgroundColor:
+                isImageLoading == true ? const Color(0xffd90824) : Colors.grey,
+            child: const Text(
+              'Done',
+              style: TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 15.0),
+            ),
+            onPressed: isImageLoading == true ? showSheet : () {}),
+        persistentFooterButtons: [
+          Container(
+              height: 50,
+              width: MediaQuery.of(context).size.width,
+              decoration: const BoxDecoration(color: Colors.transparent),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconButton(
+                      onPressed: () {
+                        imagePickerFromCamera();
+                      },
+                      icon: Icon(
+                        Icons.camera_alt,
+                        size: 30,
+                      )),
+                  SizedBox(
+                    width: 25,
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        imagePickerFromGallery();
+                      },
+                      icon: Icon(
+                        Icons.image_outlined,
+                        size: 30,
+                        color: Colors.black,
+                      )),
+                ],
+              ))
+        ]);
   }
 
   Future showSheet() => showSlidingBottomSheet(context,
@@ -331,6 +402,19 @@ class _AutomatedReportState extends State<AutomatedReport> {
                               filterQuality: FilterQuality.high))),
                 )
               : Container(),
+          const SizedBox(
+            height: 20,
+          ),
+          Center(
+            child: Text(
+              name,
+              style: const TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 15.0),
+            ),
+          ),
           const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,

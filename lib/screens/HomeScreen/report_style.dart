@@ -1,4 +1,5 @@
-import 'package:bcons_app/PracticeFunctions/getUserCurrentLocation.dart';
+import 'package:bcons_app/PracticeFunctions/getUserCurrentLocationFromAuto.dart';
+import 'package:bcons_app/PracticeFunctions/getUserCurrentLocationFromManual.dart';
 import 'package:flutter/material.dart';
 
 class ChooseReport extends StatefulWidget {
@@ -8,9 +9,14 @@ class ChooseReport extends StatefulWidget {
   _ChooseReportState createState() => _ChooseReportState();
 }
 
-void chooseManualReport(BuildContext context) {
+void getUserCurrentLocationManual(BuildContext context) {
   Navigator.push(context,
       MaterialPageRoute(builder: (context) => const UsersCurrentLocation()));
+}
+
+void getUserCurrentLocationAuto(BuildContext context) {
+  Navigator.push(context,
+      MaterialPageRoute(builder: (context) => const UserCurrentLocationAuto()));
 }
 
 class _ChooseReportState extends State<ChooseReport> {
@@ -62,7 +68,7 @@ class _ChooseReportState extends State<ChooseReport> {
                   ),
                   InkWell(
                     onTap: () {
-                      chooseManualReport(context);
+                      getUserCurrentLocationManual(context);
                     },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -115,7 +121,9 @@ class _ChooseReportState extends State<ChooseReport> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      getUserCurrentLocationAuto(context);
+                    },
                     child: Container(
                       width: MediaQuery.of(context).size.width,
                       height: 150.0,

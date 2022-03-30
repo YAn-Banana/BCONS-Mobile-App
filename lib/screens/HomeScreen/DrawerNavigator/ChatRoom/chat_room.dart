@@ -55,14 +55,6 @@ class _ChatRoomsState extends State<ChatRooms> {
     );
   }
 
-  getChatRoomIdByUsernames(String a, String b) {
-    if (a.substring(0, 1).codeUnitAt(0) > b.substring(0, 1).codeUnitAt(0)) {
-      return "$b\_$a";
-    } else {
-      return "$a\_$b";
-    }
-  }
-
   @override
   void initState() {
     FirebaseFirestore.instance
@@ -163,48 +155,57 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => ChatMateRoom(
-                    chatMateFirstName: chatMateFirstName,
-                    chatMateLastName: chatMateLastName,
-                    chatMateUid: chatMateUserId)));
-      },
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
-        child: Container(
-          margin: const EdgeInsets.symmetric(vertical: 10),
-          child: Row(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(30),
-                child: Image.network(
-                  profilePicUrl,
-                  height: 50,
-                  width: 50,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '$chatMateFirstName $chatMateLastName',
-                    style: const TextStyle(
-                      fontSize: 15,
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.black,
-                    ),
+    return Container(
+      width: MediaQuery.of(context).size.width,
+      child: GestureDetector(
+        onTap: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => ChatMateRoom(
+                      chatMateFirstName: chatMateFirstName,
+                      chatMateLastName: chatMateLastName,
+                      chatMateUid: chatMateUserId)));
+        },
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
+          child: Container(
+            margin: const EdgeInsets.symmetric(vertical: 10),
+            child: Row(
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: Image.network(
+                    profilePicUrl,
+                    height: 50,
+                    width: 50,
                   ),
-                  const SizedBox(height: 3),
-                  Text(widget.lastMessage)
-                ],
-              )
-            ],
+                ),
+                const SizedBox(width: 12),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      '$chatMateFirstName $chatMateLastName',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.black,
+                      ),
+                    ),
+                    const SizedBox(height: 3),
+                    Text(widget.lastMessage,
+                        style: const TextStyle(
+                          fontSize: 12,
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          color: Colors.black,
+                        ))
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),

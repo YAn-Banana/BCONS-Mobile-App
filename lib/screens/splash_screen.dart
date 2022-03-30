@@ -21,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
     // After Validation, if there is an existing account or an instance that comes from the shared preferences, user will navigate immediately to the Home Screen
     // otherwise, user will navigate to the Log In Screen
     getValidation().whenComplete(() async => Timer(
-        const Duration(seconds: 2),
+        const Duration(seconds: 3),
         () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
