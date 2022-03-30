@@ -119,8 +119,10 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
                     emergencyTypeOfReport: map['emergencyTypeOfReport'],
                     imageUrl: map['image'],
                     description: map['description'],
-                    dateAndTime: map['dateAndTime'],
-                    location: map['location'],
+                    date: map['date'],
+                    time: map['time'],
+                    longitude: map['longitude'],
+                    latitude: map['latitude'],
                     address: map['address'])
               ];
               List<String> imageLength = [];
@@ -129,9 +131,11 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
                   map['image'].toString(),
                   map['emergencyTypeOfReport'].toString(),
                   map['description'].toString(),
-                  map['location'].toString(),
+                  map['latitude'].toString(),
+                  map['longitude'].toString(),
                   map['address'].toString(),
-                  map['dateAndTime'].toString(),
+                  map['date'].toString(),
+                  map['time'].toString(),
                   context,
                   index,
                   _dataHistoryModel);
@@ -145,9 +149,11 @@ Widget cardUI(
     String? imageUrl,
     String? emergencyClass,
     String? description,
-    String? locationInMaps,
+    String? latitude,
+    String? longitude,
     String? exactAddress,
-    String? exactDateAndTime,
+    String? exactDate,
+    String? exactTime,
     BuildContext context,
     int index,
     map) {
@@ -204,7 +210,27 @@ Widget cardUI(
                       fontSize: 15.0),
                 ),
                 Text(
-                  exactDateAndTime!,
+                  exactDate!,
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+              ],
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Time: ',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+                Text(
+                  exactTime!,
                   style: const TextStyle(
                       fontFamily: 'PoppinsRegular',
                       letterSpacing: 1.5,
@@ -217,21 +243,30 @@ Widget cardUI(
               height: 10,
             ),
             const Text(
-              'Description',
+              'description',
               style: TextStyle(
                   fontFamily: 'PoppinsBold',
                   letterSpacing: 1.5,
                   color: Colors.black,
                   fontSize: 15.0),
             ),
-            Text(
-              description!,
-              style: const TextStyle(
-                  fontFamily: 'PoppinsRegular',
-                  letterSpacing: 1.5,
-                  color: Colors.black,
-                  fontSize: 15.0),
-            ),
+            description!.isNotEmpty
+                ? Text(
+                    description,
+                    style: const TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.black,
+                        fontSize: 15.0),
+                  )
+                : const Text(
+                    'None',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.black,
+                        fontSize: 15.0),
+                  ),
             const SizedBox(
               height: 10,
             ),
@@ -254,21 +289,51 @@ Widget cardUI(
             const SizedBox(
               height: 10,
             ),
-            const Text(
-              'Location in Maps: ',
-              style: TextStyle(
-                  fontFamily: 'PoppinsBold',
-                  letterSpacing: 1.5,
-                  color: Colors.black,
-                  fontSize: 15.0),
+            Row(
+              children: [
+                const Text(
+                  'Longitude: ',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  longitude!,
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+              ],
             ),
-            Text(
-              locationInMaps!,
-              style: const TextStyle(
-                  fontFamily: 'PoppinsRegular',
-                  letterSpacing: 1.5,
-                  color: Colors.black,
-                  fontSize: 15.0),
+            Row(
+              children: [
+                const Text(
+                  'Latitude: ',
+                  style: TextStyle(
+                      fontFamily: 'PoppinsBold',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+                const SizedBox(
+                  width: 10,
+                ),
+                Text(
+                  latitude!,
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 15.0),
+                ),
+              ],
             ),
           ]),
     ),

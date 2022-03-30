@@ -12,10 +12,12 @@ class EarthquakeTips extends StatefulWidget {
 
 class _EarthquakeTipsState extends State<EarthquakeTips> {
   static List<String> titleList = [
-    'Earthquake Tips',
+    'Earthquake Tips(1)',
+    'Earthquake Tips(2)',
   ];
   static List<String> imageList = [
     'assets/images/EarthquakeTips.png',
+    'assets/images/earthquake_tips(1).png',
   ];
   final List<EmergencyTipsDataModel> emergencyDataModel = List.generate(
       imageList.length,

@@ -170,6 +170,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
           child: Container(
+            width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [

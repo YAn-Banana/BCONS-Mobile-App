@@ -18,6 +18,9 @@ class _HealthAwarenessState extends State<HealthAwareness> {
     'Physical Injuries',
     'Mental Health',
     'Chest Pain',
+    'Seizure(1)',
+    'Seizure(2)',
+    'Severe Bleeding',
   ];
   static List<String> imageList = [
     'assets/images/ShortnessofBreath(1).png',
@@ -26,6 +29,9 @@ class _HealthAwarenessState extends State<HealthAwareness> {
     'assets/images/PhysicalInjuries.png',
     'assets/images/MentalHealth.png',
     'assets/images/ChestPain.png',
+    'assets/images/seizure(1).png',
+    'assets/images/seizure(2).png',
+    'assets/images/severe_bleeding.png',
   ];
   final List<EmergencyTipsDataModel> emergencyDataModel = List.generate(
       imageList.length,

@@ -3,35 +3,40 @@ import 'package:flutter/material.dart';
 import 'emergency_details.dart';
 import 'libraries_model.dart';
 
-class AccidentTips extends StatefulWidget {
-  const AccidentTips({Key? key}) : super(key: key);
+class OtherEmergencyTips extends StatefulWidget {
+  const OtherEmergencyTips({Key? key}) : super(key: key);
 
   @override
-  State<AccidentTips> createState() => _AccidentTipsState();
+  State<OtherEmergencyTips> createState() => _OtherEmergencyTipsState();
 }
 
-class _AccidentTipsState extends State<AccidentTips> {
+class _OtherEmergencyTipsState extends State<OtherEmergencyTips> {
   static List<String> titleList = [
-    'Animal Bite(1)',
-    'Animal Bite(2)',
-    'Animal Attack'
+    'Drowning Incident',
+    'Radiation Hazard',
+    'Storm Preparedness',
+    'Electrical Hazard',
+    'Bombing Incident',
+    'Chemical Hazard',
   ];
   static List<String> imageList = [
-    'assets/images/AnimalBite(1).png',
-    'assets/images/AnimalBite(2).png',
-    'assets/images/animalattack.png',
+    'assets/images/Drowning.png',
+    'assets/images/Radiation.png',
+    'assets/images/storm.png',
+    'assets/images/Electrical.png',
+    'assets/images/Bombing.png',
+    'assets/images/Chemical_Hazard.png',
   ];
   final List<EmergencyTipsDataModel> emergencyDataModel = List.generate(
       imageList.length,
       (index) => EmergencyTipsDataModel(
           title: titleList[index], imageUrl: imageList[index]));
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Accident Preparedness',
+          'Other Emergency Tips',
           style: TextStyle(
               fontFamily: 'PoppinsBold',
               letterSpacing: 2.0,
@@ -55,7 +60,7 @@ class _AccidentTipsState extends State<AccidentTips> {
           gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomRight,
-              colors: [Colors.black, Colors.red, Colors.black]),
+              colors: [Color.fromRGBO(0, 0, 0, 1), Colors.red, Colors.black]),
         ),
         child: ListView.builder(
             itemCount: emergencyDataModel.length,

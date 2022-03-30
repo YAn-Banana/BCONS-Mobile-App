@@ -309,6 +309,7 @@ class _CreatePDFState extends State<CreatePDF> {
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
+          map['contactNumber'] = '${loggedInUser.contactNumber}';
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
           map['address'] = loggedInUser.address;
@@ -338,7 +339,8 @@ class _CreatePDFState extends State<CreatePDF> {
               'address': loggedInUser.address,
               'latitude': loggedInUser.latitude,
               'longitude': loggedInUser.longitude,
-              'reportId': reportId
+              'reportId': reportId,
+              'contactNumber': '${loggedInUser.contactNumber}'
             });
           });
           showSnackBar(context, 'Completely Reported');

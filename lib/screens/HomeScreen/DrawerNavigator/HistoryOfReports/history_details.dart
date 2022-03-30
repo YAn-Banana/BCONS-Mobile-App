@@ -37,10 +37,11 @@ class HistoryDetails extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Text(dataHistoryModel.dateAndTime.toString()),
+        Text(dataHistoryModel.date.toString()),
         const SizedBox(
           height: 10,
         ),
+        Text(dataHistoryModel.time.toString()),
         Text(dataHistoryModel.imageUrl.toString()),
         const SizedBox(
           height: 10,
@@ -49,10 +50,11 @@ class HistoryDetails extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Text(dataHistoryModel.location.toString()),
+        Text(dataHistoryModel.latitude.toString()),
         const SizedBox(
           height: 10,
         ),
+        Text(dataHistoryModel.longitude.toString()),
       ]),
     );
   }

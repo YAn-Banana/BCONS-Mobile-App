@@ -68,14 +68,13 @@ class _AutomatedReportState extends State<AutomatedReport> {
 
   classifyImage(XFile image) async {
     var recognitions = await Tflite.runModelOnImage(
-            path: image.path, // required
-            imageMean: 127.5, // defaults to 117.0
-            imageStd: 127.5, // defaults to 1.0
-            numResults: 2, // defaults to 5
-            threshold: 0.5, // defaults to 0.1
-            asynch: true // defaults to true
-            )
-        .onError((error, stackTrace) => null);
+        path: image.path, // required
+        imageMean: 117.0, // defaults to 117.0
+        imageStd: 1, // defaults to 1.0
+        numResults: 4, // defaults to 5
+        threshold: 0.5, // defaults to 0.1
+        asynch: true // defaults to true
+        );
 
     print('$recognitions');
     setState(() {
@@ -138,11 +137,13 @@ class _AutomatedReportState extends State<AutomatedReport> {
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
+          map['description'] = '';
+          map['emergencyTypeOfReport'] = name;
           map['address'] = loggedInUser.address;
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
           map['contactNumber'] = '+63${loggedInUser.contactNumber}';
-          map['solvedOrUnsolved'] = 'unsolved';
+          map['status'] = 'unsolved';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -156,10 +157,12 @@ class _AutomatedReportState extends State<AutomatedReport> {
                 .set({
               'email': '${loggedInUser.email}',
               'uid': '${loggedInUser.uid}',
+              'emergencyTypeOfReport': name,
               'bloodType': '${loggedInUser.bloodType}',
-              'solvedOrUnsolved': 'unsolved',
+              'status': 'unsolved',
+              'description': '',
               'autoOrManual': 'automated',
-              'contact number': '+63${loggedInUser.contactNumber}',
+              'contactNumber': '+63${loggedInUser.contactNumber}',
               'name':
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
@@ -253,7 +256,30 @@ class _AutomatedReportState extends State<AutomatedReport> {
             ),
             (isImageLoading == true)
                 ? outputs.isNotEmpty
-                    ? Text('Label: $name \nConfidence: $confidence')
+                    ? Column(
+                        children: [
+                          Text(
+                            'The image detected was $name',
+                            style: const TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 1.5,
+                                color: Colors.black,
+                                fontSize: 15.0),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          const Text(
+                            'If the image you provided is not the desired image, please capture another image on another angle.',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(
+                                fontFamily: 'PoppinsRegular',
+                                letterSpacing: 1.5,
+                                color: Colors.black,
+                                fontSize: 12.0),
+                          ),
+                        ],
+                      )
                     : const CircularProgressIndicator()
                 : Container()
           ]),

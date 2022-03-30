@@ -1,7 +1,9 @@
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/userProfile.dart';
+
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
+
+import 'DrawerNavigator/user_profile.dart';
 
 class BottomNavigationBarLayout extends StatefulWidget {
   const BottomNavigationBarLayout({Key? key}) : super(key: key);
@@ -15,7 +17,7 @@ class _BottomNavigationBarLayoutState extends State<BottomNavigationBarLayout> {
   int currentIndex = 0;
   List<Widget> widgetSelections = <Widget>[
     const HomeScreen(),
-    const NewUserProfile(),
+    const UserProfile(),
     const ContactScreen()
   ];
   void onItemTap(int index) {

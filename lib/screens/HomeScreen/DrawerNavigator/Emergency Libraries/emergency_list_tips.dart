@@ -4,6 +4,7 @@ import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Librari
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/earthquake_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/fire_prevention_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/health_awareness.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/other_emergency_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -222,6 +223,35 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => const AccidentTips()));
+                },
+              ),
+              const SizedBox(
+                height: 20,
+              ),
+              ListTile(
+                leading: Container(
+                  height: 50,
+                  width: 50,
+                  decoration: const BoxDecoration(
+                      image: DecorationImage(
+                    scale: 1.0,
+                    image: AssetImage('assets/images/random.jpg'),
+                  )),
+                ),
+                title: const Text(
+                  'Other Emergency Tips',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    fontSize: 20.0,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OtherEmergencyTips()));
                 },
               ),
             ],

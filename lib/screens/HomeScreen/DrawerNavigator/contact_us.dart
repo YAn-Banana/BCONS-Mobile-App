@@ -1,4 +1,8 @@
+import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
 class ContactUs extends StatefulWidget {
   const ContactUs({Key? key}) : super(key: key);
@@ -8,10 +12,61 @@ class ContactUs extends StatefulWidget {
 }
 
 class _ContactUsState extends State<ContactUs> {
+  FirebaseFirestore firestoreRef = FirebaseFirestore.instance;
+  firebase_auth.User? user = firebaseAuth.currentUser;
+  UserModel loggedInUser = UserModel();
   final _formkey = GlobalKey<FormState>();
+
   final nameEditingController = TextEditingController();
   final emailEditingController = TextEditingController();
   final detailsEditingController = TextEditingController();
+  String collectionName = 'User\'s Feedback';
+
+  Future<void> submitFeedbacks() async {
+    var uniqueKey = firestoreRef.collection(collectionName).doc(user!.uid);
+    if (detailsEditingController.text.isNotEmpty) {
+      firestoreRef.collection(collectionName).doc(uniqueKey.id).set({
+        'feedback': detailsEditingController.text,
+        'uid': loggedInUser.uid,
+        'email': loggedInUser.email,
+        'firstName': loggedInUser.firstName,
+        'lastName': loggedInUser.lastName,
+        'middleInitial': loggedInUser.middleInitial,
+        'gender': loggedInUser.gender,
+        'contactNumber': loggedInUser.contactNumber,
+        'birthday': loggedInUser.birthday,
+        'age': loggedInUser.age,
+        'street': loggedInUser.street,
+        'brgy': loggedInUser.brgy,
+        'municipality': loggedInUser.municipality,
+        'province': loggedInUser.province
+      }).then((value) {
+        showMessage('Record Inserted');
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const HomeScreen()));
+      });
+    }
+  }
+
+  showMessage(String msg) {
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(msg),
+      duration: const Duration(seconds: 3),
+    ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+      setState(() {});
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,54 +112,20 @@ class _ContactUsState extends State<ContactUs> {
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 17.0,
-                            letterSpacing: 2.0,
+                            letterSpacing: 1.5,
                             fontFamily: 'PoppinsRegular'),
                       ),
                       const SizedBox(
                         height: 30.0,
                       ),
-                      Text(
-                        'Name',
-                        style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2.0,
-                            fontFamily: 'PoppinsBold'),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      TextForm('Your Name', nameEditingController,
-                          MediaQuery.of(context).size.width, 50.0, 1),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      Text(
-                        'Email',
-                        style: TextStyle(
-                            color: Colors.grey[600],
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2.0,
-                            fontFamily: 'PoppinsBold'),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      TextForm('Your Email', emailEditingController,
-                          MediaQuery.of(context).size.width, 50.0, 1),
-                      const SizedBox(
-                        height: 50.0,
-                      ),
-                      Text(
+                      const Text(
                         'Please enter the details',
                         style: TextStyle(
-                            color: Colors.grey[600],
+                            color: Colors.black,
                             fontSize: 15.0,
                             fontWeight: FontWeight.bold,
                             letterSpacing: 2.0,
-                            fontFamily: 'PoppinsBold'),
+                            fontFamily: 'PoppinsRegular'),
                       ),
                       const SizedBox(
                         height: 10.0,
@@ -118,7 +139,9 @@ class _ContactUsState extends State<ContactUs> {
                         mainAxisAlignment: MainAxisAlignment.end,
                         children: [
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              submitFeedbacks();
+                            },
                             style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(8.0)),
@@ -140,79 +163,81 @@ class _ContactUsState extends State<ContactUs> {
                   ),
                 ),
               ),
-              Container(
-                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
-                color: const Color(0xffd90824),
-                height: 100.0,
-                width: double.infinity,
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Contact  Info:',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 12.0,
-                            letterSpacing: 1.5,
-                            fontFamily: 'PoppinsRegular'),
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        children: const [
-                          Icon(
-                            Icons.email,
-                            size: 20.0,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            'bcons2122@gmail.com',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                                letterSpacing: 1.5,
-                                fontFamily: 'PoppinsBold'),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(
-                        height: 5.0,
-                      ),
-                      Row(
-                        children: const [
-                          Icon(
-                            Icons.phone,
-                            size: 20.0,
-                            color: Colors.white,
-                          ),
-                          SizedBox(
-                            width: 5.0,
-                          ),
-                          Text(
-                            '09311893178',
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 12.0,
-                                letterSpacing: 1.5,
-                                fontFamily: 'PoppinsBold'),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
             ],
           ),
         ),
       ),
+      persistentFooterButtons: [
+        Container(
+          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+          color: const Color(0xffd90824),
+          height: 100.0,
+          width: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 6, 20, 6),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                const Text(
+                  'Contact  Info:',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12.0,
+                      letterSpacing: 1.5,
+                      fontFamily: 'PoppinsRegular'),
+                ),
+                const SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  children: const [
+                    Icon(
+                      Icons.email,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      'bcons2122@gmail.com',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsBold'),
+                    ),
+                  ],
+                ),
+                const SizedBox(
+                  height: 5.0,
+                ),
+                Row(
+                  children: const [
+                    Icon(
+                      Icons.phone,
+                      size: 20.0,
+                      color: Colors.white,
+                    ),
+                    SizedBox(
+                      width: 5.0,
+                    ),
+                    Text(
+                      '09311893178',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 12.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsBold'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -238,6 +263,12 @@ class _ContactUsState extends State<ContactUs> {
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
           fillColor: Colors.white,
           filled: true,
+          hintText: 'Descriptions...',
+          hintStyle: TextStyle(
+              fontSize: 12.0,
+              color: Colors.grey[400],
+              fontFamily: 'PoppinsRegular',
+              letterSpacing: 1.5),
           labelText: labelText,
           labelStyle: TextStyle(
               fontSize: 12.0,
