@@ -17,7 +17,7 @@ class _NotificationsState extends State<Notifications> {
         .collection('User Reports')
         .where('uid', isNotEqualTo: uid)
         .where('sendToNearbyUsers', isEqualTo: true)
-        .where('municipality')
+        .where('municipalityReports')
         .snapshots();
   }
 
