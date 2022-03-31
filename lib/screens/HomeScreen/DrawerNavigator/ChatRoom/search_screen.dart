@@ -39,7 +39,10 @@ class _SearchScreenState extends State<SearchScreen> {
       String municipality) async {
     return FirebaseFirestore.instance
         .collection('Users')
-        .where('municipality', isEqualTo: municipality)
+        .where(
+          'municipality',
+          isEqualTo: municipality,
+        )
         .snapshots();
   }
 
