@@ -1098,6 +1098,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
       child: TextFormField(
         autofocus: false,
         controller: controller,
+        keyboardType: TextInputType.number,
         onSaved: (value) {
           controller.text = value!;
         },

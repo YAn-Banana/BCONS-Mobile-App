@@ -169,7 +169,7 @@ class _ContactUsState extends State<ContactUs> {
       ),
       persistentFooterButtons: [
         Container(
-          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+          padding: const EdgeInsets.all(10),
           color: const Color(0xffd90824),
           height: 100.0,
           width: double.infinity,

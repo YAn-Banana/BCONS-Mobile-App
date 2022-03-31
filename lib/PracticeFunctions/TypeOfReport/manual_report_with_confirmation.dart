@@ -29,7 +29,7 @@ class _CreatePDFState extends State<CreatePDF> {
   final ImagePicker picker = ImagePicker();
   String imageUrl = '';
   String reportId = '';
-
+  bool isChecked = false;
   DateTime initialDate = DateTime.now();
 
   final _formkey = GlobalKey<FormState>();
@@ -85,6 +85,36 @@ class _CreatePDFState extends State<CreatePDF> {
         isImageLoading = true;
       });
     }
+  }
+
+  void displayMessage() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          AlertDialog dialog = AlertDialog(
+            content: const Text(
+              'You have accepted to send this report to the nearby users',
+              style: TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  fontSize: 15.0,
+                  color: Colors.black),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Okay',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          fontSize: 15.0,
+                          color: Colors.black)))
+            ],
+          );
+          return dialog;
+        });
   }
 
   User? user = FirebaseAuth.instance.currentUser;
@@ -239,14 +269,14 @@ class _CreatePDFState extends State<CreatePDF> {
                         Icons.camera_alt,
                         size: 30,
                       )),
-                  SizedBox(
+                  const SizedBox(
                     width: 25,
                   ),
                   IconButton(
                       onPressed: () {
                         imagePickerFromGallery();
                       },
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.image_outlined,
                         size: 30,
                         color: Colors.black,
@@ -256,7 +286,8 @@ class _CreatePDFState extends State<CreatePDF> {
         ]);
   }
 
-  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
+  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+      bool sendToNearbyUsers) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     firebase_auth.User? user = firebaseAuth.currentUser;
     FirebaseStorage storageRef = FirebaseStorage.instance;
@@ -309,11 +340,14 @@ class _CreatePDFState extends State<CreatePDF> {
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
+          map['municipalityReport'] = '${loggedInUser.liveMunicipality}';
           map['contactNumber'] = '${loggedInUser.contactNumber}';
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
           map['address'] = loggedInUser.address;
-          map['solvedOrUnsolved'] = 'unsolved';
+          map['status'] = 'unsolved';
+          map['sendToNearbyUsers'] = sendToNearbyUsers;
+          map['autoOrManual'] = 'manual';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -340,7 +374,9 @@ class _CreatePDFState extends State<CreatePDF> {
               'latitude': loggedInUser.latitude,
               'longitude': loggedInUser.longitude,
               'reportId': reportId,
-              'contactNumber': '${loggedInUser.contactNumber}'
+              'contactNumber': '${loggedInUser.contactNumber}',
+              'sendToNearbyUsers': sendToNearbyUsers,
+              'municipalityReport': '${loggedInUser.liveMunicipality}',
             });
           });
           showSnackBar(context, 'Completely Reported');
@@ -511,7 +547,7 @@ class _CreatePDFState extends State<CreatePDF> {
             ),
           ),
           const SizedBox(
-            height: 20,
+            height: 15,
           ),
           Center(
             child: Text(
@@ -524,6 +560,29 @@ class _CreatePDFState extends State<CreatePDF> {
             ),
           ),
           const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Checkbox(
+                splashRadius: 5.0,
+                value: isChecked,
+                onChanged: (b) {
+                  setState(() {
+                    isChecked = b!;
+                    isChecked ? displayMessage() : null;
+                  });
+                },
+              ),
+              const Text(
+                'Send to Nearby Users?',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Colors.white,
+                    fontSize: 15.0),
+              )
+            ],
+          ),
           isConfirm == true
               ? const Center(child: CircularProgressIndicator())
               : Row(
@@ -558,7 +617,8 @@ class _CreatePDFState extends State<CreatePDF> {
                           setState(() {
                             isConfirm = true;
                           });
-                          uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
+                          uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+                              isChecked);
                         },
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(

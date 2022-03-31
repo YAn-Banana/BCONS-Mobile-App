@@ -78,7 +78,7 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
             ),
             onTap: () => Navigator.of(context).pop(),
           ),
-          actions: [
+          /*actions: [
             !searchState
                 ? IconButton(
                     onPressed: () {
@@ -102,7 +102,7 @@ class _HistoryOfReportsState extends State<HistoryOfReports> {
                       color: Colors.white,
                       size: 30,
                     ))
-          ],
+          ],*/
         ),
         body: SizedBox(
           height: MediaQuery.of(context).size.height,

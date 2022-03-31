@@ -144,6 +144,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['longitude'] = loggedInUser.longitude;
           map['contactNumber'] = '+63${loggedInUser.contactNumber}';
           map['status'] = 'unsolved';
+          //map['sendToNearbyUsers'] = sendToNearbyUsers;
+          map['autoOrManual'] = 'manual';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -174,7 +176,9 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'image': uploadPath,
               'address': loggedInUser.address,
               'longitude': loggedInUser.longitude,
-              'latitude': loggedInUser.latitude
+              'latitude': loggedInUser.latitude,
+              //'sendToNearbyUsers': sendToNearbyUsers,
+              'municipalityReport': '${loggedInUser.liveMunicipality}',
             });
           });
           showSnackBar(context, 'Completely Reported');

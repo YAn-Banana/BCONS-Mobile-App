@@ -1,3 +1,4 @@
+import 'package:bcons_app/PracticeFunctions/TypeOfReport/notifications.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/drawer_layout.dart';
@@ -7,7 +8,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
-
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -43,7 +43,12 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: const Color(0xffcc021d),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: ((context) => const Notifications())));
+            },
             icon: const Icon(Icons.notifications),
             color: Colors.white,
             iconSize: 30.0,
@@ -95,9 +100,16 @@ class _HomeScreenState extends State<HomeScreen> {
                           ContainerList("ChestPain.png"),
                           ContainerList("AnimalBite(1).png"),
                           ContainerList("AnimalBite(1).png"),
-                          ContainerList("ShortnessofBreath(1).png"),
-                          ContainerList("ShortnessofBreath(2).png"),
-                          ContainerList("ShortnessofBreath(3).png"),
+                          ContainerList("animalattack.png"),
+                          ContainerList("Bombing.png"),
+                          ContainerList("Chemical_Hazard.png"),
+                          ContainerList("Drowning.png"),
+                          ContainerList("earthquake_tips(1).png"),
+                          ContainerList("Electrical.png"),
+                          ContainerList("seizure(1).png"),
+                          ContainerList("seizure(2).png"),
+                          ContainerList("severe_bleeding.png"),
+                          ContainerList("storm.png"),
                         ],
                       ),
                     )

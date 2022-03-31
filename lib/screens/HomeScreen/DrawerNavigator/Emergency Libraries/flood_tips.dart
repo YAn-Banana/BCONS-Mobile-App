@@ -3,39 +3,25 @@ import 'package:flutter/material.dart';
 import 'emergency_details.dart';
 import 'libraries_model.dart';
 
-class HealthAwareness extends StatefulWidget {
-  const HealthAwareness({Key? key}) : super(key: key);
+class FloodTips extends StatefulWidget {
+  const FloodTips({Key? key}) : super(key: key);
 
   @override
-  State<HealthAwareness> createState() => _HealthAwarenessState();
+  State<FloodTips> createState() => _FloodTipsState();
 }
 
-class _HealthAwarenessState extends State<HealthAwareness> {
+class _FloodTipsState extends State<FloodTips> {
   static List<String> titleList = [
-    'Shortness of Breath(1)',
-    'Shortness of Breath(2)',
-    'Shortness of Breath(3)',
-    'Physical Injuries',
-    'Mental Health',
-    'Chest Pain',
-    'Seizure(1)',
-    'Seizure(2)',
-    'Severe Bleeding',
-    'Sexual Violence Prevention',
-    'Coping with Traumatic Stress'
+    'Before a Flood',
+    'During a Flood',
+    'After a Flood',
+    'After Flood Damage',
   ];
   static List<String> imageList = [
-    'assets/images/ShortnessofBreath(1).png',
-    'assets/images/ShortnessofBreath(2).png',
-    'assets/images/ShortnessofBreath(3).png',
-    'assets/images/PhysicalInjuries.png',
-    'assets/images/MentalHealth.png',
-    'assets/images/ChestPain.png',
-    'assets/images/seizure(1).png',
-    'assets/images/seizure(2).png',
-    'assets/images/severe_bleeding.png',
-    'assets/images/sexual_violence_prevention.png',
-    'assets/images/coping_with_traumatic_stress.png',
+    'assets/images/flood(1).png',
+    'assets/images/flood(2).png',
+    'assets/images/flood(3).png',
+    'assets/images/flood(4).png',
   ];
   final List<EmergencyTipsDataModel> emergencyDataModel = List.generate(
       imageList.length,
@@ -46,7 +32,7 @@ class _HealthAwarenessState extends State<HealthAwareness> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Health Awareness',
+          'Flood Emergency Tips',
           style: TextStyle(
               fontFamily: 'PoppinsBold',
               letterSpacing: 2.0,

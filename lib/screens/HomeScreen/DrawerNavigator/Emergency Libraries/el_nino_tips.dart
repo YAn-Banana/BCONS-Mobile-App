@@ -3,39 +3,23 @@ import 'package:flutter/material.dart';
 import 'emergency_details.dart';
 import 'libraries_model.dart';
 
-class HealthAwareness extends StatefulWidget {
-  const HealthAwareness({Key? key}) : super(key: key);
+class ElNinoTips extends StatefulWidget {
+  const ElNinoTips({Key? key}) : super(key: key);
 
   @override
-  State<HealthAwareness> createState() => _HealthAwarenessState();
+  State<ElNinoTips> createState() => _ElNinoTipsState();
 }
 
-class _HealthAwarenessState extends State<HealthAwareness> {
+class _ElNinoTipsState extends State<ElNinoTips> {
   static List<String> titleList = [
-    'Shortness of Breath(1)',
-    'Shortness of Breath(2)',
-    'Shortness of Breath(3)',
-    'Physical Injuries',
-    'Mental Health',
-    'Chest Pain',
-    'Seizure(1)',
-    'Seizure(2)',
-    'Severe Bleeding',
-    'Sexual Violence Prevention',
-    'Coping with Traumatic Stress'
+    'El nino',
+    'What to know',
+    'What to do',
   ];
   static List<String> imageList = [
-    'assets/images/ShortnessofBreath(1).png',
-    'assets/images/ShortnessofBreath(2).png',
-    'assets/images/ShortnessofBreath(3).png',
-    'assets/images/PhysicalInjuries.png',
-    'assets/images/MentalHealth.png',
-    'assets/images/ChestPain.png',
-    'assets/images/seizure(1).png',
-    'assets/images/seizure(2).png',
-    'assets/images/severe_bleeding.png',
-    'assets/images/sexual_violence_prevention.png',
-    'assets/images/coping_with_traumatic_stress.png',
+    'assets/images/el_nino(1).png',
+    'assets/images/el_nino(2).png',
+    'assets/images/el_nino(3).png',
   ];
   final List<EmergencyTipsDataModel> emergencyDataModel = List.generate(
       imageList.length,
@@ -46,7 +30,7 @@ class _HealthAwarenessState extends State<HealthAwareness> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Health Awareness',
+          'El Niño Preparedness Plan',
           style: TextStyle(
               fontFamily: 'PoppinsBold',
               letterSpacing: 2.0,
