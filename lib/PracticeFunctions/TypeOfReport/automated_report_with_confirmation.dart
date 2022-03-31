@@ -35,6 +35,36 @@ class _AutomatedReportState extends State<AutomatedReport> {
   String confidence = '';
   String name = '';
   String numbers = '';
+  bool isChecked = false;
+  void displayMessage() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          AlertDialog dialog = AlertDialog(
+            content: const Text(
+              'You have accepted to send this report to the nearby users',
+              style: TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  fontSize: 15.0,
+                  color: Colors.black),
+            ),
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text('Okay',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          fontSize: 15.0,
+                          color: Colors.black)))
+            ],
+          );
+          return dialog;
+        });
+  }
 
   imagePickerFromGallery() async {
     final XFile? image = await picker.pickImage(source: ImageSource.gallery);
@@ -88,7 +118,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
     });
   }
 
-  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase() async {
+  uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+      bool sendToNearbyUsers) async {
     FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
     firebase_auth.User? user = firebaseAuth.currentUser;
     FirebaseStorage storageRef = FirebaseStorage.instance;
@@ -144,7 +175,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['longitude'] = loggedInUser.longitude;
           map['contactNumber'] = '+63${loggedInUser.contactNumber}';
           map['status'] = 'unsolved';
-          //map['sendToNearbyUsers'] = sendToNearbyUsers;
+          map['sendToNearbyUsers'] = sendToNearbyUsers;
           map['autoOrManual'] = 'manual';
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -177,7 +208,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'address': loggedInUser.address,
               'longitude': loggedInUser.longitude,
               'latitude': loggedInUser.latitude,
-              //'sendToNearbyUsers': sendToNearbyUsers,
+              'sendToNearbyUsers': sendToNearbyUsers,
               'municipalityReport': '${loggedInUser.liveMunicipality}',
             });
           });
@@ -449,6 +480,29 @@ class _AutomatedReportState extends State<AutomatedReport> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Checkbox(
+                splashRadius: 5.0,
+                value: isChecked,
+                onChanged: (b) {
+                  setState(() {
+                    isChecked = b!;
+                    isChecked ? displayMessage() : null;
+                  });
+                },
+              ),
+              const Text(
+                'Send to Nearby Users?',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Colors.white,
+                    fontSize: 15.0),
+              )
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
               Center(
                 child: ElevatedButton(
                   onPressed: () {
@@ -470,11 +524,12 @@ class _AutomatedReportState extends State<AutomatedReport> {
                   ),
                 ),
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 30),
               Center(
                 child: ElevatedButton(
                   onPressed: () {
-                    uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase();
+                    uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+                        isChecked);
                   },
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
