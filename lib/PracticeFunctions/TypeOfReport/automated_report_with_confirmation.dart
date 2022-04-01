@@ -36,6 +36,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
   String name = '';
   String numbers = '';
   bool isChecked = false;
+  String reportId = '';
   void displayMessage() {
     showDialog(
         context: context,
@@ -150,6 +151,10 @@ class _AutomatedReportState extends State<AutomatedReport> {
             return randomString;
           }
 
+          setState(() {
+            reportId = generateRandomString(20);
+          });
+
           DatabaseReference database = FirebaseDatabase.instance
               .ref()
               .child('User\'s Report')
@@ -162,9 +167,11 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['name'] =
               '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}';
           map['age'] = '${loggedInUser.age}';
+          map['uid'] = '${loggedInUser.uid}';
           map['sex'] = '${loggedInUser.gender}';
           map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
           map['time'] = DateFormat("hh:mm:ss").format(initialDate);
+          map['dateAndTime'] = initialDate.toString();
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
@@ -174,9 +181,15 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
           map['contactNumber'] = '+63${loggedInUser.contactNumber}';
+          map['description'] = '';
           map['status'] = 'unsolved';
+          map['reportId'] = reportId;
           map['sendToNearbyUsers'] = sendToNearbyUsers;
-          map['autoOrManual'] = 'manual';
+          map['autoOrManual'] = 'automated';
+          map['municipalityReport'] = '${loggedInUser.liveMunicipality}';
+          map['bloodType'] = '${loggedInUser.bloodType}';
+          map['reportId'] = reportId;
+
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -184,10 +197,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
                 (route) => false);
 
             //Upload To Firestore
-            firebaseFirestore
-                .collection("User Reports")
-                .doc(generateRandomString(20))
-                .set({
+            firebaseFirestore.collection("User Reports").doc(reportId).set({
               'email': '${loggedInUser.email}',
               'uid': '${loggedInUser.uid}',
               'emergencyTypeOfReport': name,
@@ -202,12 +212,14 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'sex': '${loggedInUser.gender}',
               'date': DateFormat("yyyy-MM-dd").format(initialDate),
               'time': DateFormat("hh:mm:ss").format(initialDate),
+              'dateAndTime': initialDate.toString(),
               //  'emergencyTypeOfReport': emergencyValue,
               //  'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
               'longitude': loggedInUser.longitude,
               'latitude': loggedInUser.latitude,
+              'reportId': reportId,
               'sendToNearbyUsers': sendToNearbyUsers,
               'municipalityReport': '${loggedInUser.liveMunicipality}',
             });
