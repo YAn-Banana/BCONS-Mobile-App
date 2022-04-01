@@ -367,7 +367,7 @@ class _CreatePDFState extends State<CreatePDF> {
               'bloodType': '${loggedInUser.bloodType}',
               'status': 'Unsolved',
               'description': _additionalInfoEditingController.text,
-              'autoOrManual': 'automated',
+              'autoOrManual': 'manual',
               'contactNumber': '+63${loggedInUser.contactNumber}',
               'name':
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
