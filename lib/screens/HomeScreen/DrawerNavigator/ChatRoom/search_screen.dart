@@ -138,6 +138,13 @@ class _SearchScreenState extends State<SearchScreen> {
     }
   }
 
+  void showSnackBar(BuildContext context, String text) {
+    final snackBar = SnackBar(
+      content: Text(text),
+    );
+    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+  }
+
   Widget searhListUserTile(String imageUrl, String lastName, String firstName,
       String midName, String email, String uid) {
     return GestureDetector(
@@ -301,17 +308,11 @@ class _SearchScreenState extends State<SearchScreen> {
                 getAddressFromUserLongAndLat(position);
                 setState(() {
                   isClickedSearchNearby = true;
+                  showSnackBar(context,
+                      'Your Location has been set to the latitude of ${position.latitude} and to the longitude of ${position.longitude}');
                 });
               }),
-              child: const Text(
-                'Nearby Users',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                    fontFamily: 'PoppinsRegular',
-                    letterSpacing: 1.5,
-                    color: Colors.white,
-                    fontSize: 10),
-              ))
+              child: const Icon(Icons.place, size: 30, color: Colors.white))
           : FloatingActionButton(
               backgroundColor: const Color(0xffcc021d),
               onPressed: (() {
@@ -330,7 +331,15 @@ class _SearchScreenState extends State<SearchScreen> {
                 onSearchMunicipalityButtonClick();
                 setState(() {});
               }),
-              child: const Icon(Icons.place)),
+              child: const Text(
+                'Nearby Users',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Colors.white,
+                    fontSize: 10),
+              )),
       body: Container(
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,

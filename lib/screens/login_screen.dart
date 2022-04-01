@@ -146,7 +146,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                     'passwordValidator'),
                                 const SizedBox(height: 5.0),
                                 GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: ((context) =>
+                                                const ResetPassword())));
+                                  },
                                   child: Text(
                                     'Forgot Password??',
                                     style: TextStyle(
@@ -371,6 +377,142 @@ class _LoginScreenState extends State<LoginScreen> {
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
             borderSide: const BorderSide(width: 1.0, color: Colors.grey),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResetPassword extends StatefulWidget {
+  const ResetPassword({Key? key}) : super(key: key);
+
+  @override
+  State<ResetPassword> createState() => _ResetPasswordState();
+}
+
+class _ResetPasswordState extends State<ResetPassword> {
+  TextEditingController emailEditingController = TextEditingController();
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          'Reset Password',
+          style: TextStyle(
+              fontFamily: 'PoppinsBold',
+              letterSpacing: 2.0,
+              color: Colors.white,
+              fontSize: 20.0),
+        ),
+        elevation: 0.0,
+        centerTitle: true,
+        backgroundColor: const Color(0xffcc021d),
+        leading: InkWell(
+          child: const Icon(
+            Icons.arrow_back,
+          ),
+          onTap: () => Navigator.of(context).pop(),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          height: MediaQuery.of(context).size.height,
+          padding: const EdgeInsets.fromLTRB(20, 200, 20, 200),
+          decoration: const BoxDecoration(
+              gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomRight,
+                  colors: [Colors.black, Colors.red, Colors.black])),
+          child: Container(
+            height: 150,
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.all(20),
+            decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(Radius.circular(20))),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  textFormField('Email..', emailEditingController),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      firebase_auth.FirebaseAuth.instance
+                          .sendPasswordResetEmail(
+                              email: emailEditingController.text)
+                          .then((value) => {
+                                Fluttertoast.showToast(
+                                    msg:
+                                        'Your password reset link has been sent to ${emailEditingController.text}'),
+                                Navigator.pushReplacement(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const LoginScreen()))
+                              });
+                    },
+                    style: ElevatedButton.styleFrom(
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0)),
+                      fixedSize: const Size(200, 50.0),
+                      primary: Colors.red[600],
+                    ),
+                    child: const Text(
+                      'Forgot Password',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                          fontSize: 15.0,
+                          fontFamily: 'PoppinsBold'),
+                    ),
+                  ),
+                ]),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget textFormField(String labelText, TextEditingController controller) {
+    return SizedBox(
+      width: MediaQuery.of(context).size.width,
+      height: 55.0,
+      child: TextFormField(
+        controller: controller,
+        onSaved: (value) {
+          controller.text = value!;
+        },
+        autofocus: false,
+        decoration: InputDecoration(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
+          fillColor: Colors.transparent,
+          filled: true,
+          labelText: labelText,
+          labelStyle: const TextStyle(
+              fontSize: 15.0,
+              color: Colors.black,
+              fontFamily: 'PoppinsRegular',
+              letterSpacing: 1.5),
+          hintText: 'Enter your Valid Email...',
+          hintStyle: const TextStyle(
+              fontSize: 15.0,
+              color: Colors.black,
+              fontFamily: 'PoppinsRegular',
+              letterSpacing: 1.5),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
+          ),
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15.0),
+            borderSide: const BorderSide(width: 1.0, color: Colors.black),
           ),
         ),
       ),

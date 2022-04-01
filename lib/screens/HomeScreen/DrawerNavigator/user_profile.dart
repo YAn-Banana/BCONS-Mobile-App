@@ -462,7 +462,9 @@ class _UserProfileState extends State<UserProfile> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        cardInfoWithoutTrailing('Email', '${loggedInUser.email}'),
+        loggedInUser.email!.isNotEmpty
+            ? cardInfoWithoutTrailing('Email', '${loggedInUser.email}')
+            : cardInfoWithoutTrailing('Email', 'None'),
         const SizedBox(
           height: 10,
         ),

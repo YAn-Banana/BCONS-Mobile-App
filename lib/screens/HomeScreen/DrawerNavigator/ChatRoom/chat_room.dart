@@ -63,7 +63,6 @@ class _ChatRoomsState extends State<ChatRooms> {
         .get()
         .then((value) {
       loggedInUser = UserModel.fromMap(value.data());
-
       getChatRooms();
       setState(() {});
     });

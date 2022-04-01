@@ -243,7 +243,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                           image: DecorationImage(
                         fit: BoxFit.cover,
                         scale: 1.0,
-                        image: AssetImage('assets/images/flood_logo.jpg'),
+                        image: AssetImage('assets/images/FloodLogo.png'),
                       )),
                     ),
                     title: const Text(
@@ -273,7 +273,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                           image: DecorationImage(
                         fit: BoxFit.cover,
                         scale: 1.0,
-                        image: AssetImage('assets/images/el_nino.webp'),
+                        image: AssetImage('assets/images/ElNinoLogo.png'),
                       )),
                     ),
                     title: const Text(
@@ -302,7 +302,7 @@ class _EmergencyTipsState extends State<EmergencyTips> {
                       decoration: const BoxDecoration(
                           image: DecorationImage(
                         scale: 1.0,
-                        image: AssetImage('assets/images/random.jpg'),
+                        image: AssetImage('assets/images/OthersLogo.png'),
                       )),
                     ),
                     title: const Text(

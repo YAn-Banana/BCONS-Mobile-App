@@ -243,7 +243,7 @@ Widget cardUI(
               height: 10,
             ),
             const Text(
-              'description',
+              'Description',
               style: TextStyle(
                   fontFamily: 'PoppinsBold',
                   letterSpacing: 1.5,

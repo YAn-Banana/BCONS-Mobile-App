@@ -337,6 +337,7 @@ class _CreatePDFState extends State<CreatePDF> {
           map['sex'] = '${loggedInUser.gender}';
           map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
           map['time'] = DateFormat("hh:mm:ss").format(initialDate);
+          map['dateAndTime'] = initialDate.toString();
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
           map['image'] = uploadPath;
@@ -348,6 +349,10 @@ class _CreatePDFState extends State<CreatePDF> {
           map['status'] = 'unsolved';
           map['sendToNearbyUsers'] = sendToNearbyUsers;
           map['autoOrManual'] = 'manual';
+          map['reportId'] = reportId;
+          map['bloodType'] = '${loggedInUser.bloodType}';
+          map['uid'] = '${loggedInUser.uid}';
+
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
                 context,
@@ -358,23 +363,26 @@ class _CreatePDFState extends State<CreatePDF> {
             firebaseFirestore.collection("User Reports").doc(reportId).set({
               'email': '${loggedInUser.email}',
               'uid': '${loggedInUser.uid}',
+              'emergencyTypeOfReport': emergencyValue,
               'bloodType': '${loggedInUser.bloodType}',
               'status': 'unsolved',
-              'autoOrManual': 'manual',
+              'description': _additionalInfoEditingController.text,
+              'autoOrManual': 'automated',
+              'contactNumber': '+63${loggedInUser.contactNumber}',
               'name':
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial} ${loggedInUser.lastName}',
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
               'date': DateFormat("yyyy-MM-dd").format(initialDate),
               'time': DateFormat("hh:mm:ss").format(initialDate),
-              'emergencyTypeOfReport': emergencyValue,
-              'description': _additionalInfoEditingController.text,
+              'dateAndTime': initialDate.toString(),
+              //  'emergencyTypeOfReport': emergencyValue,
+              //  'description': _additionalInfoEditingController.text,
               'image': uploadPath,
               'address': loggedInUser.address,
-              'latitude': loggedInUser.latitude,
               'longitude': loggedInUser.longitude,
+              'latitude': loggedInUser.latitude,
               'reportId': reportId,
-              'contactNumber': '${loggedInUser.contactNumber}',
               'sendToNearbyUsers': sendToNearbyUsers,
               'municipalityReport': '${loggedInUser.liveMunicipality}',
             });
