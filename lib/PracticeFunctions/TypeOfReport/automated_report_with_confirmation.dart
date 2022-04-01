@@ -170,7 +170,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['uid'] = '${loggedInUser.uid}';
           map['sex'] = '${loggedInUser.gender}';
           map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
-          map['time'] = DateFormat("hh:mm:ss").format(initialDate);
+          map['time'] = DateFormat("hh:mm:ss a").format(initialDate);
           map['dateAndTime'] = initialDate.toString();
           //map['emergencyTypeOfReport'] = emergencyValue;
           //map['description'] = _additionalInfoEditingController.text;
@@ -182,7 +182,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['longitude'] = loggedInUser.longitude;
           map['contactNumber'] = '+63${loggedInUser.contactNumber}';
           map['description'] = '';
-          map['status'] = 'unsolved';
+          map['status'] = 'Unsolved';
           map['reportId'] = reportId;
           map['sendToNearbyUsers'] = sendToNearbyUsers;
           map['autoOrManual'] = 'automated';
@@ -202,7 +202,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'uid': '${loggedInUser.uid}',
               'emergencyTypeOfReport': name,
               'bloodType': '${loggedInUser.bloodType}',
-              'status': 'unsolved',
+              'status': 'Unsolved',
               'description': '',
               'autoOrManual': 'automated',
               'contactNumber': '+63${loggedInUser.contactNumber}',
@@ -211,7 +211,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
               'date': DateFormat("yyyy-MM-dd").format(initialDate),
-              'time': DateFormat("hh:mm:ss").format(initialDate),
+              'time': DateFormat("hh:mm:ss a").format(initialDate),
               'dateAndTime': initialDate.toString(),
               //  'emergencyTypeOfReport': emergencyValue,
               //  'description': _additionalInfoEditingController.text,

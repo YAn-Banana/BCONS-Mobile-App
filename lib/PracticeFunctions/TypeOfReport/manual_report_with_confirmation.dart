@@ -292,7 +292,7 @@ class _CreatePDFState extends State<CreatePDF> {
     firebase_auth.User? user = firebaseAuth.currentUser;
     FirebaseStorage storageRef = FirebaseStorage.instance;
     String uploadFileName =
-        '${loggedInUser.uid},${DateFormat("yyyy-MM-dd,hh:mm:ss").format(initialDate)}.jpg';
+        '${loggedInUser.uid},${DateFormat("yyyy-MM-dd,hh:mm:ss a").format(initialDate)}.jpg';
     Reference reference =
         storageRef.ref().child('User\'s Report Images').child(uploadFileName);
     UploadTask uploadTask = reference.putFile(File(pickedImage!.path));
@@ -336,7 +336,7 @@ class _CreatePDFState extends State<CreatePDF> {
           map['age'] = '${loggedInUser.age}';
           map['sex'] = '${loggedInUser.gender}';
           map['date'] = DateFormat("yyyy-MM-dd").format(initialDate);
-          map['time'] = DateFormat("hh:mm:ss").format(initialDate);
+          map['time'] = DateFormat("hh:mm:ss a").format(initialDate);
           map['dateAndTime'] = initialDate.toString();
           map['emergencyTypeOfReport'] = emergencyValue;
           map['description'] = _additionalInfoEditingController.text;
@@ -346,7 +346,7 @@ class _CreatePDFState extends State<CreatePDF> {
           map['latitude'] = loggedInUser.latitude;
           map['longitude'] = loggedInUser.longitude;
           map['address'] = loggedInUser.address;
-          map['status'] = 'unsolved';
+          map['status'] = 'Unsolved';
           map['sendToNearbyUsers'] = sendToNearbyUsers;
           map['autoOrManual'] = 'manual';
           map['reportId'] = reportId;
@@ -365,7 +365,7 @@ class _CreatePDFState extends State<CreatePDF> {
               'uid': '${loggedInUser.uid}',
               'emergencyTypeOfReport': emergencyValue,
               'bloodType': '${loggedInUser.bloodType}',
-              'status': 'unsolved',
+              'status': 'Unsolved',
               'description': _additionalInfoEditingController.text,
               'autoOrManual': 'automated',
               'contactNumber': '+63${loggedInUser.contactNumber}',
@@ -374,7 +374,7 @@ class _CreatePDFState extends State<CreatePDF> {
               'age': '${loggedInUser.age}',
               'sex': '${loggedInUser.gender}',
               'date': DateFormat("yyyy-MM-dd").format(initialDate),
-              'time': DateFormat("hh:mm:ss").format(initialDate),
+              'time': DateFormat("hh:mm:ss a").format(initialDate),
               'dateAndTime': initialDate.toString(),
               //  'emergencyTypeOfReport': emergencyValue,
               //  'description': _additionalInfoEditingController.text,
