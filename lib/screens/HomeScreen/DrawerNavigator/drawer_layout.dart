@@ -35,6 +35,7 @@ class _DrawerLayoutState extends State<DrawerLayout> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     sharedPreferences.remove('email');
+    sharedPreferences.remove('contact');
   }
 
   //Navigate to User Profile Screen

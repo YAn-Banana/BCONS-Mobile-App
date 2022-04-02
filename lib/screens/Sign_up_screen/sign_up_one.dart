@@ -2,7 +2,7 @@ import 'package:bcons_app/Service/AuthService.dart';
 import 'package:bcons_app/model/user_model.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/Sign_up_screen/multi_stepper.dart';
-import 'package:bcons_app/screens/Sign_up_screen/phone_auth_sign_up.dart';
+import 'package:bcons_app/screens/Sign_up_screen/phone_auth_signUp.dart';
 import 'package:bcons_app/screens/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
@@ -176,7 +176,7 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                                       context,
                                       MaterialPageRoute(
                                           builder: (context) =>
-                                              const PhoneAuthMultiStepper()));
+                                              const PhoneAuthSignUp()));
                                 }),
                                 const SizedBox(height: 15),
                                 const Text('or',

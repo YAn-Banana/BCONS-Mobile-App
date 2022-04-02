@@ -39,7 +39,7 @@ class _NotificationsState extends State<Notifications> {
         .collection('User Reports')
         .where('uid', isNotEqualTo: uid)
         .where('sendToNearbyUsers', isEqualTo: true)
-        .where('status', isEqualTo: 'unsolved')
+        .where('status', isEqualTo: 'Unsolved')
         .where('municipalityReport', isEqualTo: municipality)
         .snapshots();
   }

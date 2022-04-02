@@ -13,6 +13,7 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
   String finalEmail = '';
+  String finalContactNumber = '';
 
   @override
   void initState() {
@@ -20,14 +21,19 @@ class _SplashScreenState extends State<SplashScreen> {
 
     // After Validation, if there is an existing account or an instance that comes from the shared preferences, user will navigate immediately to the Home Screen
     // otherwise, user will navigate to the Log In Screen
-    getValidation().whenComplete(() async => Timer(
-        const Duration(seconds: 3),
-        () => Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-                builder: (context) => finalEmail == ''
-                    ? const IntroScreen()
-                    : const HomeScreen()))));
+    getValidation().whenComplete(() async =>
+        Timer(const Duration(seconds: 3), () {
+          if (finalContactNumber != '') {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          } else if (finalEmail != '') {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const HomeScreen()));
+          } else {
+            Navigator.pushReplacement(context,
+                MaterialPageRoute(builder: (context) => const IntroScreen()));
+          }
+        }));
   }
 
   // If shared preferences have an instance that comes from the current user then
@@ -37,9 +43,11 @@ class _SplashScreenState extends State<SplashScreen> {
     final SharedPreferences sharedPreferences =
         await SharedPreferences.getInstance();
     var obtainedEmail = sharedPreferences.getString('email');
+    var obtainedContactNumber = sharedPreferences.getString('contact');
 
     setState(() {
       finalEmail = obtainedEmail!;
+      finalContactNumber = obtainedContactNumber!;
     });
   }
 

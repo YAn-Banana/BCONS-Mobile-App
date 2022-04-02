@@ -76,36 +76,17 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
   Future<void> signInWithPhoneNumber(
       String verificationID, String smsCode, BuildContext context) async {
     AuthCredential authCredential;
-
     try {
       authCredential = PhoneAuthProvider.credential(
           verificationId: verificationID, smsCode: smsCode);
-      await firebaseFirestore
-          .collection('Users')
-          .where('contactNumber',
-              isEqualTo: '+63 ' + _contactNumberEditingController.text.trim())
-          .get()
-          .then((result) {
-        if (result.docs.isNotEmpty) {
-          setState(() {
-            isValidUser = true;
-          });
-        } else {
-          setState(() {
-            isValidUser = false;
-          });
-        }
-      });
-      if (isValidUser == true) {
-        await auth.signInWithCredential(authCredential).then((value) =>
-            Navigator.pushAndRemoveUntil(
-                context,
-                MaterialPageRoute(builder: (builder) => const HomeScreen()),
-                (route) => false));
+
+      await auth.signInWithCredential(authCredential).then((value) {
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (builder) => const HomeScreen()),
+            (route) => false);
         showSnackBar(context, 'Logged In');
-      } else {
-        showSnackBar(context, 'Phone number not found, Please sign up first');
-      }
+      });
     } catch (e) {
       showSnackBar(context, e.toString());
     }
@@ -134,7 +115,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Sign Up',
+            ' Sign In',
             style: TextStyle(
                 fontFamily: 'PoppinsBold',
                 letterSpacing: 2.0,
@@ -258,7 +239,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
                                             await SharedPreferences
                                                 .getInstance();
                                         sharedPreferences.setString(
-                                            'contactNumber',
+                                            'contact',
                                             _contactNumberEditingController
                                                 .text);
                                         signInWithPhoneNumber(
@@ -282,7 +263,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
                                           ? const CircularProgressIndicator(
                                               color: Colors.white)
                                           : const Text(
-                                              'Verify',
+                                              'Sign In',
                                               style: TextStyle(
                                                   color: Colors.white,
                                                   fontWeight: FontWeight.bold,

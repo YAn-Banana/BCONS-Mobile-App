@@ -1,11 +1,11 @@
 import 'dart:async';
 
 import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/Sign_up_screen/privacyPolicy.dart';
 import 'package:bcons_app/screens/Sign_up_screen/termsAndConditions.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -13,43 +13,31 @@ import 'package:intl/intl.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
+import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../HomeScreen/home_screen.dart';
-
-class PhoneAuthMultiStepper extends StatefulWidget {
-  const PhoneAuthMultiStepper({Key? key}) : super(key: key);
+class PhoneAuthSignUp extends StatefulWidget {
+  const PhoneAuthSignUp({Key? key}) : super(key: key);
 
   @override
-  _PhoneAuthMultiStepperState createState() => _PhoneAuthMultiStepperState();
+  State<PhoneAuthSignUp> createState() => _PhoneAuthSignUpState();
 }
 
-class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
-  int currentStepIndex = 0;
+class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
   final _formkey = GlobalKey<FormState>();
+  int currentStepIndex = 0;
   final _firstNameEditingController = TextEditingController();
   final _lastNameEditingController = TextEditingController();
   final _midNameEditingController = TextEditingController();
   final _contactNumberEditingController = TextEditingController();
   final _streetEditingController = TextEditingController();
   final _brgyEditingController = TextEditingController();
-  bool isChecked = false;
 
   DateTime initialDate = DateTime.now();
   DateTime? date;
   String textSelect = 'Press to Select your Birthday';
-  int startTime = 60;
-  bool sent = false;
-  String buttonName = 'Send';
-  String verificationIDFinal = '';
-  String smsCode = '';
-  bool circular = false;
-  FirebaseAuth auth = FirebaseAuth.instance;
-  firebase_auth.User? user = firebaseAuth.currentUser;
-  UserModel userModel = UserModel();
-  FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
-  final storage = const FlutterSecureStorage();
   int? days;
+
   //Show Date Picker
   Future<void> selectDate(BuildContext context) async {
     final newDate = await showDatePicker(
@@ -67,7 +55,6 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
     }
   }
 
-  // logic to get date, instance from the date picker
   String getDate() {
     if (date == null) {
       return textSelect;
@@ -190,6 +177,27 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
     );
   }
 
+  String buttonName = 'Send';
+  String verificationIDFinal = '';
+  String smsCode = '';
+  int startTime = 60;
+  bool sent = false;
+  void startTimer() {
+    const onSec = Duration(seconds: 1);
+    Timer timer = Timer.periodic(onSec, (timer) {
+      if (startTime == 0) {
+        setState(() {
+          timer.cancel();
+          sent = false;
+        });
+      } else {
+        setState(() {
+          startTime--;
+        });
+      }
+    });
+  }
+
   Future<void> verifyPhoneNumber(
       String phoneNumber, BuildContext context, Function setData) async {
     PhoneVerificationCompleted verificationCompleted;
@@ -227,70 +235,11 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
     }
   }
 
-  void postDetailsToFireStore() async {
-    userModel.uid = user?.uid;
-    userModel.email = 'None';
-    userModel.firstName = _firstNameEditingController.text;
-    userModel.lastName = _lastNameEditingController.text;
-    userModel.middleInitial = _midNameEditingController.text;
-    userModel.fullName =
-        '${_firstNameEditingController.text} ${_lastNameEditingController.text}';
-    userModel.gender = genderValue;
-    userModel.contactNumber = _contactNumberEditingController.text;
-    userModel.birthday = getDate();
-    userModel.age = getAge();
-    userModel.street = _streetEditingController.text;
-    userModel.brgy = _brgyEditingController.text;
-    userModel.municipality = municipalityValue;
-    userModel.province = provinceValue;
-    userModel.bloodType = bloodTypeValue;
-
-    await firebaseFirestore
-        .collection("Users")
-        .doc(user?.uid)
-        .set(userModel.toMap());
-    Fluttertoast.showToast(msg: 'Account Created Successfully');
-    Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const HomeScreen()),
-        (route) => false);
-  }
-
-  Future<void> signUpWithPhoneNumber(
-      String verificationID, String smsCode, BuildContext context) async {
-    AuthCredential authCredential;
-    if (_formkey.currentState!.validate()) {
-      try {
-        authCredential = PhoneAuthProvider.credential(
-            verificationId: verificationID, smsCode: smsCode);
-        await firebaseAuth
-            .signInWithCredential(authCredential)
-            .then((value) => {postDetailsToFireStore()})
-            .catchError((e) {
-          setState(() {
-            circular = false;
-          });
-          Fluttertoast.showToast(msg: e);
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (context) => const HomeScreen()),
-              (route) => false);
-        });
-      } catch (e) {
-        showSnackBar(context, e.toString());
-      }
-    }
-  }
-
-  void storeTokenAndData(UserCredential userCredential) async {
-    await storage.write(
-        key: 'token', value: userCredential.credential?.token.toString());
-    await storage.write(
-        key: 'userCredential', value: userCredential.toString());
-  }
-
-  Future<String?> getToken() async {
-    return await storage.read(key: 'token');
+  void setData(verificationID) {
+    setState(() {
+      verificationIDFinal = verificationID;
+    });
+    startTimer();
   }
 
   void showSnackBar(BuildContext context, String text) {
@@ -300,6 +249,7 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
+  bool isChecked = false;
   void displayMessage() {
     showDialog(
         context: context,
@@ -330,12 +280,79 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
         });
   }
 
+  Future<void> signUpWithPhoneNumber(
+      String verificationID, String smsCode, BuildContext context) async {
+    AuthCredential authCredential;
+    if (_formkey.currentState!.validate()) {
+      try {
+        authCredential = PhoneAuthProvider.credential(
+            verificationId: verificationID, smsCode: smsCode);
+        await firebaseAuth
+            .signInWithCredential(authCredential)
+            .then((value) => {postDetailsToFireStore()})
+            .catchError((e) {
+          setState(() {});
+          Fluttertoast.showToast(msg: e);
+        });
+      } catch (e) {
+        showSnackBar(context, e.toString());
+      }
+    }
+  }
+
+  Future<void> postDetailsToFireStore() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    firebase_auth.User? user = firebaseAuth.currentUser;
+    UserModel userModel = UserModel();
+
+    userModel.uid = user!.uid;
+    userModel.email = 'None';
+    userModel.firstName = _firstNameEditingController.text;
+    userModel.lastName = _lastNameEditingController.text;
+    userModel.middleInitial = _midNameEditingController.text;
+    userModel.fullName =
+        '${_firstNameEditingController.text} ${_lastNameEditingController.text}';
+    userModel.gender = genderValue;
+    userModel.contactNumber = _contactNumberEditingController.text;
+    userModel.birthday = getDate();
+    userModel.age = getAge();
+    userModel.bloodType = bloodTypeValue;
+    userModel.street = _streetEditingController.text;
+    userModel.brgy = _brgyEditingController.text;
+    userModel.municipality = municipalityValue;
+    userModel.province = provinceValue;
+
+    await firebaseFirestore
+        .collection('Users')
+        .doc(user.uid)
+        .set(userModel.toMap())
+        .then((value) {
+      Fluttertoast.showToast(msg: 'Account Created Successfully');
+      Navigator.pushAndRemoveUntil(
+          context,
+          MaterialPageRoute(builder: (context) => const HomeScreen()),
+          (route) => false);
+    });
+  }
+
+  final storage = const FlutterSecureStorage();
+  void storeTokenAndData(UserCredential userCredential) async {
+    await storage.write(
+        key: 'token', value: userCredential.credential?.token.toString());
+    await storage.write(
+        key: 'userCredential', value: userCredential.toString());
+  }
+
+  Future<String?> getToken() async {
+    return await storage.read(key: 'token');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: const Text(
-            'Sign Up',
+            'New Sign Up',
             style: TextStyle(
                 fontFamily: 'PoppinsBold',
                 letterSpacing: 2.0,
@@ -393,23 +410,20 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
                                         setState(() {
                                           currentStepIndex += 1;
                                         });
-                                      } else if (currentStepIndex == 2 &&
-                                          isChecked == true) {
+                                      } else if (currentStepIndex == 2) {
                                         final SharedPreferences
                                             sharedPreferences =
                                             await SharedPreferences
                                                 .getInstance();
                                         sharedPreferences.setString(
-                                            'contactNumber',
+                                            'contact',
                                             _contactNumberEditingController
                                                 .text);
                                         signUpWithPhoneNumber(
                                             verificationIDFinal,
                                             smsCode,
                                             context);
-                                        setState(() {
-                                          circular = true;
-                                        });
+                                        setState(() {});
                                       }
                                     },
                                     onStepCancel: () {
@@ -760,137 +774,6 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.center,
                                             children: [
-                                              /*Text(
-                                                  'Name: ${_lastNameEditingController.text}, ${_firstNameEditingController.text} ${_midNameEditingController.text}',
-                                                  style: const TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily:
-                                                        'PoppinsRegular',
-                                                    letterSpacing: 1.5,
-                                                    color: Colors.black,
-                                                  )),
-                                              const SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text(
-                                                  'Gender: ${_genderEditingController.text}',
-                                                  style: const TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily:
-                                                        'PoppinsRegular',
-                                                    letterSpacing: 1.5,
-                                                    color: Colors.black,
-                                                  )),
-                                              const SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text(
-                                                  'Contact No: +63${_contactNumberEditingController.text}',
-                                                  style: const TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily:
-                                                        'PoppinsRegular',
-                                                    letterSpacing: 1.5,
-                                                    color: Colors.black,
-                                                  )),
-                                              const SizedBox(
-                                                height: 15.0,
-                                              ),
-                                              Text('Birthday: ${getDate()}',
-                                                  style: const TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily:
-                                                        'PoppinsRegular',
-                                                    letterSpacing: 1.5,
-                                                    color: Colors.black,
-                                                  )),
-                                              const SizedBox(
-                                                height: 10.0,
-                                              ),
-                                              Text(
-                                                  'Address: ${_streetEditingController.text} ${_brgyEditingController.text} ${_municipalityEditingController.text}, ${_provinceEditingController.text}',
-                                                  style: const TextStyle(
-                                                    fontSize: 15.0,
-                                                    fontFamily:
-                                                        'PoppinsRegular',
-                                                    letterSpacing: 1.5,
-                                                    color: Colors.black,
-                                                  )),
-                                              Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.center,
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.center,
-                                                children: [
-                                                  Checkbox(
-                                                    splashRadius: 5.0,
-                                                    value: isChecked,
-                                                    onChanged: (b) {
-                                                      setState(() {
-                                                        isChecked = b!;
-
-                                                        isChecked
-                                                            ? displayMessage()
-                                                            : null;
-                                                      });
-                                                    },
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const TermsAndConditions()));
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      'Terms and Conditions',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.red[600],
-                                                          fontSize: 10.0,
-                                                          fontFamily:
-                                                              'PoppinsRegular'),
-                                                    ),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  Text(
-                                                    '|',
-                                                    style: TextStyle(
-                                                        color:
-                                                            Colors.grey[600]),
-                                                  ),
-                                                  const SizedBox(
-                                                    width: 5.0,
-                                                  ),
-                                                  GestureDetector(
-                                                    onTap: () {
-                                                      setState(() {
-                                                        Navigator.push(
-                                                            context,
-                                                            MaterialPageRoute(
-                                                                builder:
-                                                                    (context) =>
-                                                                        const PrivacyPolicy()));
-                                                      });
-                                                    },
-                                                    child: Text(
-                                                      'Privacy Policy',
-                                                      style: TextStyle(
-                                                          color:
-                                                              Colors.red[600],
-                                                          fontSize: 10.0,
-                                                          fontFamily:
-                                                              'PoppinsRegular'),
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),*/
                                               const SizedBox(
                                                 height: 50,
                                               ),
@@ -1049,32 +932,14 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
         ));
   }
 
-  void startTimer() {
-    const onSec = Duration(seconds: 1);
-    Timer timer = Timer.periodic(onSec, (timer) {
-      if (startTime == 0) {
-        setState(() {
-          timer.cancel();
-          sent = false;
-        });
-      } else {
-        setState(() {
-          startTime--;
-        });
-      }
-    });
-  }
-
   Widget textForm(String labelText, TextEditingController controller,
       String validator, double width, double height) {
     const String firstNameValidator = 'firstNameValidator';
     const String lastNameValidator = 'lastNameValidator';
     const String contactNumberValidator = 'contactNumberValidator';
-    const String emailValidator = 'emailValidator';
+
     const String streetValidator = 'streetAndBrgyValidator';
     const String brgyValidator = 'streetAndBrgyValidator';
-    const String municipalityValidator = 'municipalityValidator';
-    const String provinceValidator = 'provinceValidator';
 
     return SizedBox(
       width: width,
@@ -1125,28 +990,6 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
           if (brgyValidator == validator) {
             if (value!.isEmpty) {
               return ("Brgy are required");
-            }
-            return null;
-          }
-          if (municipalityValidator == validator) {
-            if (value!.isEmpty) {
-              return ("Municipality is required");
-            }
-            return null;
-          }
-          if (provinceValidator == validator) {
-            if (value!.isEmpty) {
-              return ("Province is required");
-            }
-            return null;
-          }
-          if (emailValidator == validator) {
-            if (value!.isEmpty) {
-              return 'Please Enter your Email';
-            }
-            if (!RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+.[a-z]")
-                .hasMatch(value)) {
-              return ("Please Enter a valid Email");
             }
             return null;
           }
@@ -1274,12 +1117,5 @@ class _PhoneAuthMultiStepperState extends State<PhoneAuthMultiStepper> {
         });
       },
     );
-  }
-
-  void setData(verificationID) {
-    setState(() {
-      verificationIDFinal = verificationID;
-    });
-    startTimer();
   }
 }
