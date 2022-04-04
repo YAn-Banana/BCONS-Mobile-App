@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
               ),
               Container(
-                  height: 200.0,
+                  height: 185.0,
                   width: double.infinity,
                   padding: const EdgeInsets.all(30.0),
                   decoration: const BoxDecoration(
@@ -135,8 +135,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             chooseReportStyle(context);
                           },
                           child: Container(
-                            height: 200.0,
-                            width: 200.0,
+                            height: 150.0,
+                            width: 150.0,
                             decoration: const BoxDecoration(
                               shape: BoxShape.circle,
                               color: Color(0xffd90824),
@@ -156,85 +156,111 @@ class _HomeScreenState extends State<HomeScreen> {
                       ],
                     ),
                   )),
-              SizedBox(
-                  height: 60,
-                  width: MediaQuery.of(context).size.width,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        flex: 1,
-                        child: ListTile(
-                          selectedTileColor: Colors.cyan,
-                          title: const Icon(Icons.home),
-                          subtitle: const Text(
-                            'Home',
-                            textAlign: TextAlign.center,
-                          ),
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const HomeScreen()),
-                                (route) => false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: ListTile(
-                          title: const Icon(Icons.person),
-                          subtitle: const Text(
-                            'Person',
-                            textAlign: TextAlign.center,
-                          ),
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => const UserProfile()),
-                                (route) => false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: ListTile(
-                          title: const Icon(Icons.phone),
-                          subtitle: const Text('Contact',
-                              textAlign: TextAlign.center),
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const ContactScreen()),
-                                (route) => false);
-                          },
-                        ),
-                      ),
-                      Expanded(
-                        flex: 1,
-                        child: ListTile(
-                          title: const Icon(Icons.book_outlined),
-                          subtitle: const Text('Library',
-                              textAlign: TextAlign.center),
-                          onTap: () {
-                            Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) =>
-                                        const EmergencyTips()),
-                                (route) => false);
-                          },
-                        ),
-                      ),
-                    ],
-                  ))
             ],
           ),
         ],
       ),
+      persistentFooterButtons: [
+        SizedBox(
+            height: 60,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(
+                      Icons.home,
+                      color: Color(0xffd90824),
+                    ),
+                    subtitle: const Text(
+                      'Home',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xffd90824),
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.person),
+                    subtitle: const Text(
+                      'Person',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserProfile()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.phone),
+                    subtitle: const Text(
+                      'Contact',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ContactScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.book_outlined),
+                    subtitle: const Text(
+                      'Library',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EmergencyTips()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+              ],
+            ))
+      ],
     );
   }
 

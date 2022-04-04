@@ -10,6 +10,9 @@ import 'package:image_picker/image_picker.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 
+import 'Emergency Libraries/emergency_list_tips.dart';
+import 'contacts.dart';
+
 class UserProfile extends StatefulWidget {
   const UserProfile({Key? key}) : super(key: key);
 
@@ -282,6 +285,110 @@ class _UserProfileState extends State<UserProfile> {
           ],
         ),
       ),
+      persistentFooterButtons: [
+        SizedBox(
+            height: 60,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                    subtitle: const Text(
+                      'Home',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(
+                      Icons.person,
+                      color: Color(0xffd90824),
+                    ),
+                    subtitle: const Text(
+                      'Person',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xffd90824),
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserProfile()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.phone),
+                    subtitle: const Text(
+                      'Contact',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ContactScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.book_outlined),
+                    subtitle: const Text(
+                      'Library',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EmergencyTips()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+              ],
+            ))
+      ],
     );
   }
 

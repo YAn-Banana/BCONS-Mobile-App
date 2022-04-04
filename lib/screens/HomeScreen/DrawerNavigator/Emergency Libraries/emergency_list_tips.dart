@@ -9,6 +9,8 @@ import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Librari
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
+import '../contacts.dart';
+import '../user_profile.dart';
 import 'flood_tips.dart';
 
 class EmergencyTips extends StatefulWidget {
@@ -328,6 +330,110 @@ class _EmergencyTipsState extends State<EmergencyTips> {
           ),
         ],
       ),
+      persistentFooterButtons: [
+        SizedBox(
+            height: 60,
+            width: MediaQuery.of(context).size.width,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(
+                      Icons.home,
+                      color: Colors.black,
+                    ),
+                    subtitle: const Text(
+                      'Home',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomeScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.person, color: Colors.black),
+                    subtitle: const Text(
+                      'Person',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UserProfile()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(Icons.phone, color: Colors.black),
+                    subtitle: const Text(
+                      'Contact',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const ContactScreen()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+                Expanded(
+                  flex: 1,
+                  child: ListTile(
+                    title: const Icon(
+                      Icons.book_outlined,
+                      color: Color(0xffd90824),
+                    ),
+                    subtitle: const Text(
+                      'Library',
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Color(0xffd90824),
+                          fontSize: 13.0,
+                          letterSpacing: 1.5,
+                          fontFamily: 'PoppinsRegular'),
+                    ),
+                    onTap: () {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const EmergencyTips()),
+                          (route) => false);
+                    },
+                  ),
+                ),
+              ],
+            ))
+      ],
     );
   }
 }

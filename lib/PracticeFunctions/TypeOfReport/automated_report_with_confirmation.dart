@@ -189,6 +189,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
           map['municipalityReport'] = '${loggedInUser.liveMunicipality}';
           map['bloodType'] = '${loggedInUser.bloodType}';
           map['reportId'] = reportId;
+          map['dateSolved'] = '';
+          map['timeSolved'] = '';
 
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -222,6 +224,8 @@ class _AutomatedReportState extends State<AutomatedReport> {
               'reportId': reportId,
               'sendToNearbyUsers': sendToNearbyUsers,
               'municipalityReport': '${loggedInUser.liveMunicipality}',
+              'dateSolved': '',
+              'timeSolved': '',
             });
           });
           showSnackBar(context, 'Completely Reported');
