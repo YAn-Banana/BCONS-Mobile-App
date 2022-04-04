@@ -352,6 +352,8 @@ class _CreatePDFState extends State<CreatePDF> {
           map['reportId'] = reportId;
           map['bloodType'] = '${loggedInUser.bloodType}';
           map['uid'] = '${loggedInUser.uid}';
+          map['dateSolved'] = '';
+          map['timeSolved'] = '';
 
           database.child(uploadId!).set(map).whenComplete(() {
             Navigator.pushAndRemoveUntil(
@@ -385,6 +387,8 @@ class _CreatePDFState extends State<CreatePDF> {
               'reportId': reportId,
               'sendToNearbyUsers': sendToNearbyUsers,
               'municipalityReport': '${loggedInUser.liveMunicipality}',
+              'dateSolved': '',
+              'timeSolved': '',
             });
           });
           showSnackBar(context, 'Completely Reported');
