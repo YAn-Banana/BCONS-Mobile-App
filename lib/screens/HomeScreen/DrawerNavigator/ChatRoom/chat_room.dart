@@ -108,9 +108,9 @@ class _ChatRoomsState extends State<ChatRooms> {
 }
 
 class ChatRoomListTile extends StatefulWidget {
-  final String lastMessage;
-  final String chatRoomId;
-  final String myUserId;
+  final String? lastMessage;
+  final String? chatRoomId;
+  final String? myUserId;
 
   const ChatRoomListTile(
       {Key? key,
@@ -124,15 +124,15 @@ class ChatRoomListTile extends StatefulWidget {
 }
 
 class _ChatRoomListTileState extends State<ChatRoomListTile> {
-  String profilePicUrl = "";
-  String chatMateFirstName = "";
-  String chatMateLastName = "";
-  String chatMateUserId = "";
+  String? profilePicUrl;
+  String? chatMateFirstName;
+  String? chatMateLastName;
+  String? chatMateUserId;
 
   getThisUserInfo() async {
     chatMateUserId =
-        widget.chatRoomId.replaceAll(widget.myUserId, "").replaceAll("_", "");
-    QuerySnapshot querySnapshot = await getUserInfo(chatMateUserId);
+        widget.chatRoomId!.replaceAll(widget.myUserId!, "").replaceAll("_", "");
+    QuerySnapshot querySnapshot = await getUserInfo(chatMateUserId!);
     chatMateFirstName = "${querySnapshot.docs[0]["firstName"]}";
     chatMateLastName = "${querySnapshot.docs[0]["lastName"]}";
     profilePicUrl = "${querySnapshot.docs[0]["image"]}";
@@ -162,9 +162,9 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatMateRoom(
-                      chatMateFirstName: chatMateFirstName,
-                      chatMateLastName: chatMateLastName,
-                      chatMateUid: chatMateUserId)));
+                      chatMateFirstName: chatMateFirstName!,
+                      chatMateLastName: chatMateLastName!,
+                      chatMateUid: chatMateUserId!)));
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
@@ -173,14 +173,25 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
-                ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: Image.network(
-                    profilePicUrl,
-                    height: 50,
-                    width: 50,
-                  ),
-                ),
+                profilePicUrl != null
+                    ? Container(
+                        height: 30.0,
+                        width: 30.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(profilePicUrl!),
+                                fit: BoxFit.cover)),
+                      )
+                    : Container(
+                        height: 30.0,
+                        width: 30.0,
+                        decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/profile.png'),
+                                fit: BoxFit.cover)),
+                      ),
                 const SizedBox(width: 12),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -195,7 +206,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                       ),
                     ),
                     const SizedBox(height: 3),
-                    Text(widget.lastMessage,
+                    Text(widget.lastMessage!,
                         style: const TextStyle(
                           fontSize: 12,
                           fontFamily: 'PoppinsRegular',

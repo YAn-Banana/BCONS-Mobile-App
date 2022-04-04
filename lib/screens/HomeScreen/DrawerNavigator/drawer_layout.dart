@@ -122,8 +122,8 @@ class _DrawerLayoutState extends State<DrawerLayout> {
                             decoration: const BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
-                                    image: AssetImage(
-                                        'assets/images/BCONS_screen_.icon.png'),
+                                    image:
+                                        AssetImage('assets/images/profile.png'),
                                     fit: BoxFit.cover)),
                           )
                         : Container(

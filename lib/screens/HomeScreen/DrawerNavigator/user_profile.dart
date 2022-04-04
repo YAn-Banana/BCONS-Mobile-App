@@ -515,8 +515,7 @@ class _UserProfileState extends State<UserProfile> {
               child: CircleAvatar(
                 radius: 80.0,
                 backgroundColor: Color(0xffd90824),
-                backgroundImage:
-                    AssetImage('assets/images/BCONS_screen_.icon.png'),
+                backgroundImage: AssetImage('assets/images/profile.png'),
               ),
             ),
           )

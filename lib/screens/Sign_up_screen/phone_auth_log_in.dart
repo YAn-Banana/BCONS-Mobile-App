@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:otp_text_field/otp_field.dart';
 import 'package:otp_text_field/otp_field_style.dart';
 import 'package:otp_text_field/style.dart';
@@ -85,7 +86,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
             context,
             MaterialPageRoute(builder: (builder) => const HomeScreen()),
             (route) => false);
-        showSnackBar(context, 'Logged In');
+        Fluttertoast.showToast(msg: 'LogIn Successfully');
       });
     } catch (e) {
       showSnackBar(context, e.toString());

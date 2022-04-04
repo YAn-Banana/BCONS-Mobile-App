@@ -19,23 +19,23 @@ class SearchScreen extends StatefulWidget {
 
 class _SearchScreenState extends State<SearchScreen> {
   User? user = FirebaseAuth.instance.currentUser;
-  UserModel loggedInUser = UserModel();
+  UserModel? loggedInUser = UserModel();
   TextEditingController searcheditingcontroller = TextEditingController();
   QuerySnapshot? searchSnapshot;
-  Stream<QuerySnapshot>? userStream;
-  Stream<QuerySnapshot>? municipalityStream;
+  Stream<QuerySnapshot?>? userStream;
+  Stream<QuerySnapshot?>? municipalityStream;
   bool isSearching = false;
   String? liveMunicipality;
   bool isClickedSearchNearby = false;
 
-  Future<Stream<QuerySnapshot>> getUserByUserName(String userName) async {
+  Future<Stream<QuerySnapshot?>>? getUserByUserName(String userName) async {
     return FirebaseFirestore.instance
         .collection('Users')
         .where('firstName', isEqualTo: userName)
         .snapshots();
   }
 
-  Future<Stream<QuerySnapshot>> getUserByTheirMunicipality(
+  Future<Stream<QuerySnapshot?>>? getUserByTheirMunicipality(
       String municipality) async {
     return FirebaseFirestore.instance
         .collection('Users')
@@ -107,7 +107,7 @@ class _SearchScreenState extends State<SearchScreen> {
   onSearchMunicipalityButtonClick() async {
     isSearching = true;
     municipalityStream =
-        await getUserByTheirMunicipality('${loggedInUser.liveMunicipality}');
+        await getUserByTheirMunicipality('${loggedInUser!.liveMunicipality}');
     setState(() {});
   }
 
@@ -120,7 +120,7 @@ class _SearchScreenState extends State<SearchScreen> {
   }
 
   createChatRoom(
-      String chatRoomId, Map<String, dynamic> chatRoomInfoMap) async {
+      String? chatRoomId, Map<String, dynamic>? chatRoomInfoMap) async {
     final snapShot = await FirebaseFirestore.instance
         .collection("chatrooms")
         .doc(chatRoomId)
@@ -134,7 +134,7 @@ class _SearchScreenState extends State<SearchScreen> {
       return FirebaseFirestore.instance
           .collection("chatrooms")
           .doc(chatRoomId)
-          .set(chatRoomInfoMap);
+          .set(chatRoomInfoMap!);
     }
   }
 
@@ -145,65 +145,90 @@ class _SearchScreenState extends State<SearchScreen> {
     ScaffoldMessenger.of(context).showSnackBar(snackBar);
   }
 
-  Widget searhListUserTile(String imageUrl, String lastName, String firstName,
-      String midName, String email, String uid) {
+  Widget searhListUserTile(
+      {String? imageUrl,
+      String? lastName,
+      String? firstName,
+      String? midName,
+      String? email,
+      String? uid}) {
     return GestureDetector(
       onTap: () {
-        var chatRoomId = getChatRoomIdByUsernames('${loggedInUser.uid}', uid);
-        Map<String, dynamic> chatRoomInfoMap = {
-          "users": ['${loggedInUser.uid}', uid]
+        var chatRoomId = getChatRoomIdByUsernames('${loggedInUser!.uid}', uid!);
+        Map<String, dynamic>? chatRoomInfoMap = {
+          "users": ['${loggedInUser!.uid}', uid]
         };
         createChatRoom(chatRoomId, chatRoomInfoMap);
         Navigator.push(
             context,
             MaterialPageRoute(
                 builder: (context) => ChatMateRoom(
-                    chatMateFirstName: firstName,
-                    chatMateLastName: lastName,
+                    chatMateFirstName: firstName!,
+                    chatMateLastName: lastName!,
                     chatMateUid: uid)));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-          Container(
-            height: 50.0,
-            width: 50.0,
-            decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: NetworkImage(imageUrl), fit: BoxFit.cover)),
-          ),
+          imageUrl != null
+              ? Container(
+                  height: 50.0,
+                  width: 50.0,
+                  decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: NetworkImage(imageUrl), fit: BoxFit.cover)),
+                )
+              : Container(
+                  height: 50.0,
+                  width: 50.0,
+                  decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                          image: AssetImage('assets/images/profile.png'),
+                          fit: BoxFit.cover)),
+                ),
           const SizedBox(
             width: 10,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              midName.isNotEmpty
-                  ? Text(
-                      '$firstName $midName. $lastName ',
-                      style: const TextStyle(
+              if (midName!.isNotEmpty)
+                Text(
+                  '$firstName $midName. $lastName ',
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 12.0),
+                )
+              else
+                Text(
+                  '$firstName $lastName ',
+                  style: const TextStyle(
+                      fontFamily: 'PoppinsRegular',
+                      letterSpacing: 1.5,
+                      color: Colors.black,
+                      fontSize: 12.0),
+                ),
+              email!.isEmpty
+                  ? const Text(
+                      'None',
+                      style: TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
                           color: Colors.black,
                           fontSize: 12.0),
                     )
                   : Text(
-                      '$firstName $lastName ',
+                      email,
                       style: const TextStyle(
                           fontFamily: 'PoppinsRegular',
                           letterSpacing: 1.5,
                           color: Colors.black,
                           fontSize: 12.0),
-                    ),
-              Text(
-                email,
-                style: const TextStyle(
-                    fontFamily: 'PoppinsRegular',
-                    letterSpacing: 1.5,
-                    color: Colors.black,
-                    fontSize: 12.0),
-              ),
+                    )
             ],
           )
         ]),
@@ -215,20 +240,21 @@ class _SearchScreenState extends State<SearchScreen> {
     return StreamBuilder(
         stream: userStream,
         builder:
-            (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
-          return snapshots.hasData
+            (BuildContext context, AsyncSnapshot<QuerySnapshot?>? snapshots) {
+          return snapshots!.hasData
               ? ListView.builder(
                   itemCount: snapshots.data!.docs.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
                     return searhListUserTile(
-                        ds['image'],
-                        ds['lastName'],
-                        ds['firstName'],
-                        ds['middleInitial'],
-                        ds['email'],
-                        ds['uid']);
+                      imageUrl: ds['image'],
+                      lastName: ds['lastName'],
+                      firstName: ds['firstName'],
+                      midName: ds['middleInitial'],
+                      email: ds['email'],
+                      uid: ds['uid'],
+                    );
                   })
               : const Center(
                   child: CircularProgressIndicator(),
@@ -240,20 +266,21 @@ class _SearchScreenState extends State<SearchScreen> {
     return StreamBuilder(
         stream: municipalityStream,
         builder:
-            (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshots) {
-          return snapshots.hasData
+            (BuildContext context, AsyncSnapshot<QuerySnapshot?>? snapshots) {
+          return snapshots!.hasData
               ? ListView.builder(
                   itemCount: snapshots.data!.docs.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
                     return searhListUserTile(
-                        ds['image'],
-                        ds['lastName'],
-                        ds['firstName'],
-                        ds['middleInitial'],
-                        ds['email'],
-                        ds['uid']);
+                      imageUrl: ds['image'],
+                      lastName: ds['lastName'],
+                      firstName: ds['firstName'],
+                      midName: ds['middleInitial'],
+                      email: ds['email'],
+                      uid: ds['uid'],
+                    );
                   })
               : const Center(
                   child: CircularProgressIndicator(),

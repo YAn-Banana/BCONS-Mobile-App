@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:bcons_app/screens/intro_screen.dart';
 import 'package:flutter/material.dart';
@@ -12,8 +13,8 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  String finalEmail = '';
-  String finalContactNumber = '';
+  String? finalEmail;
+  String? finalContactNumber;
 
   @override
   void initState() {
@@ -23,10 +24,10 @@ class _SplashScreenState extends State<SplashScreen> {
     // otherwise, user will navigate to the Log In Screen
     getValidation().whenComplete(() async =>
         Timer(const Duration(seconds: 3), () {
-          if (finalContactNumber != '') {
+          if (finalContactNumber != null) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
-          } else if (finalEmail != '') {
+          } else if (finalEmail != null) {
             Navigator.pushReplacement(context,
                 MaterialPageRoute(builder: (context) => const HomeScreen()));
           } else {
@@ -46,8 +47,8 @@ class _SplashScreenState extends State<SplashScreen> {
     var obtainedContactNumber = sharedPreferences.getString('contact');
 
     setState(() {
-      finalEmail = obtainedEmail!;
-      finalContactNumber = obtainedContactNumber!;
+      finalEmail = obtainedEmail;
+      finalContactNumber = obtainedContactNumber;
     });
   }
 

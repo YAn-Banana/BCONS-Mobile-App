@@ -141,8 +141,8 @@ class _ChooseReportState extends State<ChooseReport> {
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: const [
-                            Text(
+                          children: [
+                            const Text(
                               'AUTOMATED',
                               style: TextStyle(
                                 fontSize: 25.0,
@@ -152,7 +152,7 @@ class _ChooseReportState extends State<ChooseReport> {
                                 fontFamily: 'PoppinsBold',
                               ),
                             ),
-                            Text(
+                            const Text(
                               'REPORT',
                               style: TextStyle(
                                 fontSize: 25.0,
@@ -162,7 +162,7 @@ class _ChooseReportState extends State<ChooseReport> {
                                 fontFamily: 'PoppinsBold',
                               ),
                             ),
-                            SizedBox(
+                            const SizedBox(
                               height: 10,
                             ),
                             Text(
@@ -170,7 +170,7 @@ class _ChooseReportState extends State<ChooseReport> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.black,
+                                color: Colors.grey[300],
                                 letterSpacing: 2.0,
                                 fontFamily: 'PoppinsRegular',
                               ),
