@@ -1,3 +1,4 @@
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Libraries/emergency_libraries.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
 
@@ -38,7 +39,7 @@ class _ContactScreenState extends State<ContactScreen> {
       ),
       persistentFooterButtons: [
         SizedBox(
-            height: 60,
+            height: 50,
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -73,7 +74,7 @@ class _ContactScreenState extends State<ContactScreen> {
                   child: ListTile(
                     title: const Icon(Icons.person, color: Colors.black),
                     subtitle: const Text(
-                      'Person',
+                      'Profile',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
@@ -132,7 +133,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EmergencyTips()),
+                              builder: (context) => const Libraries()),
                           (route) => false);
                     },
                   ),

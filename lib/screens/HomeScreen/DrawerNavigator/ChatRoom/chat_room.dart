@@ -102,7 +102,7 @@ class _ChatRoomsState extends State<ChatRooms> {
           size: 30,
         ),
       ),
-      body: chatRoomsList(),
+      body: ListView(shrinkWrap: true, children: [chatRoomsList()]),
     );
   }
 }

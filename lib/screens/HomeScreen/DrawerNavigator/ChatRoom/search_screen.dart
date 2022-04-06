@@ -39,6 +39,7 @@ class _SearchScreenState extends State<SearchScreen> {
       String municipality) async {
     return FirebaseFirestore.instance
         .collection('Users')
+        .where('visibility', isEqualTo: 'Yes')
         .where(
           'municipality',
           isEqualTo: municipality,
@@ -151,7 +152,10 @@ class _SearchScreenState extends State<SearchScreen> {
       String? firstName,
       String? midName,
       String? email,
-      String? uid}) {
+      String? uid,
+      String? liveLongitude,
+      String? liveLatitude,
+      int? distance}) {
     return GestureDetector(
       onTap: () {
         var chatRoomId = getChatRoomIdByUsernames('${loggedInUser!.uid}', uid!);
@@ -212,23 +216,23 @@ class _SearchScreenState extends State<SearchScreen> {
                       color: Colors.black,
                       fontSize: 12.0),
                 ),
-              email!.isEmpty
-                  ? const Text(
-                      'None',
-                      style: TextStyle(
-                          fontFamily: 'PoppinsRegular',
-                          letterSpacing: 1.5,
-                          color: Colors.black,
-                          fontSize: 12.0),
-                    )
-                  : Text(
-                      email,
-                      style: const TextStyle(
-                          fontFamily: 'PoppinsRegular',
-                          letterSpacing: 1.5,
-                          color: Colors.black,
-                          fontSize: 12.0),
-                    )
+              Row(
+                children: [
+                  const Icon(
+                    Icons.location_on_outlined,
+                    color: Color(0xffcc021d),
+                    size: 20,
+                  ),
+                  Text(
+                    '$distance meter away',
+                    style: const TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.black,
+                        fontSize: 12.0),
+                  ),
+                ],
+              )
             ],
           )
         ]),
@@ -248,13 +252,21 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
                     return searhListUserTile(
-                      imageUrl: ds['image'],
-                      lastName: ds['lastName'],
-                      firstName: ds['firstName'],
-                      midName: ds['middleInitial'],
-                      email: ds['email'],
-                      uid: ds['uid'],
-                    );
+                        imageUrl: ds['image'],
+                        lastName: ds['lastName'],
+                        firstName: ds['firstName'],
+                        midName: ds['middleInitial'],
+                        email: ds['email'],
+                        uid: ds['uid'],
+                        liveLatitude: ds['liveLatitude'],
+                        liveLongitude: ds['liveLongitude'],
+                        distance: Geolocator.distanceBetween(
+                                double.parse('${loggedInUser!.liveLatitude}'),
+                                double.parse('${loggedInUser!.liveLongitude}'),
+                                double.parse('${ds['liveLatitude']}'),
+                                double.parse('${ds['liveLongitude']}'))
+                            .round()
+                            .toInt());
                   })
               : const Center(
                   child: CircularProgressIndicator(),
@@ -274,13 +286,21 @@ class _SearchScreenState extends State<SearchScreen> {
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
                     return searhListUserTile(
-                      imageUrl: ds['image'],
-                      lastName: ds['lastName'],
-                      firstName: ds['firstName'],
-                      midName: ds['middleInitial'],
-                      email: ds['email'],
-                      uid: ds['uid'],
-                    );
+                        imageUrl: ds['image'],
+                        lastName: ds['lastName'],
+                        firstName: ds['firstName'],
+                        midName: ds['middleInitial'],
+                        email: ds['email'],
+                        uid: ds['uid'],
+                        liveLatitude: ds['liveLatitude'],
+                        liveLongitude: ds['liveLongitude'],
+                        distance: Geolocator.distanceBetween(
+                                double.parse('${loggedInUser!.liveLatitude}'),
+                                double.parse('${loggedInUser!.liveLongitude}'),
+                                double.parse('${ds['liveLatitude']}'),
+                                double.parse('${ds['liveLongitude']}'))
+                            .round()
+                            .toInt());
                   })
               : const Center(
                   child: CircularProgressIndicator(),
@@ -368,7 +388,7 @@ class _SearchScreenState extends State<SearchScreen> {
                     fontSize: 10),
               )),
       body: Container(
-          height: MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height + 400,
           width: MediaQuery.of(context).size.width,
           child: Column(
             children: [

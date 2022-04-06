@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:bcons_app/model/user_model.dart';
+import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Libraries/emergency_libraries.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -40,6 +41,7 @@ class _UserProfileState extends State<UserProfile> {
   String? municipalityValue;
   String? provinceValue;
   String? bloodTypeValue;
+  String? visibilityValue;
 
   final bloodTypeList = [
     'A+',
@@ -77,6 +79,7 @@ class _UserProfileState extends State<UserProfile> {
     'Santa Maria'
   ];
   final provinceList = ['Bulacan'];
+  final visibilityList = ['Yes', 'No'];
 
   void cancelUpdate(BuildContext context) {
     Navigator.pop(context);
@@ -143,6 +146,23 @@ class _UserProfileState extends State<UserProfile> {
     try {
       await firebaseFirestore.collection('Users').doc(user.uid).update({
         'bloodType': bloodTypeValue,
+      }).whenComplete(() => Navigator.pushReplacement(context,
+          MaterialPageRoute(builder: (context) => const UserProfile())));
+    } catch (e) {
+      final snackBar = SnackBar(content: Text(e.toString()));
+      ScaffoldMessenger.of(context).showSnackBar(snackBar);
+    }
+  }
+
+  void updateUserVisibility() async {
+    FirebaseFirestore firebaseFirestore = FirebaseFirestore.instance;
+    firebase_auth.User? user = firebaseAuth.currentUser;
+    UserModel userModel = UserModel();
+
+    userModel.uid = user!.uid;
+    try {
+      await firebaseFirestore.collection('Users').doc(user.uid).update({
+        'visibility': visibilityValue,
       }).whenComplete(() => Navigator.pushReplacement(context,
           MaterialPageRoute(builder: (context) => const UserProfile())));
     } catch (e) {
@@ -287,7 +307,7 @@ class _UserProfileState extends State<UserProfile> {
       ),
       persistentFooterButtons: [
         SizedBox(
-            height: 60,
+            height: 50,
             width: MediaQuery.of(context).size.width,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -325,7 +345,7 @@ class _UserProfileState extends State<UserProfile> {
                       color: Color(0xffd90824),
                     ),
                     subtitle: const Text(
-                      'Person',
+                      'Profile',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xffd90824),
@@ -381,7 +401,7 @@ class _UserProfileState extends State<UserProfile> {
                       Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => const EmergencyTips()),
+                              builder: (context) => const Libraries()),
                           (route) => false);
                     },
                   ),
@@ -569,6 +589,10 @@ class _UserProfileState extends State<UserProfile> {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        cardInfoWithTrailing(
+            'Visible to nearby users?', '${loggedInUser.visibility}', () {
+          showSheetForVisible();
+        }),
         loggedInUser.email!.isNotEmpty
             ? cardInfoWithoutTrailing('Email', '${loggedInUser.email}')
             : cardInfoWithoutTrailing('Email', 'None'),
@@ -700,6 +724,18 @@ class _UserProfileState extends State<UserProfile> {
           builder: buildSheetForAddress,
           headerBuilder: headerBuilder));
 
+  Future showSheetForVisible() => showSlidingBottomSheet(context,
+      builder: (context) => SlidingSheetDialog(
+          cornerRadius: 16,
+          isDismissable: false,
+          snapSpec: const SnapSpec(
+            snap: true,
+            initialSnap: 0.5,
+            snappings: [0.5],
+          ),
+          builder: buildSheetForVisible,
+          headerBuilder: headerBuilder));
+
   Widget headerBuilder(BuildContext context, SheetState state) {
     return Container(
       color: const Color(0xffcc021d),
@@ -717,6 +753,123 @@ class _UserProfileState extends State<UserProfile> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Widget buildSheetForVisible(context, state) {
+    return Material(
+      child: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: Form(
+            child: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Column(children: [
+            const Center(
+              child: Text(
+                'Update your visibility status',
+                style: TextStyle(
+                    fontFamily: 'PoppinsBold',
+                    letterSpacing: 2.0,
+                    color: Colors.black,
+                    fontSize: 20.0),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Container(
+              height: 45,
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15),
+                  border: Border.all(color: Colors.black, width: 0.5)),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton<String>(
+                    icon: const Icon(
+                      Icons.arrow_drop_down,
+                      size: 20,
+                      color: Colors.black,
+                    ),
+                    hint: const Text(
+                      'Visibility',
+                      style: TextStyle(
+                          fontFamily: 'PoppinsRegular',
+                          letterSpacing: 1.5,
+                          color: Color.fromRGBO(0, 0, 0, 1),
+                          fontSize: 12.0),
+                    ),
+                    value: visibilityValue,
+                    isExpanded: true,
+                    items: visibilityList.map(buildMenuItem).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        visibilityValue = value;
+                      });
+                    }),
+              ),
+            ),
+            const SizedBox(
+              height: 30,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                    setState(() {
+                      edit = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    fixedSize: const Size(150, 50.0),
+                    primary: Colors.grey,
+                  ),
+                  child: const Text(
+                    'Cancel',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+                const SizedBox(
+                  width: 15,
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    updateUserVisibility();
+                    setState(() {
+                      edit = false;
+                    });
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15.0)),
+                    fixedSize: const Size(150, 50.0),
+                    primary: const Color(0xffcc021d),
+                  ),
+                  child: const Text(
+                    'Save',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 2.0,
+                        fontSize: 15.0,
+                        fontFamily: 'PoppinsBold'),
+                  ),
+                ),
+              ],
+            ),
+          ]),
+        )),
       ),
     );
   }

@@ -321,6 +321,7 @@ class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
     userModel.brgy = _brgyEditingController.text;
     userModel.municipality = municipalityValue;
     userModel.province = provinceValue;
+    userModel.visibility = 'No';
 
     await firebaseFirestore
         .collection('Users')

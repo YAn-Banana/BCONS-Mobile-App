@@ -103,9 +103,17 @@ class _LoginScreenState extends State<LoginScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                const SizedBox(height: 20),
-                                buttonItems('assets/images/google.png',
-                                    'Sign in with Google', () {}),
+                                Container(
+                                  height: 150.0,
+                                  width: 150.0,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/access_account.png'),
+                                          fit: BoxFit.cover)),
+                                ),
+                                /*buttonItems('assets/images/google.png',
+                                    'Sign in with Google', () {}),*/
                                 const SizedBox(height: 10),
                                 buttonItems('assets/images/phone.png',
                                     'Sign in with Mobile', () {

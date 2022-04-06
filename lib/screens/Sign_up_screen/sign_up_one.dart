@@ -165,10 +165,19 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: [
-                                buttonItems('assets/images/google.png',
+                                /*buttonItems('assets/images/google.png',
                                     'Sign up with Google', () async {
                                   await _authService.googleSignIn(context);
-                                }),
+                                }),*/
+                                Container(
+                                  height: 150.0,
+                                  width: 150.0,
+                                  decoration: const BoxDecoration(
+                                      image: DecorationImage(
+                                          image: AssetImage(
+                                              'assets/images/access_account.png'),
+                                          fit: BoxFit.cover)),
+                                ),
                                 const SizedBox(height: 10),
                                 buttonItems('assets/images/phone.png',
                                     'Sign up with Mobile', () {
@@ -270,6 +279,9 @@ class _SignUpOneScreenState extends State<SignUpOneScreen> {
                                     ),
                                   ],
                                 ),
+                                const SizedBox(
+                                  height: 50,
+                                )
                               ],
                             ),
                           ),

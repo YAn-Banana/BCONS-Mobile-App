@@ -19,6 +19,9 @@ class UserModel {
   String? longitude;
   String? address;
   String? liveMunicipality;
+  String? visibility;
+  String? liveLatitude;
+  String? liveLongitude;
 
   UserModel(
       {this.uid,
@@ -40,31 +43,38 @@ class UserModel {
       this.latitude,
       this.longitude,
       this.address,
-      this.liveMunicipality});
+      this.liveMunicipality,
+      this.visibility,
+      this.liveLatitude,
+      this.liveLongitude});
 
   // get the data from the server
   factory UserModel.fromMap(map) {
     return UserModel(
-        uid: map['uid'],
-        email: map['email'],
-        firstName: map['firstName'],
-        lastName: map['lastName'],
-        middleInitial: map['middleInitial'],
-        fullName: map['fullName'],
-        gender: map['gender'],
-        image: map['image'],
-        contactNumber: map['contactNumber'],
-        birthday: map['birthday'],
-        age: map['age'],
-        bloodType: map['bloodType'],
-        street: map['street'],
-        brgy: map['brgy'],
-        municipality: map['municipality'],
-        province: map['province'],
-        latitude: map['latitude'],
-        longitude: map['longitude'],
-        address: map['address'],
-        liveMunicipality: map['liveMunicipality']);
+      uid: map['uid'],
+      email: map['email'],
+      firstName: map['firstName'],
+      lastName: map['lastName'],
+      middleInitial: map['middleInitial'],
+      fullName: map['fullName'],
+      gender: map['gender'],
+      image: map['image'],
+      contactNumber: map['contactNumber'],
+      birthday: map['birthday'],
+      age: map['age'],
+      bloodType: map['bloodType'],
+      street: map['street'],
+      brgy: map['brgy'],
+      municipality: map['municipality'],
+      province: map['province'],
+      latitude: map['latitude'],
+      longitude: map['longitude'],
+      address: map['address'],
+      liveMunicipality: map['liveMunicipality'],
+      visibility: map['visibility'],
+      liveLatitude: map['liveLatitude'],
+      liveLongitude: map['liveLongitude'],
+    );
   }
 
   //sending the data to the server
@@ -89,7 +99,10 @@ class UserModel {
       'latitude': latitude,
       'longitude': longitude,
       'address': address,
-      'liveMunicipality': liveMunicipality
+      'liveMunicipality': liveMunicipality,
+      'visibility': visibility,
+      'liveLatitude': liveLatitude,
+      'liveLongitude': liveLongitude,
     };
   }
 }
