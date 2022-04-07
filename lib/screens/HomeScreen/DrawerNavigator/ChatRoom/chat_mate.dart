@@ -274,7 +274,7 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
                             fontSize: 12.0),
                       ),
                     )),
-                    GestureDetector(
+                    /*GestureDetector(
                       onTap: () {
                         imagePicker();
                       },
@@ -285,7 +285,7 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
                     ),
                     const SizedBox(
                       width: 15,
-                    ),
+                    ),*/
                     GestureDetector(
                       onTap: () {
                         addingMessage(true);

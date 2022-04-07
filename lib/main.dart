@@ -1,5 +1,5 @@
 import 'package:bcons_app/PracticeFunctions/machineLearning.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
+
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Libraries/emergency_libraries.dart';
 import 'package:bcons_app/screens/Sign_up_screen/phone_auth_signUp.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';

@@ -274,126 +274,130 @@ class _LibrariesState extends State<Libraries> {
         centerTitle: true,
         backgroundColor: const Color(0xffcc021d),
       ),
-      body: ListView(
-        shrinkWrap: true,
-        children: [
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
-            decoration: const BoxDecoration(
-                gradient: LinearGradient(
-                    begin: Alignment.topRight,
-                    end: Alignment.bottomRight,
-                    colors: [Colors.black, Colors.red, Colors.black])),
-            child: Column(
-              children: [
-                const Text(
-                  'Disaster\'s Preparednesss Plan',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.white,
-                      fontSize: 15.0),
-                ),
-                SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, _) => const SizedBox(
-                        width: 13,
-                      ),
-                      itemCount: 15,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: disasterItems[index]),
-                    )),
-                const SizedBox(height: 30),
-                const Text(
-                  'Health Emergency Tips',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.white,
-                      fontSize: 15.0),
-                ),
-                SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, _) => const SizedBox(
-                        width: 13,
-                      ),
-                      itemCount: 19,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: healthEmergencyItems[index]),
-                    )),
-                const SizedBox(height: 30),
-                const Text(
-                  'Crime Prevention Tips',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.white,
-                      fontSize: 15.0),
-                ),
-                SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, _) => const SizedBox(
-                        width: 13,
-                      ),
-                      itemCount: 6,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: crimeItems[index]),
-                    )),
-                const SizedBox(height: 30),
-                const Text(
-                  'Accident Prevention Tips',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.white,
-                      fontSize: 15.0),
-                ),
-                SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, _) => const SizedBox(
-                        width: 13,
-                      ),
-                      itemCount: 4,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: accidentItems[index]),
-                    )),
-                const SizedBox(height: 30),
-                const Text(
-                  'Other Emergency Tips',
-                  style: TextStyle(
-                      fontFamily: 'PoppinsRegular',
-                      letterSpacing: 1.5,
-                      color: Colors.white,
-                      fontSize: 15.0),
-                ),
-                SizedBox(
-                    height: 200,
-                    child: ListView.separated(
-                      padding: const EdgeInsets.all(10),
-                      scrollDirection: Axis.horizontal,
-                      separatorBuilder: (context, _) => const SizedBox(
-                        width: 13,
-                      ),
-                      itemCount: 4,
-                      itemBuilder: (context, index) =>
-                          buildCard(item: otherItems[index]),
-                    )),
-              ],
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 0),
+              decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomRight,
+                      colors: [Colors.black, Colors.red, Colors.black])),
+              child: Column(
+                children: [
+                  const Text(
+                    'Disaster\'s Preparednesss Plan',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.white,
+                        fontSize: 15.0),
+                  ),
+                  SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, _) => const SizedBox(
+                          width: 13,
+                        ),
+                        itemCount: 15,
+                        itemBuilder: (context, index) =>
+                            buildCard(item: disasterItems[index]),
+                      )),
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Health Emergency Tips',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.white,
+                        fontSize: 15.0),
+                  ),
+                  SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, _) => const SizedBox(
+                          width: 13,
+                        ),
+                        itemCount: 19,
+                        itemBuilder: (context, index) =>
+                            buildCard(item: healthEmergencyItems[index]),
+                      )),
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Crime Prevention Tips',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.white,
+                        fontSize: 15.0),
+                  ),
+                  SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, _) => const SizedBox(
+                          width: 13,
+                        ),
+                        itemCount: 6,
+                        itemBuilder: (context, index) =>
+                            buildCard(item: crimeItems[index]),
+                      )),
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Accident Prevention Tips',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.white,
+                        fontSize: 15.0),
+                  ),
+                  SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, _) => const SizedBox(
+                          width: 13,
+                        ),
+                        itemCount: 4,
+                        itemBuilder: (context, index) =>
+                            buildCard(item: accidentItems[index]),
+                      )),
+                  const SizedBox(height: 30),
+                  const Text(
+                    'Other Emergency Tips',
+                    style: TextStyle(
+                        fontFamily: 'PoppinsRegular',
+                        letterSpacing: 1.5,
+                        color: Colors.white,
+                        fontSize: 15.0),
+                  ),
+                  SizedBox(
+                      height: 200,
+                      child: ListView.separated(
+                        padding: const EdgeInsets.all(10),
+                        scrollDirection: Axis.horizontal,
+                        separatorBuilder: (context, _) => const SizedBox(
+                          width: 13,
+                        ),
+                        itemCount: 4,
+                        itemBuilder: (context, index) =>
+                            buildCard(item: otherItems[index]),
+                      )),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
       persistentFooterButtons: [
         SizedBox(

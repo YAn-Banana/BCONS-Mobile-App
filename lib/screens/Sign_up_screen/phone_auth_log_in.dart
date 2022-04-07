@@ -63,7 +63,7 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
     };
     try {
       auth.verifyPhoneNumber(
-          timeout: const Duration(seconds: 60),
+          timeout: const Duration(seconds: 120),
           phoneNumber: phoneNumber,
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
@@ -167,9 +167,19 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
+                                    Container(
+                                      height: 150.0,
+                                      width: 150.0,
+                                      decoration: const BoxDecoration(
+                                          image: DecorationImage(
+                                              image: AssetImage(
+                                                  'assets/images/access_account.png'),
+                                              fit: BoxFit.cover)),
+                                    ),
+                                    const SizedBox(height: 10.0),
                                     numberField(
                                         _contactNumberEditingController),
-                                    const SizedBox(height: 40.0),
+                                    const SizedBox(height: 10.0),
                                     SizedBox(
                                       width: MediaQuery.of(context).size.width,
                                       child: Row(children: [
@@ -305,10 +315,11 @@ class _PhoneAuthLoginScreenState extends State<PhoneAuthLoginScreen> {
   Widget numberField(TextEditingController controller) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: 45,
+        height: 65,
         child: TextFormField(
           autofocus: false,
           keyboardType: TextInputType.number,
+          maxLength: 10,
           controller: controller,
           onSaved: (value) {
             controller.text = value!;

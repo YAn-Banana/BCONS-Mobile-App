@@ -10,8 +10,6 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sliding_sheet/sliding_sheet.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-
-import 'Emergency Libraries/emergency_list_tips.dart';
 import 'contacts.dart';
 
 class UserProfile extends StatefulWidget {

@@ -538,63 +538,6 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.center,
                                               children: [
-                                                ElevatedButton(
-                                                    onPressed: () {
-                                                      setState(() {
-                                                        selectDate(context);
-                                                      });
-                                                    },
-                                                    style: ElevatedButton
-                                                        .styleFrom(
-                                                      elevation: 0,
-                                                      shape:
-                                                          RoundedRectangleBorder(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15.0),
-                                                        side: const BorderSide(
-                                                            width: 1.0,
-                                                            color:
-                                                                Colors.black),
-                                                      ),
-                                                      fixedSize: Size(
-                                                          MediaQuery.of(context)
-                                                              .size
-                                                              .width,
-                                                          45.0),
-                                                      primary: Colors.white,
-                                                    ),
-                                                    child: Row(
-                                                      crossAxisAlignment:
-                                                          CrossAxisAlignment
-                                                              .start,
-                                                      children: [
-                                                        Text(
-                                                          getDate(),
-                                                          style:
-                                                              const TextStyle(
-                                                            fontSize: 14.0,
-                                                            fontFamily:
-                                                                'PoppinsRegular',
-                                                            letterSpacing: 1.5,
-                                                            color: Colors.black,
-                                                          ),
-                                                        ),
-                                                      ],
-                                                    )),
-                                                const SizedBox(
-                                                  height: 10.0,
-                                                ),
-                                                contactNumberForm(
-                                                    'Contact no.',
-                                                    _contactNumberEditingController,
-                                                    MediaQuery.of(context)
-                                                        .size
-                                                        .width,
-                                                    45.0),
-                                                const SizedBox(
-                                                  height: 10.0,
-                                                ),
                                                 textForm(
                                                     'Street/Purok',
                                                     _streetEditingController,
@@ -722,6 +665,63 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                         }),
                                                   ),
                                                 ),
+                                                const SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                ElevatedButton(
+                                                    onPressed: () {
+                                                      setState(() {
+                                                        selectDate(context);
+                                                      });
+                                                    },
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                      elevation: 0,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(15.0),
+                                                        side: const BorderSide(
+                                                            width: 1.0,
+                                                            color:
+                                                                Colors.black),
+                                                      ),
+                                                      fixedSize: Size(
+                                                          MediaQuery.of(context)
+                                                              .size
+                                                              .width,
+                                                          45.0),
+                                                      primary: Colors.white,
+                                                    ),
+                                                    child: Row(
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .start,
+                                                      children: [
+                                                        Text(
+                                                          getDate(),
+                                                          style:
+                                                              const TextStyle(
+                                                            fontSize: 14.0,
+                                                            fontFamily:
+                                                                'PoppinsRegular',
+                                                            letterSpacing: 1.5,
+                                                            color: Colors.black,
+                                                          ),
+                                                        ),
+                                                      ],
+                                                    )),
+                                                const SizedBox(
+                                                  height: 10.0,
+                                                ),
+                                                contactNumberForm(
+                                                    'Contact no.',
+                                                    _contactNumberEditingController,
+                                                    MediaQuery.of(context)
+                                                        .size
+                                                        .width,
+                                                    65.0),
                                               ])),
                                       Step(
                                           state: StepState.complete,
@@ -1100,6 +1100,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
         autofocus: false,
         controller: controller,
         keyboardType: TextInputType.number,
+        maxLength: 10,
         onSaved: (value) {
           controller.text = value!;
         },

@@ -1,6 +1,6 @@
 import 'package:bcons_app/PracticeFunctions/TypeOfReport/notifications.dart';
 import 'package:bcons_app/model/user_model.dart';
-import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Emergency%20Libraries/emergency_list_tips.dart';
+
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Libraries/emergency_libraries.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/contacts.dart';
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/drawer_layout.dart';
@@ -129,128 +129,133 @@ class _HomeScreenState extends State<HomeScreen> {
         ],
       ),
       drawer: const DrawerLayout(),
-      body: ListView(
-        children: [
-          Column(
-            children: [
-              Container(
-                height: 325.0,
-                width: double.infinity,
-                padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 30.0),
-                color: const Color(0xffd90824),
-                child: Center(
-                  child: CarouselSlider(
-                    options: CarouselOptions(
-                        height: 250.0,
-                        autoPlay: true,
-                        enlargeCenterPage: true,
-                        enableInfiniteScroll: true,
-                        scrollDirection: Axis.horizontal,
-                        aspectRatio: 16 / 9,
-                        autoPlayAnimationDuration:
-                            const Duration(microseconds: 800),
-                        autoPlayCurve: Curves.fastOutSlowIn,
-                        autoPlayInterval: const Duration(seconds: 10),
-                        viewportFraction: 1.2),
-                    items: [
-                      ContainerList("Covid(1).png"),
-                      ContainerList("Covid(2).png"),
-                      ContainerList("Covid(3).png"),
-                      ContainerList("Covid(4).png"),
-                      ContainerList("Covid(5).png"),
-                      ContainerList("Covid(6).png"),
-                      ContainerList("ShortnessofBreath(1).png"),
-                      ContainerList("ShortnessofBreath(2).png"),
-                      ContainerList("ShortnessofBreath(3).png"),
-                      ContainerList("seizure(1).png"),
-                      ContainerList("seizure(2).png"),
-                      ContainerList("severe_bleeding.png"),
-                      ContainerList("coping_with_traumatic_stress.png"),
-                      ContainerList("sexual_violence_prevention.png"),
-                      ContainerList("PhysicalInjuries.png"),
-                      ContainerList("HeadinjuryTips.png"),
-                      ContainerList("MentalHealth.png"),
-                      ContainerList("ChestPainPrevention.png"),
-                      ContainerList("ChestPainPrevention.png"),
-                      ContainerList("flood(1).png"),
-                      ContainerList("flood(2).png"),
-                      ContainerList("flood(3).png"),
-                      ContainerList("flood(4).png"),
-                      ContainerList("beforeEq.png"),
-                      ContainerList("duringEq.png"),
-                      ContainerList("afterEq.png"),
-                      ContainerList("earthquake_tips(1).png"),
-                      ContainerList("beforeFire.png"),
-                      ContainerList("duringFire.png"),
-                      ContainerList("afterFire.png"),
-                      ContainerList("el_nino(1).png"),
-                      ContainerList("el_nino(2).png"),
-                      ContainerList("el_nino(3).png"),
-                      ContainerList("storm.png"),
-                      ContainerList("CrimeRobbery(1).png"),
-                      ContainerList("CrimeRobbery(2).png"),
-                      ContainerList("CrimeTheft(1).png"),
-                      ContainerList("CrimeTheft(2).png"),
-                      ContainerList("AnimalBite(2).png"),
-                      ContainerList("AnimalBite(1).png"),
-                      ContainerList("animalattack.png"),
-                      ContainerList("Drowning.png"),
-                      ContainerList("TrafficAcc(1).png"),
-                      ContainerList("TrafficAcc(2).png"),
-                      ContainerList("Bombing.png"),
-                      ContainerList("Chemical_Hazard.png"),
-                      ContainerList("Radiation.png"),
-                      ContainerList("Electrical.png"),
-                    ],
+      body: SizedBox(
+        height: MediaQuery.of(context).size.height,
+        width: MediaQuery.of(context).size.width,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Column(
+              children: [
+                Container(
+                  height: 325.0,
+                  width: double.infinity,
+                  padding: const EdgeInsets.fromLTRB(0.0, 50.0, 0.0, 30.0),
+                  color: const Color(0xffd90824),
+                  child: Center(
+                    child: CarouselSlider(
+                      options: CarouselOptions(
+                          height: 250.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          enableInfiniteScroll: true,
+                          scrollDirection: Axis.horizontal,
+                          aspectRatio: 16 / 9,
+                          autoPlayAnimationDuration:
+                              const Duration(microseconds: 800),
+                          autoPlayCurve: Curves.fastOutSlowIn,
+                          autoPlayInterval: const Duration(seconds: 10),
+                          viewportFraction: 1.2),
+                      items: [
+                        ContainerList("Covid(1).png"),
+                        ContainerList("Covid(2).png"),
+                        ContainerList("Covid(3).png"),
+                        ContainerList("Covid(4).png"),
+                        ContainerList("Covid(5).png"),
+                        ContainerList("Covid(6).png"),
+                        ContainerList("ShortnessofBreath(1).png"),
+                        ContainerList("ShortnessofBreath(2).png"),
+                        ContainerList("ShortnessofBreath(3).png"),
+                        ContainerList("seizure(1).png"),
+                        ContainerList("seizure(2).png"),
+                        ContainerList("severe_bleeding.png"),
+                        ContainerList("coping_with_traumatic_stress.png"),
+                        ContainerList("sexual_violence_prevention.png"),
+                        ContainerList("PhysicalInjuries.png"),
+                        ContainerList("HeadinjuryTips.png"),
+                        ContainerList("MentalHealth.png"),
+                        ContainerList("ChestPainPrevention.png"),
+                        ContainerList("ChestPainPrevention.png"),
+                        ContainerList("flood(1).png"),
+                        ContainerList("flood(2).png"),
+                        ContainerList("flood(3).png"),
+                        ContainerList("flood(4).png"),
+                        ContainerList("beforeEq.png"),
+                        ContainerList("duringEq.png"),
+                        ContainerList("afterEq.png"),
+                        ContainerList("earthquake_tips(1).png"),
+                        ContainerList("beforeFire.png"),
+                        ContainerList("duringFire.png"),
+                        ContainerList("afterFire.png"),
+                        ContainerList("el_nino(1).png"),
+                        ContainerList("el_nino(2).png"),
+                        ContainerList("el_nino(3).png"),
+                        ContainerList("storm.png"),
+                        ContainerList("CrimeRobbery(1).png"),
+                        ContainerList("CrimeRobbery(2).png"),
+                        ContainerList("CrimeTheft(1).png"),
+                        ContainerList("CrimeTheft(2).png"),
+                        ContainerList("AnimalBite(2).png"),
+                        ContainerList("AnimalBite(1).png"),
+                        ContainerList("animalattack.png"),
+                        ContainerList("Drowning.png"),
+                        ContainerList("TrafficAcc(1).png"),
+                        ContainerList("TrafficAcc(2).png"),
+                        ContainerList("Bombing.png"),
+                        ContainerList("Chemical_Hazard.png"),
+                        ContainerList("Radiation.png"),
+                        ContainerList("Electrical.png"),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              Container(
-                  height: 280.0,
-                  width: double.infinity,
-                  padding: const EdgeInsets.all(30.0),
-                  decoration: const BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/google-maps.jpg'),
-                          fit: BoxFit.cover,
-                          filterQuality: FilterQuality.high)),
-                  child: Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            chooseReportStyle(context);
-                          },
-                          child: Container(
-                            height: 150.0,
-                            width: 150.0,
-                            decoration: const BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: Color(0xffd90824),
-                            ),
-                            child: const Center(
-                              child: Text(
-                                'REPORT',
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 25.0,
-                                    letterSpacing: 1.5,
-                                    fontFamily: 'PoppinsBold'),
+                Container(
+                    height: 280.0,
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(30.0),
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage('assets/images/google-maps.jpg'),
+                            fit: BoxFit.cover,
+                            filterQuality: FilterQuality.high)),
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              chooseReportStyle(context);
+                            },
+                            child: Container(
+                              height: 150.0,
+                              width: 150.0,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color(0xffd90824),
+                              ),
+                              child: const Center(
+                                child: Text(
+                                  'REPORT',
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 25.0,
+                                      letterSpacing: 1.5,
+                                      fontFamily: 'PoppinsBold'),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 50,
-                        )
-                      ],
-                    ),
-                  )),
-            ],
-          ),
-        ],
+                          const SizedBox(
+                            height: 50,
+                          )
+                        ],
+                      ),
+                    )),
+              ],
+            ),
+          ],
+        ),
       ),
       persistentFooterButtons: [
         SizedBox(

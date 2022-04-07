@@ -1,8 +1,8 @@
 import 'package:bcons_app/screens/HomeScreen/DrawerNavigator/Libraries/emergency_libraries.dart';
 import 'package:bcons_app/screens/HomeScreen/home_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_phone_direct_caller/flutter_phone_direct_caller.dart';
 
-import 'Emergency Libraries/emergency_list_tips.dart';
 import 'user_profile.dart';
 
 class ContactScreen extends StatefulWidget {
@@ -37,6 +37,14 @@ class _ContactScreenState extends State<ContactScreen> {
                 MaterialPageRoute(builder: (context) => const HomeScreen()),
                 (route) => false)),
       ),
+      body: Container(
+          padding: const EdgeInsets.all(20),
+          height: MediaQuery.of(context).size.height,
+          width: MediaQuery.of(context).size.width,
+          child: ListView(
+            shrinkWrap: true,
+            children: [listTile('Bulakan Hotline', '+639065911834')],
+          )),
       persistentFooterButtons: [
         SizedBox(
             height: 50,
@@ -141,6 +149,37 @@ class _ContactScreenState extends State<ContactScreen> {
               ],
             ))
       ],
+    );
+  }
+
+  Widget listTile(String name, String number) {
+    return ListTile(
+      title: Text(
+        name,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 17.0,
+            letterSpacing: 1.5,
+            fontFamily: 'PoppinsRegular'),
+      ),
+      subtitle: Text(
+        number,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 13.0,
+            letterSpacing: 1.5,
+            fontFamily: 'PoppinsRegular'),
+      ),
+      trailing: IconButton(
+        icon: const Icon(
+          Icons.phone,
+          size: 30,
+          color: Colors.black,
+        ),
+        onPressed: () async {
+          await FlutterPhoneDirectCaller.callNumber(number);
+        },
+      ),
     );
   }
 }

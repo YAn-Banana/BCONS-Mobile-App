@@ -224,7 +224,7 @@ class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
     };
     try {
       firebaseAuth.verifyPhoneNumber(
-          timeout: const Duration(seconds: 60),
+          timeout: const Duration(seconds: 120),
           phoneNumber: phoneNumber,
           verificationCompleted: verificationCompleted,
           verificationFailed: verificationFailed,
@@ -1024,11 +1024,12 @@ class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
   Widget numberField(TextEditingController controller) {
     return SizedBox(
         width: MediaQuery.of(context).size.width,
-        height: 45,
+        height: 65,
         child: TextFormField(
           autofocus: false,
           keyboardType: TextInputType.number,
           controller: controller,
+          maxLength: 10,
           onSaved: (value) {
             controller.text = value!;
           },
