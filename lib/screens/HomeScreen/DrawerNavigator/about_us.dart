@@ -67,7 +67,7 @@ class _AboutUsState extends State<AboutUs> {
                     height: 10.0,
                   ),
                   Text(
-                    'We are a group of developers from Bulacan State University who want to improve the efficiency of communication and medical services in emergency times.',
+                    'We are a group of programmers and developers from Bulacan State University who want to improve the efficiency of communication and medical services in emergency times.',
                     style: TextStyle(
                         color: Colors.black,
                         fontSize: 17.0,

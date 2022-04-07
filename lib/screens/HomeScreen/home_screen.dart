@@ -316,11 +316,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ListTile(
                     title: const Icon(Icons.phone),
                     subtitle: const Text(
-                      'Contact',
+                      'Contacts',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 10.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),

@@ -144,6 +144,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                       children: [
                         const Text(
                           'Coordinate Points',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'PoppinsBold',
                               letterSpacing: 1.5,
@@ -155,6 +156,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                         ),
                         Text(
                           '$latitude, $longitude',
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontFamily: 'PoppinsRegular',
                               letterSpacing: 1.5,
@@ -166,6 +168,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                         ),
                         const Text(
                           'Address',
+                          textAlign: TextAlign.center,
                           style: TextStyle(
                               fontFamily: 'PoppinsBold',
                               letterSpacing: 1.5,
@@ -174,6 +177,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                         ),
                         Text(
                           locality,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontFamily: 'PoppinsRegular',
                               letterSpacing: 1.5,
@@ -182,6 +186,7 @@ class _UsersCurrentLocationState extends State<UsersCurrentLocation> {
                         ),
                         Text(
                           province,
+                          textAlign: TextAlign.center,
                           style: const TextStyle(
                               fontFamily: 'PoppinsRegular',
                               letterSpacing: 1.5,

@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -391,9 +392,9 @@ class _CreatePDFState extends State<CreatePDF> {
               'timeSolved': '',
             });
           });
-          showSnackBar(context, 'Completely Reported');
+          Fluttertoast.showToast(msg: 'Report Complete!');
         } catch (e) {
-          showSnackBar(context, e.toString());
+          Fluttertoast.showToast(msg: e.toString());
         }
       }
     });
@@ -494,7 +495,8 @@ class _CreatePDFState extends State<CreatePDF> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           const Center(
             child: Text(
-              'REPORT DETAILS',
+              'Do you really want to report this as an emergency?',
+              textAlign: TextAlign.center,
               style: TextStyle(
                   fontFamily: 'PoppinsBold',
                   letterSpacing: 1.5,

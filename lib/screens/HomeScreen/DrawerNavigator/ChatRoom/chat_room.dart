@@ -176,23 +176,23 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
-                profilePicUrl != null
+                profilePicUrl == null
                     ? Container(
-                        height: 30.0,
-                        width: 30.0,
-                        decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                                image: NetworkImage(profilePicUrl!),
-                                fit: BoxFit.cover)),
-                      )
-                    : Container(
                         height: 30.0,
                         width: 30.0,
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
                                 image: AssetImage('assets/images/profile.png'),
+                                fit: BoxFit.cover)),
+                      )
+                    : Container(
+                        height: 30.0,
+                        width: 30.0,
+                        decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                                image: NetworkImage(profilePicUrl!),
                                 fit: BoxFit.cover)),
                       ),
                 const SizedBox(width: 12),

@@ -18,7 +18,7 @@ class _ContactScreenState extends State<ContactScreen> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Contact List',
+          'Contacts',
           style: TextStyle(
               fontFamily: 'PoppinsBold',
               letterSpacing: 2.0,
@@ -43,7 +43,155 @@ class _ContactScreenState extends State<ContactScreen> {
           width: MediaQuery.of(context).size.width,
           child: ListView(
             shrinkWrap: true,
-            children: [listTile('Bulakan Hotline', '+639065911834')],
+            children: [
+              const Text(
+                'General | Covid19',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTile('Bulakan Covid19 Hotline, Globe | TM', '+639661820059'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile('Bulakan Covid19 Hotline, Smart | Tnt', '+639310068118'),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                'Fire Accident',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTile('Beuaru of Fire Protection (BFP) Bulacan, Globe | TM',
+                  '+639567456156'),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                'Natural Disater',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTile(
+                  'Municipal Disaster Risk Reduction and Management Office (MDRRMO), Globe | TM',
+                  '+639275777227'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile(
+                  'Municipal Disaster Risk Reduction and Management Office (MDRRMO), Smart | Tnt',
+                  '+639322312088'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile(
+                  'Bulacan Provincial Disaster Risk Reduction and Management Council (PDRRMC)',
+                  '7910556'),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                'Mental Health Awareness',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTile('Department of Health (DOH) Hotline, Globe | TM',
+                  '+639178998727'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile('Department of Health (DOH) Hotline, Smart | Tnt',
+                  '+639086392672'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTileNoCall('Nationwide toll-free', '1800-1888-1553'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTileNoCall('Luzon-wide landline toll-free', '1553'),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                'General | Crime Awareness Hotline',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTile('Philippine National Police (PNP) Bulakan, Smart | Tnt',
+                  '+639985985378'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTileNoCall(
+                  'Philippine National Police (PNP) Bulakan, Telephone no.',
+                  '(044) 750-4812'),
+              const SizedBox(
+                height: 15,
+              ),
+              const Text(
+                'Bulakan Bulacan Hospitals',
+                style: TextStyle(
+                    fontFamily: 'PoppinsRegular',
+                    letterSpacing: 1.5,
+                    color: Color(0xffcc021d),
+                    fontSize: 20.0),
+              ),
+              const SizedBox(
+                height: 5,
+              ),
+              listTileNoCall(
+                  'Gen. Gregorio Hospital Telephone no.', '(044)792-0119'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTileNoCall(
+                  'Gen. Gregorio Hospital Telephone no.', '(044)792-0745'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile('Municipal Health Office Rural Health Unit, Globe | TM',
+                  '+639661820059'),
+              const SizedBox(
+                height: 10,
+              ),
+              listTile('Municipal Health Office Rural Health Unit, Smart | Tnt',
+                  '+639310068118'),
+              const SizedBox(
+                height: 15,
+              ),
+              listTile('National Hotline in the Philippines', '911'),
+            ],
           )),
       persistentFooterButtons: [
         SizedBox(
@@ -107,11 +255,11 @@ class _ContactScreenState extends State<ContactScreen> {
                       color: Color(0xffd90824),
                     ),
                     subtitle: const Text(
-                      'Contact',
+                      'Contacts',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xffd90824),
-                          fontSize: 13.0,
+                          fontSize: 10.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -166,7 +314,7 @@ class _ContactScreenState extends State<ContactScreen> {
         number,
         style: const TextStyle(
             color: Colors.black,
-            fontSize: 13.0,
+            fontSize: 14.0,
             letterSpacing: 1.5,
             fontFamily: 'PoppinsRegular'),
       ),
@@ -179,6 +327,27 @@ class _ContactScreenState extends State<ContactScreen> {
         onPressed: () async {
           await FlutterPhoneDirectCaller.callNumber(number);
         },
+      ),
+    );
+  }
+
+  Widget listTileNoCall(String name, String number) {
+    return ListTile(
+      title: Text(
+        name,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 17.0,
+            letterSpacing: 1.5,
+            fontFamily: 'PoppinsRegular'),
+      ),
+      subtitle: Text(
+        number,
+        style: const TextStyle(
+            color: Colors.black,
+            fontSize: 14.0,
+            letterSpacing: 1.5,
+            fontFamily: 'PoppinsRegular'),
       ),
     );
   }

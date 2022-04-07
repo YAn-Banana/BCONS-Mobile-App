@@ -79,6 +79,7 @@ class _SplashScreenState extends State<SplashScreen> {
               ),
               const Text(
                 'All about Saving Lives',
+                textAlign: TextAlign.center,
                 style: TextStyle(
                     fontSize: 30.0,
                     fontWeight: FontWeight.bold,

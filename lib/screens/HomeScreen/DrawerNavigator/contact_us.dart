@@ -90,81 +90,84 @@ class _ContactUsState extends State<ContactUs> {
           onTap: () => Navigator.of(context).pop(),
         ),
       ),
-      body: SingleChildScrollView(
-        child: SizedBox(
-          width: MediaQuery.of(context).size.width,
-          height: MediaQuery.of(context).size.height,
-          child: Column(
-            children: [
-              Form(
-                key: _formkey,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(30, 20, 30, 5),
-                  width: double.infinity,
-                  height: 583,
-                  color: Colors.white,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const Text(
-                        'Need help? Feel free to contact us any time. We will respond as soon as possible!',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 17.0,
-                            letterSpacing: 1.5,
-                            fontFamily: 'PoppinsRegular'),
-                      ),
-                      const SizedBox(
-                        height: 30.0,
-                      ),
-                      const Text(
-                        'Please enter the details',
-                        style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 2.0,
-                            fontFamily: 'PoppinsRegular'),
-                      ),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      TextForm('', detailsEditingController,
-                          MediaQuery.of(context).size.width, 109.0, 5),
-                      const SizedBox(
-                        height: 10.0,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {
-                              submitFeedbacks();
-                            },
-                            style: ElevatedButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8.0)),
-                              fixedSize: const Size(100.0, 10.0),
-                              primary: const Color(0xffcc021d),
+      body: SizedBox(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
+        child: ListView(
+          shrinkWrap: true,
+          children: [
+            Column(
+              children: [
+                Form(
+                  key: _formkey,
+                  child: Container(
+                    padding: const EdgeInsets.fromLTRB(30, 20, 30, 5),
+                    width: double.infinity,
+                    height: 583,
+                    color: Colors.white,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text(
+                          'Need help? Feel free to contact us any time. We will respond as soon as possible!',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 17.0,
+                              letterSpacing: 1.5,
+                              fontFamily: 'PoppinsRegular'),
+                        ),
+                        const SizedBox(
+                          height: 30.0,
+                        ),
+                        const Text(
+                          'Please enter the details',
+                          style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 15.0,
+                              fontWeight: FontWeight.bold,
+                              letterSpacing: 2.0,
+                              fontFamily: 'PoppinsRegular'),
+                        ),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        TextForm('', detailsEditingController,
+                            MediaQuery.of(context).size.width, 109.0, 5),
+                        const SizedBox(
+                          height: 10.0,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            ElevatedButton(
+                              onPressed: () {
+                                submitFeedbacks();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(8.0)),
+                                fixedSize: const Size(100.0, 10.0),
+                                primary: const Color(0xffcc021d),
+                              ),
+                              child: const Text(
+                                'Submit',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    letterSpacing: 1.0,
+                                    fontSize: 13.0,
+                                    fontFamily: 'PoppinsBold'),
+                              ),
                             ),
-                            child: const Text(
-                              'Submit',
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  letterSpacing: 1.0,
-                                  fontSize: 13.0,
-                                  fontFamily: 'PoppinsBold'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            ),
+          ],
         ),
       ),
       persistentFooterButtons: [
@@ -277,11 +280,11 @@ class _ContactUsState extends State<ContactUs> {
               letterSpacing: 1.5),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 2.0, color: Color(0xffd90824)),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 1.0, color: Color(0xffd90824)),
+            borderSide: const BorderSide(width: 1.0, color: Colors.black),
           ),
         ),
       ),

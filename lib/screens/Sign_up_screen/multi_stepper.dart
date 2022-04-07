@@ -35,7 +35,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
 
   DateTime initialDate = DateTime.now();
   DateTime? date;
-  String textSelect = 'Press to Select your Birthday';
+  String textSelect = 'Select your birthday';
   int? days;
 
   String? bloodTypeValue;
@@ -323,7 +323,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                           child: Column(children: [
                             SizedBox(
                               height: 510.0,
-                              width: 400.0,
+                              width: MediaQuery.of(context).size.width - 40,
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Theme(
@@ -331,6 +331,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                       colorScheme: const ColorScheme.light(
                                           primary: Color(0xffcc021d))),
                                   child: Stepper(
+                                    elevation: 0,
                                     currentStep: currentStepIndex,
                                     type: StepperType.horizontal,
                                     onStepContinue: () async {
@@ -417,60 +418,69 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                               ),
                                               Row(
                                                 children: [
-                                                  textForm(
-                                                      'Middle Initial',
-                                                      _midNameEditingController,
-                                                      'null',
-                                                      136.0,
-                                                      45.0),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: textForm(
+                                                        'Middle Initial',
+                                                        _midNameEditingController,
+                                                        'null',
+                                                        136.0,
+                                                        45.0),
+                                                  ),
                                                   const SizedBox(width: 10.0),
-                                                  Container(
-                                                    height: 45,
-                                                    width: 136,
-                                                    padding: const EdgeInsets
-                                                            .symmetric(
-                                                        horizontal: 12,
-                                                        vertical: 4),
-                                                    decoration: BoxDecoration(
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(15),
-                                                        border: Border.all(
-                                                            color: Colors.black,
-                                                            width: 0.5)),
-                                                    child:
-                                                        DropdownButtonHideUnderline(
-                                                      child: DropdownButton<
-                                                              String>(
-                                                          icon: const Icon(
-                                                            Icons
-                                                                .arrow_drop_down,
-                                                            size: 20,
-                                                            color: Colors.black,
-                                                          ),
-                                                          hint: const Text(
-                                                            'Sex',
-                                                            style: TextStyle(
-                                                                fontFamily:
-                                                                    'PoppinsRegular',
-                                                                letterSpacing:
-                                                                    1.5,
-                                                                color: Colors
-                                                                    .black,
-                                                                fontSize: 12.0),
-                                                          ),
-                                                          value: genderValue,
-                                                          isExpanded: true,
-                                                          items: genderList
-                                                              .map(
-                                                                  buildMenuItem)
-                                                              .toList(),
-                                                          onChanged: (value) {
-                                                            setState(() {
-                                                              genderValue =
-                                                                  value;
-                                                            });
-                                                          }),
+                                                  Expanded(
+                                                    flex: 1,
+                                                    child: Container(
+                                                      height: 45,
+                                                      width: 136,
+                                                      padding: const EdgeInsets
+                                                              .symmetric(
+                                                          horizontal: 12,
+                                                          vertical: 4),
+                                                      decoration: BoxDecoration(
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(15),
+                                                          border: Border.all(
+                                                              color:
+                                                                  Colors.black,
+                                                              width: 0.5)),
+                                                      child:
+                                                          DropdownButtonHideUnderline(
+                                                        child: DropdownButton<
+                                                                String>(
+                                                            icon: const Icon(
+                                                              Icons
+                                                                  .arrow_drop_down,
+                                                              size: 20,
+                                                              color:
+                                                                  Colors.black,
+                                                            ),
+                                                            hint: const Text(
+                                                              'Sex',
+                                                              style: TextStyle(
+                                                                  fontFamily:
+                                                                      'PoppinsRegular',
+                                                                  letterSpacing:
+                                                                      1.5,
+                                                                  color: Colors
+                                                                      .black,
+                                                                  fontSize:
+                                                                      12.0),
+                                                            ),
+                                                            value: genderValue,
+                                                            isExpanded: true,
+                                                            items: genderList
+                                                                .map(
+                                                                    buildMenuItem)
+                                                                .toList(),
+                                                            onChanged: (value) {
+                                                              setState(() {
+                                                                genderValue =
+                                                                    value;
+                                                              });
+                                                            }),
+                                                      ),
                                                     ),
                                                   ),
                                                 ],
@@ -716,7 +726,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                                   height: 10.0,
                                                 ),
                                                 contactNumberForm(
-                                                    'Contact no.',
+                                                    'ex. 9xxxxxxxxx ',
                                                     _contactNumberEditingController,
                                                     MediaQuery.of(context)
                                                         .size
@@ -926,12 +936,9 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
       String validator, double width, double height) {
     const String firstNameValidator = 'firstNameValidator';
     const String lastNameValidator = 'lastNameValidator';
-    const String contactNumberValidator = 'contactNumberValidator';
     const String emailValidator = 'emailValidator';
     const String streetValidator = 'streetAndBrgyValidator';
     const String brgyValidator = 'streetAndBrgyValidator';
-    const String municipalityValidator = 'municipalityValidator';
-    const String provinceValidator = 'provinceValidator';
 
     return SizedBox(
       width: width,
@@ -944,17 +951,17 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
         },
         validator: (value) {
           if (firstNameValidator == validator) {
-            RegExp regex = RegExp(r'^.{3,}$');
+            RegExp regex = RegExp(r'^.{2,}$');
             if (value!.isEmpty) {
               return ("First name is required");
             }
             if (!regex.hasMatch(value)) {
-              return ("Enter valid first name(Min. 3 Characters)");
+              return ("Enter valid first name(Min. 2 Characters)");
             }
             return null;
           }
           if (lastNameValidator == validator) {
-            RegExp regex = RegExp(r'^.{3,}$');
+            RegExp regex = RegExp(r'^.{2,}$');
             if (value!.isEmpty) {
               return ("Last name is required");
             }
@@ -963,16 +970,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
             }
             return null;
           }
-          if (contactNumberValidator == validator) {
-            RegExp regex = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
-            if (value!.isEmpty) {
-              return ("Contact number is required");
-            }
-            if (!regex.hasMatch(value)) {
-              return ("Enter Valid Phone Number");
-            }
-            return null;
-          }
+
           if (streetValidator == validator) {
             if (value!.isEmpty) {
               return ("Street/Purok are required");
@@ -982,18 +980,6 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           if (brgyValidator == validator) {
             if (value!.isEmpty) {
               return ("Brgy are required");
-            }
-            return null;
-          }
-          if (municipalityValidator == validator) {
-            if (value!.isEmpty) {
-              return ("Municipality is required");
-            }
-            return null;
-          }
-          if (provinceValidator == validator) {
-            if (value!.isEmpty) {
-              return ("Province is required");
             }
             return null;
           }
@@ -1023,7 +1009,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 0.5, color: Colors.black),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
@@ -1104,6 +1090,16 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
         onSaved: (value) {
           controller.text = value!;
         },
+        validator: (value) {
+          RegExp regex = RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)');
+          if (value!.isEmpty) {
+            return ("Contact number is required");
+          }
+          if (!regex.hasMatch(value)) {
+            return ("Enter Valid Phone Number");
+          }
+          return null;
+        },
         decoration: InputDecoration(
           prefixIcon: const Padding(
             padding: EdgeInsets.symmetric(vertical: 12, horizontal: 3),
@@ -1123,14 +1119,14 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
           fillColor: Colors.white,
           filled: true,
           hintStyle: const TextStyle(
-            fontSize: 12.0,
-            color: Colors.black,
+            fontSize: 15.0,
+            color: Colors.grey,
             fontFamily: 'PoppinsRegular',
             letterSpacing: 1.5,
           ),
           focusedBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),
-            borderSide: const BorderSide(width: 0.5, color: Colors.black),
+            borderSide: const BorderSide(width: 1.5, color: Colors.black),
           ),
           enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15.0),

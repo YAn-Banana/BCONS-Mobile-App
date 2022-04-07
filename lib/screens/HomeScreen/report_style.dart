@@ -86,6 +86,7 @@ class _ChooseReportState extends State<ChooseReport> {
                           children: [
                             const Text(
                               'MANUAL REPORT',
+                              textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 30.0,
                                 fontWeight: FontWeight.bold,

@@ -294,7 +294,7 @@ class _LibrariesState extends State<Libraries> {
                     style: TextStyle(
                         fontFamily: 'PoppinsRegular',
                         letterSpacing: 1.5,
-                        color: Colors.white,
+                        color: Colors.yellowAccent,
                         fontSize: 15.0),
                   ),
                   SizedBox(
@@ -315,7 +315,7 @@ class _LibrariesState extends State<Libraries> {
                     style: TextStyle(
                         fontFamily: 'PoppinsRegular',
                         letterSpacing: 1.5,
-                        color: Colors.white,
+                        color: Colors.yellowAccent,
                         fontSize: 15.0),
                   ),
                   SizedBox(
@@ -336,7 +336,7 @@ class _LibrariesState extends State<Libraries> {
                     style: TextStyle(
                         fontFamily: 'PoppinsRegular',
                         letterSpacing: 1.5,
-                        color: Colors.white,
+                        color: Colors.yellowAccent,
                         fontSize: 15.0),
                   ),
                   SizedBox(
@@ -357,7 +357,7 @@ class _LibrariesState extends State<Libraries> {
                     style: TextStyle(
                         fontFamily: 'PoppinsRegular',
                         letterSpacing: 1.5,
-                        color: Colors.white,
+                        color: Colors.yellowAccent,
                         fontSize: 15.0),
                   ),
                   SizedBox(
@@ -378,7 +378,7 @@ class _LibrariesState extends State<Libraries> {
                     style: TextStyle(
                         fontFamily: 'PoppinsRegular',
                         letterSpacing: 1.5,
-                        color: Colors.white,
+                        color: Colors.yellowAccent,
                         fontSize: 15.0),
                   ),
                   SizedBox(
@@ -458,11 +458,11 @@ class _LibrariesState extends State<Libraries> {
                   child: ListTile(
                     title: const Icon(Icons.phone, color: Colors.black),
                     subtitle: const Text(
-                      'Contact',
+                      'Contacts',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 10.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -579,6 +579,8 @@ class ModelPage extends StatelessWidget {
         backgroundColor: const Color(0xffcc021d),
       ),
       body: Container(
+        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.of(context).size.height,
         decoration: const BoxDecoration(
             gradient: LinearGradient(
                 begin: Alignment.topRight,
@@ -594,7 +596,7 @@ class ModelPage extends StatelessWidget {
                 decoration: BoxDecoration(
                     image: DecorationImage(
                         image: AssetImage('${items.image}'),
-                        fit: BoxFit.cover,
+                        fit: BoxFit.contain,
                         filterQuality: FilterQuality.high)),
               ),
             ]),

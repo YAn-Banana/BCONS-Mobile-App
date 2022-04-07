@@ -365,11 +365,11 @@ class _UserProfileState extends State<UserProfile> {
                   child: ListTile(
                     title: const Icon(Icons.phone),
                     subtitle: const Text(
-                      'Contact',
+                      'Contacts',
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 10.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -483,13 +483,13 @@ class _UserProfileState extends State<UserProfile> {
                 primary: Colors.blue,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0)),
-                fixedSize: const Size(100, 20.0),
+                fixedSize: const Size(95, 20.0),
               ),
               child: const Text(
                 'Select',
                 style: TextStyle(
                     color: Colors.white,
-                    fontSize: 15.0,
+                    fontSize: 13.0,
                     letterSpacing: 1.5,
                     fontFamily: 'PoppinsRegular'),
               ),
@@ -510,13 +510,13 @@ class _UserProfileState extends State<UserProfile> {
                     primary: Colors.blue,
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
-                    fixedSize: const Size(100, 20.0),
+                    fixedSize: const Size(95, 20.0),
                   ),
                   child: const Text(
                     'Upload',
                     style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15.0,
+                        fontSize: 13.0,
                         letterSpacing: 1.5,
                         fontFamily: 'PoppinsRegular'),
                   ),
