@@ -212,7 +212,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -234,7 +234,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -259,7 +259,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xffd90824),
-                          fontSize: 10.0,
+                          fontSize: 9.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -281,7 +281,7 @@ class _ContactScreenState extends State<ContactScreen> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),

@@ -95,7 +95,7 @@ class _UserCurrentLocationAutoState extends State<UserCurrentLocationAuto> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'User\'s Current Location',
+          'User\'s Location',
           style: TextStyle(
               fontFamily: 'PoppinsBold',
               letterSpacing: 2.0,

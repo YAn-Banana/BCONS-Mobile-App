@@ -312,6 +312,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
                         children: [
                           Text(
                             'The image detected was $name',
+                            textAlign: TextAlign.center,
                             style: const TextStyle(
                                 fontFamily: 'PoppinsRegular',
                                 letterSpacing: 1.5,

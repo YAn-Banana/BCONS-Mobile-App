@@ -70,6 +70,7 @@ class _OurTeamState extends State<OurTeam> {
                 Row(
                   children: [
                     Expanded(
+                      flex: 1,
                       child: memberCard('Borlagdatan,', 'Floryan H.',
                           'floryan.JPG', 'Student'),
                     ),
@@ -77,6 +78,7 @@ class _OurTeamState extends State<OurTeam> {
                       width: 10,
                     ),
                     Expanded(
+                      flex: 1,
                       child: memberCard(
                           'Frondoso,', 'Mark Angelo', 'fronds.jpg', 'Student'),
                     ),
@@ -88,6 +90,7 @@ class _OurTeamState extends State<OurTeam> {
                 Row(
                   children: [
                     Expanded(
+                      flex: 1,
                       child: memberCard('Morales,', 'Steven Austin R.',
                           'steven.jpg', 'Student'),
                     ),
@@ -95,6 +98,7 @@ class _OurTeamState extends State<OurTeam> {
                       width: 10,
                     ),
                     Expanded(
+                      flex: 1,
                       child: memberCard(
                           'Pagsanjan,', 'Archie R.', 'archie.jpeg', 'Student'),
                     ),
@@ -106,6 +110,7 @@ class _OurTeamState extends State<OurTeam> {
                 Row(
                   children: [
                     Expanded(
+                      flex: 1,
                       child: memberCard('Palacio,', 'Marc Adriene M.',
                           'adriene.jpg', 'Student'),
                     ),
@@ -113,6 +118,7 @@ class _OurTeamState extends State<OurTeam> {
                       width: 10,
                     ),
                     Expanded(
+                      flex: 1,
                       child: memberCard(
                           'Prado,', 'Joseph H.', 'joseph.JPG', 'Student'),
                     ),
@@ -140,8 +146,8 @@ class _OurTeamState extends State<OurTeam> {
   Widget memberCard(
       String lastName, String firstName, String imageUrl, String descriptions) {
     return SizedBox(
-      height: 250,
-      width: 250,
+      height: 248,
+      width: 248,
       child: Column(children: [
         Text(
           lastName,
@@ -165,12 +171,8 @@ class _OurTeamState extends State<OurTeam> {
           height: 5,
         ),
         CircleAvatar(
-          radius: 88,
-          backgroundColor: const Color(0xffd90824),
-          child: CircleAvatar(
-            radius: 80.0,
-            backgroundImage: AssetImage('assets/images/$imageUrl'),
-          ),
+          radius: 80.0,
+          backgroundImage: AssetImage('assets/images/$imageUrl'),
         ),
         const SizedBox(
           height: 5,

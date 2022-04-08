@@ -91,61 +91,76 @@ class _AboutBconsState extends State<AboutBcons> {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(
-                    Icons.info,
-                    size: 25.0,
-                    color: Color(0xffd90824),
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const AboutUs()));
-                      });
-                    },
-                    child: const Text(
-                      'About Us',
-                      style: TextStyle(
-                        color: Color(0xffd90824),
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'PoppinsRegular',
-                      ),
-                    ),
-                  ),
-                  const SizedBox(
-                    width: 110.0,
-                  ),
-                  const Icon(
-                    Icons.group,
-                    size: 25,
-                    color: Color(0xffd90824),
-                  ),
-                  const SizedBox(
-                    width: 10.0,
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      setState(() {
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const OurTeam()));
-                      });
-                    },
-                    child: const Text(
-                      'Our Team',
-                      style: TextStyle(
-                        color: Color(0xffd90824),
-                        fontSize: 17.0,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'PoppinsRegular',
-                      ),
+                  Expanded(
+                    flex: 1,
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.info,
+                          size: 25.0,
+                          color: Color(0xffd90824),
+                        ),
+                        const SizedBox(
+                          width: 10.0,
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => const AboutUs()));
+                            });
+                          },
+                          child: const Text(
+                            'About Us',
+                            style: TextStyle(
+                              color: Color(0xffd90824),
+                              fontSize: 17.0,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'PoppinsRegular',
+                            ),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 80.0,
+                        ),
+                        Expanded(
+                          flex: 1,
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.group,
+                                size: 25,
+                                color: Color(0xffd90824),
+                              ),
+                              const SizedBox(
+                                width: 10.0,
+                              ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const OurTeam()));
+                                  });
+                                },
+                                child: const Text(
+                                  'Our Team',
+                                  style: TextStyle(
+                                    color: Color(0xffd90824),
+                                    fontSize: 17.0,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: 'PoppinsRegular',
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

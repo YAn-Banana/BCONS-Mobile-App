@@ -322,7 +322,7 @@ class _UserProfileState extends State<UserProfile> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -347,7 +347,7 @@ class _UserProfileState extends State<UserProfile> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Color(0xffd90824),
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -369,7 +369,7 @@ class _UserProfileState extends State<UserProfile> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 10.0,
+                          fontSize: 9.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -391,7 +391,7 @@ class _UserProfileState extends State<UserProfile> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 13.0,
+                          fontSize: 12.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),
@@ -425,9 +425,8 @@ class _UserProfileState extends State<UserProfile> {
             style: TextStyle(
                 color: Colors.white,
                 fontSize: 15.0,
-                fontWeight: FontWeight.bold,
                 letterSpacing: 2.0,
-                fontFamily: 'PoppinsBold'),
+                fontFamily: 'PoppinsRegular'),
           ),
         ),
         Positioned(
@@ -438,10 +437,9 @@ class _UserProfileState extends State<UserProfile> {
                   '${loggedInUser.firstName} ${loggedInUser.middleInitial}. ${loggedInUser.lastName}',
                   style: const TextStyle(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
                       fontSize: 20.0,
                       letterSpacing: 2.0,
-                      fontFamily: 'PoppinsBold'),
+                      fontFamily: 'PoppinsRegular'),
                 )
               : Text(
                   '${loggedInUser.firstName} ${loggedInUser.lastName}',
@@ -536,7 +534,7 @@ class _UserProfileState extends State<UserProfile> {
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
             letterSpacing: 2.0,
-            fontFamily: 'PoppinsBold'),
+            fontFamily: 'PoppinsRegular'),
       ),
       subtitle: Text(
         subtitle,
@@ -545,7 +543,7 @@ class _UserProfileState extends State<UserProfile> {
             fontWeight: FontWeight.bold,
             fontSize: 17.0,
             letterSpacing: 2.0,
-            fontFamily: 'PoppinsBold'),
+            fontFamily: 'PoppinsRegular'),
       ),
       trailing: IconButton(
         icon: const Icon(
@@ -569,7 +567,7 @@ class _UserProfileState extends State<UserProfile> {
             fontSize: 15.0,
             fontWeight: FontWeight.bold,
             letterSpacing: 2.0,
-            fontFamily: 'PoppinsBold'),
+            fontFamily: 'PoppinsRegular'),
       ),
       subtitle: Text(
         subtitle,
@@ -578,7 +576,7 @@ class _UserProfileState extends State<UserProfile> {
             fontWeight: FontWeight.bold,
             fontSize: 17.0,
             letterSpacing: 2.0,
-            fontFamily: 'PoppinsBold'),
+            fontFamily: 'PoppinsRegular'),
       ),
     );
   }
