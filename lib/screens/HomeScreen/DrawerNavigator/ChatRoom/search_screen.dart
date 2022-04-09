@@ -29,6 +29,20 @@ class _SearchScreenState extends State<SearchScreen> {
   String? liveMunicipality;
   bool isClickedSearchNearby = false;
 
+  @override
+  void initState() {
+    super.initState();
+
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .get()
+        .then((value) {
+      loggedInUser = UserModel.fromMap(value.data());
+    });
+    setState(() {});
+  }
+
   Future<Stream<QuerySnapshot?>>? getUserByUserName(
       String userName, String uid) async {
     return FirebaseFirestore.instance
@@ -158,6 +172,7 @@ class _SearchScreenState extends State<SearchScreen> {
       String? midName,
       String? email,
       String? uid,
+      String? status,
       String? liveLongitude,
       String? liveLatitude,
       int? distance}) {
@@ -172,13 +187,27 @@ class _SearchScreenState extends State<SearchScreen> {
             context,
             MaterialPageRoute(
                 builder: (context) => ChatMateRoom(
-                    chatMateFirstName: firstName!,
-                    chatMateLastName: lastName!,
-                    chatMateUid: uid)));
+                      chatMateFirstName: firstName!,
+                      chatMateLastName: lastName!,
+                      chatMateUid: uid,
+                      status: status!,
+                    )));
       },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+          status == 'online'
+              ? CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Colors.green[800],
+                )
+              : const CircleAvatar(
+                  radius: 10,
+                  backgroundColor: Color(0xffd90824),
+                ),
+          const SizedBox(
+            width: 10,
+          ),
           imageUrl != null
               ? Container(
                   height: 50.0,
@@ -256,6 +285,7 @@ class _SearchScreenState extends State<SearchScreen> {
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     DocumentSnapshot ds = snapshots.data!.docs[index];
+
                     return searhListUserTile(
                         imageUrl: ds['image'],
                         lastName: ds['lastName'],
@@ -263,6 +293,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         midName: ds['middleInitial'],
                         email: ds['email'],
                         uid: ds['uid'],
+                        status: ds['status'],
                         liveLatitude: ds['liveLatitude'],
                         liveLongitude: ds['liveLongitude'],
                         distance: Geolocator.distanceBetween(
@@ -297,6 +328,7 @@ class _SearchScreenState extends State<SearchScreen> {
                         midName: ds['middleInitial'],
                         email: ds['email'],
                         uid: ds['uid'],
+                        status: ds['status'],
                         liveLatitude: ds['liveLatitude'],
                         liveLongitude: ds['liveLongitude'],
                         distance: Geolocator.distanceBetween(
@@ -315,19 +347,6 @@ class _SearchScreenState extends State<SearchScreen> {
 
   Widget chatRoomsList() {
     return Container();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    FirebaseFirestore.instance
-        .collection('Users')
-        .doc(user!.uid)
-        .get()
-        .then((value) {
-      loggedInUser = UserModel.fromMap(value.data());
-    });
-    setState(() {});
   }
 
   @override

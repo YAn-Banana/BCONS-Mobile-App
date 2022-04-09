@@ -10,6 +10,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
@@ -22,14 +23,14 @@ class HomeScreen extends StatefulWidget {
 
 final firebase_auth.FirebaseAuth firebaseAuth =
     firebase_auth.FirebaseAuth.instance;
-
+User? user = FirebaseAuth.instance.currentUser;
 //Navigate to User Profile Screen
 void chooseReportStyle(BuildContext context) {
   Navigator.push(
       context, MaterialPageRoute(builder: (context) => const ChooseReport()));
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with WidgetsBindingObserver {
   String? liveLatitude;
   String? liveLongitude;
 
@@ -93,8 +94,26 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+      setStatus('online');
+    } else {
+      setStatus('offline');
+    }
+  }
+
+  void setStatus(String status) {
+    FirebaseFirestore.instance
+        .collection('Users')
+        .doc(user!.uid)
+        .update({'status': status});
+  }
+
+  @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance!.addObserver(this);
+    setStatus('online');
     updateUserLiveLongAndLat();
     setState(() {});
   }

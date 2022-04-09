@@ -22,6 +22,7 @@ class UserModel {
   String? visibility;
   String? liveLatitude;
   String? liveLongitude;
+  String? status;
 
   UserModel(
       {this.uid,
@@ -46,7 +47,8 @@ class UserModel {
       this.liveMunicipality,
       this.visibility,
       this.liveLatitude,
-      this.liveLongitude});
+      this.liveLongitude,
+      this.status});
 
   // get the data from the server
   factory UserModel.fromMap(map) {
@@ -74,6 +76,7 @@ class UserModel {
       visibility: map['visibility'],
       liveLatitude: map['liveLatitude'],
       liveLongitude: map['liveLongitude'],
+      status: map['status'],
     );
   }
 
@@ -103,6 +106,7 @@ class UserModel {
       'visibility': visibility,
       'liveLatitude': liveLatitude,
       'liveLongitude': liveLongitude,
+      'status': status,
     };
   }
 }

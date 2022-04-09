@@ -233,6 +233,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
     userModel.municipality = municipalityValue;
     userModel.province = provinceValue;
     userModel.visibility = 'No';
+    userModel.status = 'online';
 
     await firebaseFirestore
         .collection("Users")

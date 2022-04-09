@@ -322,6 +322,7 @@ class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
     userModel.municipality = municipalityValue;
     userModel.province = provinceValue;
     userModel.visibility = 'No';
+    userModel.status = 'online';
 
     await firebaseFirestore
         .collection('Users')

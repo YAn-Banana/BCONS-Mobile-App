@@ -131,6 +131,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
   String? chatMateFirstName;
   String? chatMateLastName;
   String? chatMateUserId;
+  String? status;
 
   getThisUserInfo() async {
     chatMateUserId =
@@ -139,6 +140,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
     chatMateFirstName = "${querySnapshot.docs[0]["firstName"]}";
     chatMateLastName = "${querySnapshot.docs[0]["lastName"]}";
     profilePicUrl = "${querySnapshot.docs[0]["image"]}";
+    status = "${querySnapshot.docs[0]["status"]}";
     setState(() {});
   }
 
@@ -165,9 +167,11 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
               context,
               MaterialPageRoute(
                   builder: (context) => ChatMateRoom(
-                      chatMateFirstName: chatMateFirstName!,
-                      chatMateLastName: chatMateLastName!,
-                      chatMateUid: chatMateUserId!)));
+                        chatMateFirstName: chatMateFirstName!,
+                        chatMateLastName: chatMateLastName!,
+                        chatMateUid: chatMateUserId!,
+                        status: status!,
+                      )));
         },
         child: Padding(
           padding: const EdgeInsets.fromLTRB(15, 15, 0, 8),
@@ -176,10 +180,22 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
             margin: const EdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
+                status == 'online'
+                    ? CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Colors.green[800],
+                      )
+                    : const CircleAvatar(
+                        radius: 10,
+                        backgroundColor: Color(0xffd90824),
+                      ),
+                const SizedBox(
+                  width: 10,
+                ),
                 profilePicUrl == null
                     ? Container(
-                        height: 30.0,
-                        width: 30.0,
+                        height: 50.0,
+                        width: 50.0,
                         decoration: const BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
@@ -187,8 +203,8 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                                 fit: BoxFit.cover)),
                       )
                     : Container(
-                        height: 30.0,
-                        width: 30.0,
+                        height: 50.0,
+                        width: 50.0,
                         decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             image: DecorationImage(
@@ -217,7 +233,7 @@ class _ChatRoomListTileState extends State<ChatRoomListTile> {
                           color: Colors.black,
                         ))
                   ],
-                )
+                ),
               ],
             ),
           ),

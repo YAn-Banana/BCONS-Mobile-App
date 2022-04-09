@@ -462,7 +462,7 @@ class _LibrariesState extends State<Libraries> {
                       textAlign: TextAlign.center,
                       style: TextStyle(
                           color: Colors.black,
-                          fontSize: 10.0,
+                          fontSize: 9.0,
                           letterSpacing: 1.5,
                           fontFamily: 'PoppinsRegular'),
                     ),

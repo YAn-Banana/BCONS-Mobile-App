@@ -15,13 +15,15 @@ class ChatMateRoom extends StatefulWidget {
   final String chatMateFirstName;
   final String chatMateLastName;
   final String chatMateUid;
+  final String status;
 
-  const ChatMateRoom(
-      {Key? key,
-      required this.chatMateFirstName,
-      required this.chatMateLastName,
-      required this.chatMateUid})
-      : super(key: key);
+  const ChatMateRoom({
+    Key? key,
+    required this.chatMateFirstName,
+    required this.chatMateLastName,
+    required this.chatMateUid,
+    required this.status,
+  }) : super(key: key);
 
   @override
   State<ChatMateRoom> createState() => _ChatMateRoomState();
@@ -228,13 +230,26 @@ class _ChatMateRoomState extends State<ChatMateRoom> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
-          '${widget.chatMateFirstName} ${widget.chatMateLastName}',
-          style: const TextStyle(
-              fontFamily: 'PoppinsBold',
-              letterSpacing: 2.0,
-              color: Colors.white,
-              fontSize: 20.0),
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              '${widget.chatMateFirstName} ${widget.chatMateLastName}',
+              style: const TextStyle(
+                  fontFamily: 'PoppinsBold',
+                  letterSpacing: 2.0,
+                  color: Colors.white,
+                  fontSize: 20.0),
+            ),
+            Text(
+              '${widget.status} ',
+              style: const TextStyle(
+                  fontFamily: 'PoppinsRegular',
+                  letterSpacing: 1.5,
+                  color: Colors.white,
+                  fontSize: 12.0),
+            ),
+          ],
         ),
         elevation: 0.0,
         backgroundColor: const Color(0xffcc021d),
