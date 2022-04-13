@@ -397,7 +397,7 @@ class _PhoneAuthSignUpState extends State<PhoneAuthSignUp> {
                           child: Column(children: [
                             SizedBox(
                               height: 510.0,
-                              width: MediaQuery.of(context).size.width - 40,
+                              width: MediaQuery.of(context).size.width,
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Theme(

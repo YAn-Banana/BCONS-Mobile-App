@@ -627,13 +627,15 @@ class _CreatePDFState extends State<CreatePDF> {
                     const SizedBox(width: 20),
                     Center(
                       child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            isConfirm = true;
-                          });
-                          uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
-                              isChecked);
-                        },
+                        onPressed: isConfirm == false
+                            ? () {
+                                uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+                                    isChecked);
+                                setState(() {
+                                  isConfirm = true;
+                                });
+                              }
+                            : () {},
                         style: ElevatedButton.styleFrom(
                           shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(15.0)),

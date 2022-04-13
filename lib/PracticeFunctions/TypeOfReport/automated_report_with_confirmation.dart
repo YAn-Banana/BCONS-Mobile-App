@@ -38,6 +38,7 @@ class _AutomatedReportState extends State<AutomatedReport> {
   String numbers = '';
   bool isChecked = false;
   String reportId = '';
+  bool isConfirm = false;
   void displayMessage() {
     showDialog(
         context: context,
@@ -546,10 +547,15 @@ class _AutomatedReportState extends State<AutomatedReport> {
               const SizedBox(width: 30),
               Center(
                 child: ElevatedButton(
-                  onPressed: () {
-                    uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
-                        isChecked);
-                  },
+                  onPressed: isConfirm == false
+                      ? () {
+                          uploadImagetoFirebaseStorageAndUploadTheReportDetailsOfUserInDatabase(
+                              isChecked);
+                          setState(() {
+                            isConfirm = true;
+                          });
+                        }
+                      : () {},
                   style: ElevatedButton.styleFrom(
                     shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15.0)),
@@ -568,7 +574,10 @@ class _AutomatedReportState extends State<AutomatedReport> {
                 ),
               )
             ],
-          )
+          ),
+          isConfirm == true
+              ? const Center(child: CircularProgressIndicator())
+              : Container()
         ]),
       )),
     );

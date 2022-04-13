@@ -324,7 +324,7 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                           child: Column(children: [
                             SizedBox(
                               height: 510.0,
-                              width: MediaQuery.of(context).size.width - 40,
+                              width: MediaQuery.of(context).size.width,
                               child: Padding(
                                 padding: const EdgeInsets.all(10.0),
                                 child: Theme(
@@ -333,6 +333,8 @@ class _MultiStepperSignUpState extends State<MultiStepperSignUp> {
                                           primary: Color(0xffcc021d))),
                                   child: Stepper(
                                     elevation: 0,
+                                    //margin:
+                                    //  EdgeInsets.symmetric(horizontal: 10),
                                     currentStep: currentStepIndex,
                                     type: StepperType.horizontal,
                                     onStepContinue: () async {

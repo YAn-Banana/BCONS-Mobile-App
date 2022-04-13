@@ -235,8 +235,10 @@ class _UserProfileState extends State<UserProfile> {
           'street': loggedInUser.street,
           'brgy': loggedInUser.brgy,
           'municipality': loggedInUser.municipality,
-          'province': loggedInUser.province
-        }).then((value) => showMessage('Record Inserted'));
+          'province': loggedInUser.province,
+          'bloodType': loggedInUser.bloodType,
+          'visibility': loggedInUser.visibility,
+        }).then((value) => showMessage('Upload Complete!'));
       } else {
         showMessage('Something while uploading Image');
       }

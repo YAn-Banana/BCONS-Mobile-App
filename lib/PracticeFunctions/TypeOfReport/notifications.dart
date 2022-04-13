@@ -45,9 +45,13 @@ class _NotificationsState extends State<Notifications> {
   }
 
   onSearchMunicipalityButtonClick() async {
-    reportStream = await getTheFollowingReports(
-        '${loggedInUser.municipality}', '${loggedInUser.uid}');
-    setState(() {});
+    if (loggedInUser.visibility == 'Yes') {
+      reportStream = await getTheFollowingReports(
+          '${loggedInUser.municipality}', '${loggedInUser.uid}');
+      setState(() {});
+    } else {
+      reportStream = null;
+    }
   }
 
   Widget searchReportList() {

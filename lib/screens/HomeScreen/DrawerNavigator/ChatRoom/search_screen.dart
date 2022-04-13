@@ -429,8 +429,9 @@ class _SearchScreenState extends State<SearchScreen> {
                         child: TextField(
                             controller: searcheditingcontroller,
                             style: const TextStyle(color: Colors.white),
+                            textCapitalization: TextCapitalization.words,
                             decoration: const InputDecoration(
-                                hintText: 'Search Users...',
+                                hintText: 'Search Users by their first name...',
                                 hintStyle: TextStyle(
                                     fontFamily: 'PoppinsRegular',
                                     letterSpacing: 1.5,
